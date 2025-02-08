@@ -5,10 +5,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
+
 class Admin extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
+    use HasApiTokens, HasFactory, Notifiable , HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +18,13 @@ class Admin extends Authenticatable
      */
     protected $guarded = ['id'];
 
+    public function generateOTP(){
+      $this->otp=Str::random(100);
+      $this->otp_expire_at=now()->addMinutes(10);
+      $this->save();
+     
+   }
+ 
     /**
      * The attributes that should be hidden for serialization.
      *

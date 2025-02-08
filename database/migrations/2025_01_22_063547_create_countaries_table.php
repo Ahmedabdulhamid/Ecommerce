@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('countaries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique()->nullable();
+            $table->json('name')->nullable();
+            $table->string('numeric_code')->nullable();
+            $table->string('flag_icon')->nullable();
+            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
     }

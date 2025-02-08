@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('countary_id')->nullable();
             $table->foreign('countary_id')->references('id')->on('countaries')->onDelete('cascade');
-            $table->string('name')->nullable();
+            $table->json('name')->nullable();
             $table->timestamps();
         });
     }

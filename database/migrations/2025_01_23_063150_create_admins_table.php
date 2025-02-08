@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password')->nullable();
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_expire_at')->nullable();
             $table->rememberToken();
+
             $table->timestamps();
         });
     }

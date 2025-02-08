@@ -5,7 +5,7 @@
 data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
   <!-- fixed-top-->
   @include("dashboard.auth.partials.nav")
-  <!-- ////////////////////////////////////////////////////////////////////////////-->
+
   <div class="app-content content my-5">
     <div class="content-wrapper my-5">
       <div class="content-header row">
@@ -25,6 +25,11 @@ data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
                 </div>
                 <div class="card-content py-3">
                   <div class="card-body">
+                    @if (session()->has("err_cre"))
+                     <div class="alert alert-danger">
+                      {{session()->get("err_cre")}}
+                     </div>
+                    @endif
                     <form class="form-horizontal" action="{{route('admin.login')}}"method="POST">
                         @csrf
                       <fieldset class="form-group position-relative has-icon-left">
@@ -52,19 +57,25 @@ data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
                       <div class="form-group row">
                         <div class="col-md-6 col-12 text-center text-md-left">
                           <fieldset>
-                            <input type="checkbox" id="remember-me" class="chk-remember">
+                            <input type="checkbox" id="remember-me" name="remember" class="chk-remember">
                             <label for="remember-me"> {{__('auth.remember me')}}</label>
                           </fieldset>
                         </div>
-                        <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{{__('auth.forget_password')}}?</a></div>
+                        <div class="col-md-6 col-12 text-center text-md-right"><a href="{{route('admin.recover-password')}}" class="card-link">{{__('auth.forget_password')}}?</a></div>
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+
                       </div>
+                      @error('g-recaptcha-response')
+                       <span class="text-danger">{{$message}}</span>
+                       @enderror
                       <button type="submit" class="btn btn-danger btn-block btn-lg"><i class="ft-unlock"></i>{{__('auth.login')}}</button>
                     </form>
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                   </div>
                 </div>
                 <div class="card-dashboard border-0">
-                
-                  
+
+
                 </div>
               </div>
             </div>
@@ -77,7 +88,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
    <div class="mt-5">
      @include("dashboard.auth.partials.footer")
    </div>
- 
+
   <!-- BEGIN VENDOR JS-->
 
   @include("dashboard.auth.partials.scripts")

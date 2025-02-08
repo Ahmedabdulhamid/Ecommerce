@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Admin;
+use App\Models\Permission;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,7 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+       $permissions=Permission::all();
+       foreach ($permissions as $permission) {
+        Gate::define($permission->getTranslation('name','en'),function( Admin $admin)use($permission){
+            return $admin->hasPermissionTo($permission);
+         });
+       }
 
-        //
     }
 }

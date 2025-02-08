@@ -9,6 +9,7 @@
   <script src="{{asset('assets')}}/js/scripts/customizer.js" type="text/javascript"></script>
   <!-- END MODERN JS-->
   <!-- BEGIN PAGE LEVEL JS-->
+
   <script src="{{asset('assets')}}/js/scripts/charts/chartist/line/area.js" type="text/javascript"></script>
   <script src="{{asset('assets')}}/js/scripts/charts/chartist/line/bi-polar-area.js"
   type="text/javascript"></script>

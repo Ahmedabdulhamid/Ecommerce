@@ -18,7 +18,9 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
   rel="stylesheet">
   <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
+
   rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- BEGIN VENDOR CSS-->
 
   <!-- END Custom CSS-->
@@ -51,8 +53,42 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/core/menu/menu-types/vertical-menu-modern.css">
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/core/colors/palette-gradient.css">
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/pages/login-register.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="Modern admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard.">
+  <meta name="keywords" content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
+  <meta name="author" content="PIXINVENT">
+  <title>Table components - Modern Admin - Clean Bootstrap 4 Dashboard HTML Template + Bitcoin
+    Dashboard
+  </title>
+  <link rel="apple-touch-icon" href="{{asset('assets')}}/images/ico/apple-icon-120.png">
+  <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets')}}/images/ico/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
+  rel="stylesheet">
+  <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
+  rel="stylesheet">
+  <!-- BEGIN VENDOR CSS-->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/vendors.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/icheck/icheck.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/icheck/custom.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/toggle/switchery.min.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/selects/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css">
+  <!-- END VENDOR CSS-->
+  <!-- BEGIN MODERN CSS-->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/app.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/custom-rtl.css">
+  <!-- END MODERN CSS-->
+  <!-- BEGIN Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/core/menu/menu-types/vertical-menu-modern.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/core/colors/palette-gradient.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/plugins/forms/switch.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/core/colors/palette-callout.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/assets/css/style-rtl.css">
+  <!-- END Custom CSS-->
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/style-rtl.css">
    @endif
 </head>

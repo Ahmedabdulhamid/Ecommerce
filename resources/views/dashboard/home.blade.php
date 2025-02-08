@@ -7,8 +7,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   @include('dashboard.partials.nav')
   <!-- ////////////////////////////////////////////////////////////////////////////-->
   @include('dashboard.partials.sideBar')
-  
-  <!-- ////////////////////////////////////////////////////////////////////////////-->
+
    @include('dashboard.partials.footer')
   <!-- BEGIN VENDOR JS-->
  @include('dashboard.partials.scripts')

@@ -161,16 +161,21 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
             <li class="dropdown dropdown-user nav-item">
               <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                 <span class="mr-1">Hello,
-                  <span class="user-name text-bold-700">John Doe</span>
+                  <span class="user-name text-bold-700">{{Auth::guard('admin')->user()->name}}</span>
                 </span>
                 <span class="avatar avatar-online">
                   <img src="{{asset('assets')}}/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span>
               </a>
-              <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a>
-                <a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a>
-                <a class="dropdown-item" href="#"><i class="ft-check-square"></i> Task</a>
-                <a class="dropdown-item" href="#"><i class="ft-message-square"></i> Chats</a>
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-power"></i> Logout</a>
+              <div class="dropdown-menu dropdown-menu-right">
+
+                <form action="{{route('admin.logout')}}"method="POST">
+                  @csrf
+                  <button class="dropdown-item btn" type="submit"style="background-color:transparent">
+
+                  <i class="ft-power"></i> {{__("auth.logout")}}</button>
+                </form>
+
+
               </div>
             </li>
             <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown"
@@ -179,7 +184,7 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
 
                 <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('ar') }}"><i class="flag-icon flag-icon-eg"></i> العربية</a>
                 <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('en') }}"><i class="flag-icon flag-icon-us"></i>English</a>
-                
+
               </div>
             </li>
             <li class="dropdown dropdown-notification nav-item">

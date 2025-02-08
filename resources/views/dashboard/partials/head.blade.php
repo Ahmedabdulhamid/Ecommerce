@@ -4,7 +4,7 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
 
 @endphp
 <head>
-  
+
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -21,7 +21,13 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
   rel="stylesheet">
   <!-- BEGIN VENDOR CSS-->
-  
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- jQuery (إذا لم يكن مضافًا) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/charts/chartist.css">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
