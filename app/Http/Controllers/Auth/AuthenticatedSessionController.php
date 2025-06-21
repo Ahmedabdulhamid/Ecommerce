@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Cart;
+use App\Models\Order;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('front.users.login');
     }
 
     /**
@@ -25,11 +27,34 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
+
         $request->authenticate();
 
         $request->session()->regenerate();
+        $cart_id = session()->get('cart_id');
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if ($cart_id) {
+            $cart = Cart::find($cart_id);
+
+            if ($cart && is_null($cart->user_id)) {
+                $cart->update([
+                    'user_id' => auth()->id(),
+                    'session_id' => session()->getId()
+                ]);
+            }
+        }
+        $orderNumber = session('current_order_number');
+
+        if ($orderNumber) {
+            $order = Order::where('order_number', $orderNumber)->first();
+            if ($order) {
+                $order->update(['user_id' => auth()->id()]);
+            }
+        }
+
+
+        return to_route('home');
     }
 
     /**
@@ -37,12 +62,24 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
 
+        Auth::guard('web')->logout();
+        $cart_id = session()->get('cart_id');
+
+        if ($cart_id) {
+            $cart = Cart::find($cart_id);
+
+            if ($cart && is_null($cart->user_id)) {
+                $cart->update([
+                    'user_id' => auth()->id(),
+                    'session_id' => session()->getId()
+                ]);
+            }
+        }
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return to_route('login');
     }
 }

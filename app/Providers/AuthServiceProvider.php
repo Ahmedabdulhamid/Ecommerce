@@ -5,9 +5,10 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 use App\Models\Admin;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\Log;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -15,22 +16,23 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-    ];
 
     /**
      * Register any authentication / authorization services.
      */
     public function boot(): void
     {
-        $this->registerPolicies();
-       $permissions=Permission::all();
-       foreach ($permissions as $permission) {
-        Gate::define($permission->getTranslation('name','en'),function( Admin $admin)use($permission){
-            return $admin->hasPermissionTo($permission);
-         });
-       }
+       {
+    $this->registerPolicies();
 
+    Role::all()->each(function ($role) {
+         // تتبع تعريف الـ Gate
+
+        Gate::define($role->slug, function ($admin) use ($role) {
+
+            return $admin->roles->pluck('slug')->contains($role->slug);
+        });
+    });
+}
     }
 }

@@ -4,7 +4,8 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
 
 @endphp
 <head>
-
+    @livewireStyles
+    @livewireScripts
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -12,8 +13,9 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <meta name="keywords" content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
   <meta name="author" content="PIXINVENT">
   <title>Chartist line chart - Modern Admin - Clean Bootstrap 4 Dashboard HTML Template
-
+<meta name="admin-id" content="{{ auth('admin')->user()->id }}">
     + Bitcoin Dashboard</title>
+
   <link rel="apple-touch-icon" href="{{asset('assets')}}/images/ico/apple-icon-120.png">
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets')}}/images/ico/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
@@ -31,6 +33,11 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/charts/chartist.css">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
+
+ @vite([ 'resources/js/app.js']) {{-- هنا --}}
+{{-- في أسفل الصفحة قبل إغلاق الـ body --}}
+
+
   @if ($lang=='en')
     <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/app.css">
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css-rtl/custom-rtl.css">
@@ -74,5 +81,7 @@ $lang=LaravelLocalization::getCurrentLocale()=='ar'?"en":"ar";
   <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/vendors.css">
   <!-- END Custom CSS-->
     @endif
-  <!-- END Custom CSS-->
+          {{-- في قسم الـ head --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropify/0.2.2/css/dropify.min.css" />
+
 </head>

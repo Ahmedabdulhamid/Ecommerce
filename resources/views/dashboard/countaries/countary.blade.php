@@ -160,10 +160,10 @@
                                                 @foreach ($countaries as $countary)
                                                     <tr>
                                                         <td>{{ $countaries->firstItem() + $loop->index }}</td>
-                                                        <td>{{ $countary->getTranslation('name', 'en') }}</td>
+                                                        <td><a href="{{route('governorates.show',$countary->id)}}" class="text-dark">{{ $countary->getTranslation('name', 'en') }}</a></td>
 
                                                         <td><i
-                                                                class="flag-icon flag-icon-{{ strtolower($countary->flag_icon) }}"></i>
+                                                                class="flag-icon flag-icon-{{ $countary->flag_icon }}"></i>
                                                         </td>
                                                         <td>
                                                             <div class="card-body">
@@ -194,10 +194,10 @@
                                                 @foreach ($countaries as $countary)
                                                     <tr>
                                                         <td>{{ $countaries->firstItem() + $loop->index }}</td>
-                                                        <td>{{ $countary->getTranslation('name', 'ar') }}</td>
+                                                        <td><a href="{{route('governorates.show',$countary->id)}}" class="text-dark">{{ $countary->getTranslation('name', 'ar') }}</a></td>
 
                                                         <td><i
-                                                                class="flag-icon flag-icon-{{ strtolower($countary->flag_icon) }}"></i>
+                                                                class="flag-icon flag-icon-{{$countary->flag_icon}}"></i>
                                                         </td>
                                                         <td>
                                                             <div class="card-body">

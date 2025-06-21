@@ -103,6 +103,7 @@ return [
         'numeric' => 'يجب أن تكون قيمة الحقل :attribute مساوية أو أكبر لـ :min.',
         'string' => 'يجب أن يكون طول نص :attribute على الأقل :min حروفٍ/حرفًا',
     ],
+
     'min_digits' => 'الحقل :attribute يجب أن يحتوي :min أرقام على الأقل.',
     'missing' => 'حقل :attribute يجب تركه.',
     'missing_if' => 'حقل :attribute يجب تركه عندما تكون قيمة :other تساوي :value.',
@@ -215,6 +216,17 @@ return [
         'title'                 => 'العنوان',
         'q'                     => 'البحث',
         'link'                  => 'رابط',
+        'order_number'          =>'رقم الطلب',
+        'governorate'           =>'المحافظة',
+        'countryId'             =>'الدولة',
+        'governorateId'         =>"المحافظة",
+        "lname"                 =>"اسم العائلة",
+        "fname"                 =>"الاسم الاول",
+        "street"                =>"الشارع",
+        "subject"               =>"الموضوع",
+        "message"               =>"الرسالة",
+        "current_password"      =>"كلمة المرور الحالية",
+        "new_password"          =>"كلمة المرور الجديدة"
         // 'slug'                  => ' ',
     ],
 

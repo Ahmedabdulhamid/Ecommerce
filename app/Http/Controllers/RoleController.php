@@ -9,7 +9,7 @@ use App\Models\Role;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+use Yajra\DataTables\Facades\DataTables;
 class RoleController extends Controller
 {
     /**
@@ -17,21 +17,49 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $perimissions = Permission::all();
-        /*foreach ($perimissions as $perimission) {
-            Gate::forUser(Auth::guard('admin')->user())->authorize($perimission->getTranslation('name', 'en'));
-        }*/
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
 
-        $roles = Role::with('permissions')->get();
 
-        return view('dashboard.Roles.roles', ['roles' => $roles]);
+
+        return view('dashboard.Roles.roles');
     }
+ public function getData()
+    {
+        $roles = Role::with('permissions')->latest();
+
+        return DataTables::of($roles)
+            ->addIndexColumn()
+            ->filter(function ($query) {
+                if (request()->has('search') && !empty(request('search.value'))) {
+                    $search = request('search.value');
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name->en', 'like', "%{$search}%")
+                            ->orWhere('name->ar', 'like', "%{$search}%");
+                    });
+                }
+            })
+            ->addColumn('name', function ($role) {
+                // ترجمة الاسم حسب اللغة الحالية
+                return $role->getTranslation('name', app()->getLocale());
+            })
+            ->addColumn('actions', function ($role) {
+                return view('dashboard.Roles.action', ['role' => $role])->render();
+            })
+            ->rawColumns(['actions'])  // لو الـ actions تحتوي HTML
+            ->make(true);
+    }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
 
 
         $permissions = Permission::all();
@@ -64,6 +92,10 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
+
         $permissions = Permission::all();
         /*foreach ($permissions as $perimission) {
             Gate::forUser(Auth::guard('admin')->user())->authorize($perimission->getTranslation('name', 'en'));
@@ -85,6 +117,10 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, string $id)
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
+
         $data=$request->validated();
         $role=Role::findOrFail($id);
         //$permissions= $data['permissions'];
@@ -107,11 +143,29 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+     public function destroy(string $id)
     {
-       $role=Role::findOrFail($id);
-       $role->delete();
-       Flasher::addSuccess('Role deleted successfully');
-       return redirect()->route('roles.index');
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
+
+
+         $role= Role::where('id', request('role'))->first();
+
+        $role->delete();
+
     }
+
+
+    public function showDetails(){
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin'])) {
+            abort(403);
+        }
+
+        $role=Role::where('id',1)->with('permissions')->first();
+         return $role;
+
+    }
+
+
 }

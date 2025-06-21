@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sliders', function (Blueprint $table) {
             $table->increments('id');
             $table->string('file_name');
-            $table->string('product_slug');
+            $table->string('note');
             $table->timestamps();
         });
     }

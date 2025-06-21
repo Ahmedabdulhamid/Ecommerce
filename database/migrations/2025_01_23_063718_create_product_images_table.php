@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('file_name')->nullable();
             $table->string('file_size')->nullable();
             $table->string('file_type')->nullable();
-            $table->foreign('product_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }

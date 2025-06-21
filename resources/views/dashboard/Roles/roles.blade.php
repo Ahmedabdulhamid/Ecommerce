@@ -6,7 +6,8 @@
 @endphp
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
-@include('dashboard.partials.head')
+
+@include('dashboard.categories.partials.head')
 
 <body class="vertical-layout vertical-menu-modern 2-columns   menu-expanded fixed-navbar" data-open="click"
     data-menu="vertical-menu-modern" data-col="2-columns">
@@ -68,83 +69,23 @@
                                 <div class="card-body">
 
                                     <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
+                                        <table class="table mb-0 "id="Role_table">
+                                              <thead>
                                                 <tr>
-
+                                                    <th>#</th>
                                                     <th>Roles</th>
-                                                    <th>Permissions</th>
-                                                    <th>Operations</th>
+
+
+                                                    <th>Actions</th>
+
+
+
+
+
+
                                                 </tr>
+
                                             </thead>
-                                            <tbody>
-                                                @foreach ($roles as $role)
-                                                    <tr>
-                                                        @if ($lang == 'en')
-                                                            <td>{{ $role->getTranslation('name', 'en') }}</td>
-                                                            @foreach ($role->permissions as $permission)
-                                                                <td style="display: inline-block" class="w-25">
-                                                                    {{ $permission->getTranslation('name', 'en') }}</td>
-                                                            @endforeach
-                                                            <td class="">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-danger dropdown-toggle round btn-glow px-2"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                       {{__('buttons.operation')}}
-                                                                    </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li><a class="dropdown-item"
-                                                                                href="{{ route('roles.show', $role->id) }}">Edit</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <li>
-                                                                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
-                                                                                    @csrf @method('DELETE')
-                                                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-sm">Delete</button>
-                                                                                </form>
-                                                                            </li>
-                                                                        </li>
-
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                        @else
-                                                            <td>{{ $role->getTranslation('name', 'ar') }}</td>
-                                                            @foreach ($role->permissions as $permission)
-                                                                <td style="display: inline-block" class="w-25"
-                                                                    style="font-size: 10px">
-                                                                    {{ $permission->getTranslation('name', 'ar') }}</td>
-                                                            @endforeach
-                                                            <td class="">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-danger dropdown-toggle round btn-glow px-2"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        {{__('buttons.operation')}}
-                                                                    </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li><a class="dropdown-item"
-                                                                                href="{{ route('roles.show', $role->id) }}">Edit</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
-                                                                                @csrf @method('DELETE')
-                                                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</button>
-                                                                            </form>
-                                                                        </li>
-
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                        @endif
-
-
-                                                    </tr>
-                                                @endforeach
-
-
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -165,13 +106,72 @@
     @include('dashboard.partials.footer')
     <!-- BEGIN VENDOR JS-->
     < @include('dashboard.partials.scripts') </body>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
-        </script>
+       <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.6/js/dataTables.colReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
 
+    <!-- Bootstrap & Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- JSZip (Excel export dependency) -->
+    <script src="{{ asset('vendor/excel/jszip.js') }}"></script>
+    <script src="{{ asset('vendor/excel/jszip.min.js') }}"></script>
+ <script>
+        $('#Role_table').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            colReorder: true,
+            scrollY: 200,
+            deferRender: true,
+            scroller: true,
+            ajax: "{{ route('roles.getData') }}",
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    defaultContent: '<i class="la la-plus-circle"></i>',
+                    className: 'dt-control',
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'actions',
+                    name: 'actions'
+                },
+
+
+            ],
+            pageLength: 10,
+            dom: 'Bfrtip',
+            buttons: ['colvis', 'print', 'copyHtml5', 'excelHtml5', 'pdfHtml5'],
+            language: {
+                url: "{{ app()->getLocale() == 'ar' ? '//cdn.datatables.net/plug-ins/1.11.5/i18n/Arabic.json' : '' }}"
+            }
+        });
+
+
+    </script>
 </body>
 
 </html>

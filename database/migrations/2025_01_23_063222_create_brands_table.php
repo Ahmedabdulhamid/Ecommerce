@@ -15,7 +15,9 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name')->unique()->nullable();
             $table->string('logo')->nullable();
-            $table->boolean('status')->default(1);
+            $table->string('slug')->nullable();
+            $table->enum('status',['active','inactive'])->default('active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

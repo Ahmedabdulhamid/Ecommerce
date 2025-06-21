@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug')->nullable();
-            $table->boolean('status')->default(1);
-            $table->integer('parent')->nullable();
+            $table->json('name')->nullable();
+            $table->enum('status',['active','inactive'])->default('active');
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

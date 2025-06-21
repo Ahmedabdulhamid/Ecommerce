@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('countary_id')->references('id')->on('countaries')->onDelete('cascade');
             $table->foreign('governorate_id')->references('id')->on('governorates')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }

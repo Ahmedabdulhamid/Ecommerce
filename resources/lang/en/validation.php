@@ -186,6 +186,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'countryId'             =>'Country',
+        'governorateId'         =>"Governorate",
+        "lname"                 =>"last name",
+        "fname"                 =>"first name"
+    ],
 
 ];

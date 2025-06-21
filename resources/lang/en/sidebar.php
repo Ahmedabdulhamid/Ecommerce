@@ -1,0 +1,19 @@
+<?php
+return[
+    'categories'=>'Categories',
+    'brands'=>'Brands',
+    'users'=>"Users",
+    'admins'=>'Admins',
+    'faqs'=>'FAQS',
+    'permissions'=>"Permissiones",
+    'roles'=>"Roles",
+    'attributes'=>"Attributes",
+    'coupones'=>"Coupones",
+    "countaries"=>"Countaries",
+    'products'=>"Products",
+    'settings'=>"Settings",
+    "sliders"=>"Sliders",
+    "pages"=>"Pages",
+    "orders"=>"Orders"
+
+];

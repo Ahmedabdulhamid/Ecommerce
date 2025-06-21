@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -17,7 +18,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
-        return view('auth.confirm-password');
+        return view('front.users.confirm-password');
     }
 
     /**
@@ -25,17 +26,14 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
-            'password' => $request->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
-        }
+       $data= $request->validate([
+            'current_password' => ['required', 'current_password'], // Laravel 8+ عنده validation rule اسمه current_password
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
 
-        $request->session()->put('auth.password_confirmed_at', time());
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return to_route('user-dashboard')->with('status', 'تم تغيير كلمة المرور بنجاح.');
     }
 }

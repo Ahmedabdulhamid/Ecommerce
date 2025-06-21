@@ -16,90 +16,90 @@ class CountarySeeder extends Seeder
         $countries = [
             [
                 'name' => ['ar' => 'مصر', 'en' => 'Egypt'],
-                'flag_icon' => '🇪🇬',
+                'flag_icon' => 'eg',
                 'numeric_code' => '818',
 
             ],
             [
                 'name' => ['ar' => 'المملكة العربية السعودية', 'en' => 'Saudi Arabia'],
-                'flag_icon' => '🇸🇦',
+                'flag_icon' => 'sa',
                 'numeric_code' => '682'
             ],
             [
                 'name' => ['ar' => 'الإمارات العربية المتحدة', 'en' => 'United Arab Emirates'],
-                'flag_icon' => '🇦🇪',
+                'flag_icon' => 'ae',
                 'numeric_code' => '784'
             ],
             [
                 'name' => ['ar' => 'قطر', 'en' => 'Qatar'],
-                'flag_icon' => '🇶🇦',
+                'flag_icon' => 'qa',
                 'numeric_code' => '634'
             ],
             [
                 'name' => ['ar' => 'المغرب', 'en' => 'Morocco'],
-                'flag_icon' => '🇲🇦',
+                'flag_icon' => 'ma',
                 'numeric_code' => '504'
             ],
             [
                 'name' => ['ar' => 'الجزائر', 'en' => 'Algeria'],
-                'flag_icon' => '🇩🇿',
+                'flag_icon' => 'dz',
                 'numeric_code' => '012'
             ],
             [
                 'name' => ['ar' => 'تونس', 'en' => 'Tunisia'],
-                'flag_icon' => '🇹🇳',
+                'flag_icon' => 'tn',
                 'numeric_code' => '788'
             ],
             [
                 'name' => ['ar' => 'لبنان', 'en' => 'Lebanon'],
-                'flag_icon' => '🇱🇧',
+                'flag_icon' => 'lb',
                 'numeric_code' => '422'
             ],
             [
                 'name' => ['ar' => 'الأردن', 'en' => 'Jordan'],
-                'flag_icon' => '🇯🇴',
+                'flag_icon' => 'jo',
                 'numeric_code' => '400'
             ],
             [
                 'name' => ['ar' => 'العراق', 'en' => 'Iraq'],
-                'flag_icon' => '🇮🇶',
+                'flag_icon' => 'iq',
                 'numeric_code' => '368'
             ],
             [
                 'name' => ['ar' => 'سوريا', 'en' => 'Syria'],
-                'flag_icon' => '🇸🇾',
+                'flag_icon' => 'sy',
                 'numeric_code' => '760'
             ],
             [
                 'name' => ['ar' => 'فلسطين', 'en' => 'Palestine'],
-                'flag_icon' => '🇵🇸',
+                'flag_icon' => 'ps',
                 'numeric_code' => '275'
             ],
             [
                 'name' => ['ar' => 'السودان', 'en' => 'Sudan'],
-                'flag_icon' => '🇸🇩',
+                'flag_icon' => 'sd',
                 'numeric_code' => '729'
             ],
             [
                 'name' => ['ar' => 'ليبيا', 'en' => 'Libya'],
-                'flag_icon' => '🇱🇾',
+                'flag_icon' => 'ly',
                 'numeric_code' => '434'
             ],
             [
                 'name' => ['ar' => 'اليمن', 'en' => 'Yemen'],
-                'flag_icon' => '🇾🇪',
+                'flag_icon' => 'ye',
                 'numeric_code' => '887'
             ],
-            ['name' => ['ar' => 'الكويت', 'en' => 'Kuwait'], 'flag_icon' => '🇰🇼', 'numeric_code' => '414'],
-            ['name' => ['ar' => 'عمان', 'en' => 'Oman'], 'flag_icon' => '🇴🇲', 'numeric_code' => '512'],
-            ['name' => ['ar' => 'البحرين', 'en' => 'Bahrain'], 'flag_icon' => '🇧🇭', 'numeric_code' => '048'],
-            ['name' => ['ar' => 'موريتانيا', 'en' => 'Mauritania'], 'flag_icon' => '🇲🇷', 'numeric_code' => '478'],
-            ['name' => ['ar' => 'جيبوتي', 'en' => 'Djibouti'], 'flag_icon' => '🇩🇯', 'numeric_code' => '262'],
-            ['name' => ['ar' => 'جزر القمر', 'en' => 'Comoros'], 'flag_icon' => '🇰🇲', 'numeric_code' => '174'],
-            ['name' => ['ar' => 'الصومال', 'en' => 'Somalia'], 'flag_icon' => '🇸🇴', 'numeric_code' => '706'],
-            ['name' => ['ar' => 'تركيا', 'en' => 'Turkey'], 'flag_icon' => '🇹🇷', 'numeric_code' => '792'],
-            ['name' => ['ar' => 'إيران', 'en' => 'Iran'], 'flag_icon' => '🇮🇷', 'numeric_code' => '364'],
-            ['name' => ['ar' => 'باكستان', 'en' => 'Pakistan'], 'flag_icon' => '🇵🇰', 'numeric_code' => '586']
+            ['name' => ['ar' => 'الكويت', 'en' => 'Kuwait'], 'flag_icon' => 'kw', 'numeric_code' => '414'],
+            ['name' => ['ar' => 'عمان', 'en' => 'Oman'], 'flag_icon' => 'om', 'numeric_code' => '512'],
+            ['name' => ['ar' => 'البحرين', 'en' => 'Bahrain'], 'flag_icon' => 'bh', 'numeric_code' => '048'],
+            ['name' => ['ar' => 'موريتانيا', 'en' => 'Mauritania'], 'flag_icon' => 'mr', 'numeric_code' => '478'],
+            ['name' => ['ar' => 'جيبوتي', 'en' => 'Djibouti'], 'flag_icon' => 'dj', 'numeric_code' => '262'],
+            ['name' => ['ar' => 'جزر القمر', 'en' => 'Comoros'], 'flag_icon' => 'km', 'numeric_code' => '174'],
+            ['name' => ['ar' => 'الصومال', 'en' => 'Somalia'], 'flag_icon' => 'so', 'numeric_code' => '706'],
+            ['name' => ['ar' => 'تركيا', 'en' => 'Turkey'], 'flag_icon' => 'tr', 'numeric_code' => '792'],
+            ['name' => ['ar' => 'إيران', 'en' => 'Iran'], 'flag_icon' => 'ir', 'numeric_code' => '364'],
+            ['name' => ['ar' => 'باكستان', 'en' => 'Pakistan'], 'flag_icon' => 'pk', 'numeric_code' => '586']
         ];
 
         foreach ($countries as $country) {

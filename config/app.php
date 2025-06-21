@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\sideBarProvider;
+use App\Providers\SliderWebProvider;
+use App\Providers\webPagesProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -182,6 +185,14 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        sideBarProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
+        webPagesProvider::class,
+        SliderWebProvider::class,
+
+
+
         /*
          * Package Service Providers...
          */
@@ -191,9 +202,10 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
 
     ],
 
@@ -202,6 +214,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
 
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ])->toArray(),
 

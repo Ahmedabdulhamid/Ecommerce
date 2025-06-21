@@ -18,6 +18,9 @@ class GuestMiddleware
         if (!Auth::guard('admin')->check()) {
             return redirect()->intended('/admin/login');
         }
+        elseif(Auth::guard('web')->check()){
+            return to_route('home');
+        }
         return $next($request);
     }
 }

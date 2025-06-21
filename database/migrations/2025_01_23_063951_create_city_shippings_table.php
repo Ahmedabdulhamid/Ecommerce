@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('city_shippings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('governorate_id')->nullable();
-            $table->decimal('amount')->nullable();
+            $table->decimal('price')->default(250.00);
             $table->foreign('governorate_id')->references('id')->on('governorates')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('city_shippings');

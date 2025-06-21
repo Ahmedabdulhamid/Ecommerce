@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+
+class Product extends Model
+{
+    use HasFactory, HasTranslations, HasSlug;
+    protected $guarded = ['id'];
+    protected $translatable = ['name', 'small_desc', 'desc'];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+    public function product_variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name') // استخدم الاسم بالإنجليزية لإنشاء `slug`
+            ->saveSlugsTo('slug');
+    }
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function carts()
+{
+    return $this->belongsToMany(Cart::class, 'cart_products')
+                ->withPivot('price', 'quantity', 'product_variant_id', 'attributes')
+                ->withTimestamps();
+}
+    function formatDiscount()
+    {
+        if ($this->has_discount) {
+            return rtrim(rtrim(number_format($$this->dicount, 2, '.', ''), '0'), '.');
+        }
+        return;
+    }
+    public function whatchlists()
+    {
+        return $this->belongsToMany(WatchList::class, '_watchlist_products', 'product_id', 'watchlist_id');
+    }
+    public function getFinalPriceAttribute()
+{
+    if ($this->has_discount) {
+        return round($this->price * (1 - $this->discount / 100), 2);
+    }
+
+
+    return $this->price;
+}
+}

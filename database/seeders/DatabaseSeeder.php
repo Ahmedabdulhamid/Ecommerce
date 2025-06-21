@@ -21,7 +21,16 @@ class DatabaseSeeder extends Seeder
         RoleSeeder::class,
         CountarySeeder::class,
         GovernorateSeeder::class,
-        CitySeeder::class
+        CitySeeder::class,
+        CategorySeeder::class,
+        BrandSeeder::class,
+        CouponSeeder::class,
+        FaqsSeeder::class,
+        SeederSetting::class,
+        AttributeSeeder::class,
+        AttributeValueSeeder::class,
+        UserSeeder::class,
+        ContactSeeder::class
 
       ]);
     }

@@ -22,9 +22,9 @@ class Admin extends Authenticatable
       $this->otp=Str::random(100);
       $this->otp_expire_at=now()->addMinutes(10);
       $this->save();
-     
+
    }
- 
+ protected $guard_name = 'admin';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -34,6 +34,9 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+    public function receivesBroadcastNotificationsOn():string{
+        return 'admins.'. $this->id;
+    }
 
     /**
      * The attributes that should be cast.

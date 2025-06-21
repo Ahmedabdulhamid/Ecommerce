@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- موجود ✔️ -->
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @livewireStyles <!-- ننقلها إلى هنا داخل <head> -->
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -32,5 +34,6 @@
                 {{ $slot }}
             </main>
         </div>
+        @livewireScripts <!-- يجب أن تكون في نهاية الـ <body> -->
     </body>
 </html>

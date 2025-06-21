@@ -1,7 +1,7 @@
-import './bootstrap';
+import './bootstrap.js';
 
-import Alpine from 'alpinejs';
+import Alpine from 'alpinejs'
+import Clipboard from '@ryangjchandler/alpine-clipboard'
 
-window.Alpine = Alpine;
-
-Alpine.start();
+Alpine.plugin(Clipboard)
+Alpine.start()

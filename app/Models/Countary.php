@@ -13,7 +13,14 @@ class Countary extends Model
     protected $table="countaries";
     public $translatable = ['name'];
     protected $guarded=['id'];
+
+    protected $casts = [
+        'name' => 'array', // تحديد أن الحقل من نوع JSON
+    ];
     public function governorates(){
         return $this->hasMany(Governorate::class);
+    }
+    public function users(){
+        return $this->hasMany(User::class);
     }
 }

@@ -19,7 +19,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('front.users.reset-password', ['request' => $request]);
     }
 
     /**
@@ -31,7 +31,7 @@ class NewPasswordController extends Controller
     {
         $request->validate([
             'token' => ['required'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email','exists:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

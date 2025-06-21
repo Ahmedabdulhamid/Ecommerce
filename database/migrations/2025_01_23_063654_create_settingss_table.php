@@ -13,12 +13,18 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email')->nullable();
-            $table->string('address')->nullable();
+            $table->json('site_name');
+            $table->json('site_desc');
+            $table->string('site_email')->nullable();
+            $table->json('site_address')->nullable();
+            $table->string('email_support')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('twitter_url')->nullable();
+            $table->string('youtube_url')->nullable();
+            $table->json('meta_description')->nullable();
             $table->string('logo')->nullable();
             $table->string('favicon')->nullable();
-            $table->string('email_support')->nullable();
-            $table->string('social')->nullable();
+            $table->string('promotion_video_url')->nullable();
             $table->timestamps();
         });
     }

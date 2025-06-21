@@ -36,6 +36,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+             \Flasher\Laravel\Middleware\FlasherMiddleware::class,
+
         ],
 
         'api' => [
@@ -70,8 +72,9 @@ class Kernel extends HttpKernel
         'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
         'guest_'          => \App\Http\Middleware\GuestMiddleware::class,
         "auth_"=>\App\Http\Middleware\AuthMiddleware::class,
+        "markAsRead"=>\App\Http\Middleware\MarkNotificationAsRead::class
     ];
 
 
-    
+
 }

@@ -1,0 +1,51 @@
+<?php
+return [
+    'about us' => "About Us",
+    "know_more" => "Know More About Us",
+    'sentence-1' => " Welcome to Shop US your trusted partner in [industry or service, e.g., e-commerce, technology solutions, retail excellence].
+            Since our founding, we have been dedicated to providing high-quality products and exceptional customer service to meet your needs and exceed your expectations",
+    "sentence-2" => "Wide selection of premium products at competitive prices",
+    'sentence-3' => "Fast and reliable shipping",
+    "sentence-4" => "Secure payment methods",
+    "sentence-5" => "Outstanding customer support",
+    "contact_us" => "Contact Us",
+    "home" => "Home",
+    "faqs" => "FAQS",
+    "error_faq_msg" => "You Should Login First",
+    "success_faq_msg" => "Your Questios Is Submitted Successfuly!",
+    "email" => "Email",
+    "name" => "Name",
+    "subject" => "Subject",
+    "message" => "Message",
+    "user_questions" => "User Qustions",
+    "show_question" => "Show Question",
+    "delete" => "Delete",
+    "reply" => "Reply",
+    "success_msg" => "Your Answer submitted Successfuly!",
+    "our_categories" => "Our Categories",
+    "view_all" => "View All",
+    "our_brands" => "Our Brands",
+    "new_arrival" => "New Arrival",
+    "flash_sale" => 'Flash Sale',
+    "best_sellers" => 'Best Sellers',
+    "top_best_selling" => "Top Best Selling",
+    "weekly_best_selling" => "Best Sell in this Week",
+    "sign_up" => "Sign Up",
+    "sign_in" => "Login",
+    "pages" => "Pages",
+    "shop" => "Shop",
+    "user_dashboard" => "User Dashboard",
+    "all_categories" => "All Categories",
+    "blog" => "Blog",
+   "related_products"=>"Related Products",
+    "contact" => "Contact",
+    "product_details"=>"Product Details",
+    "review"=>"Add Comment",
+    "comment"=>"Comment",
+     "ar"=>"Arabic",
+    "en"=>"English"
+
+
+
+
+];

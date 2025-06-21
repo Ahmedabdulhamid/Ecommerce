@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('questions')->nullable();
-            $table->string('answers')->nullable();
+            $table->json('questions')->nullable();
+            $table->json('answers')->nullable();
             $table->timestamps();
         });
     }

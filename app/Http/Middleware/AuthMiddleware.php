@@ -16,9 +16,13 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->check()) {
-            return redirect()->intended('/admin');   
+        if (Auth::guard('admin')->check() ) {
+            return redirect()->intended('/admin');
         }
+           elseif( Auth::guard('web')->check()){
+                 return to_route('home');
+           }
+
         return $next($request);
     }
 }
