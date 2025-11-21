@@ -1,7 +1,7 @@
 @php
     use Flasher\Prime\FlasherInterface;
 @endphp
-
+@section('title',__('admin.edit_brands_page'))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +15,7 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-card-center">Update Brand</h4>
+                    <h4 class="card-title" id="basic-layout-card-center">{{__('admin.update_brand')}}</h4>
                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -65,7 +65,7 @@
                             <div class="form-actions center">
 
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="la la-check-square-o"></i> Edit
+                                    <i class="la la-check-square-o"></i> {{__('admin.save')}}
                                 </button>
                             </div>
                         </form>

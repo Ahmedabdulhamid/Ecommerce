@@ -22,10 +22,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrap();
-        Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/custom/livewire/update', $handle);
-        });
-
     }
 }

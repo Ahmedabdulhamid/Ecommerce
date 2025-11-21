@@ -10,6 +10,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -28,12 +30,18 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
 
-
         $request->authenticate();
 
         $request->session()->regenerate();
         $cart_id = session()->get('cart_id');
-
+        $response=Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify',[
+            'secret'=>env('RECAPTCHA_SECRET_KEY'),
+            'response'=>$request->input('g-recaptcha-response')
+        ]);
+        $data=$response->json();
+        if ($data['success']==false) {
+            throw ValidationException::withMessages(['g-recaptcha-response'=>'Invalid reCAPTCHA']);
+        }
         if ($cart_id) {
             $cart = Cart::find($cart_id);
 

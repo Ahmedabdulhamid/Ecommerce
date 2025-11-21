@@ -5,9 +5,10 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title', __('admin.create_roles_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
-@include('dashboard.partials.head')
+@include('dashboard.categories.partials.head')
 
 <body class="vertical-layout vertical-menu-modern 2-columns   menu-expanded fixed-navbar" data-open="click"
     data-menu="vertical-menu-modern" data-col="2-columns">
@@ -20,34 +21,23 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Basic Forms</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block"> {{ __('admin.create_roles') }} </h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('admin.dashboard') }}">{{ __('admin.home') }}</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Form Layouts</a>
+                                <li class="breadcrumb-item active"><a
+                                        href="{{ route('roles.index') }}">{{ __('admin.roles_table') }}</a>
                                 </li>
-                                <li class="breadcrumb-item active"><a href="#">Basic Forms</a>
-                                </li>
+
+
                             </ol>
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="dropdown float-md-right">
-                        <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Actions</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item"
-                                href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-                            <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                            <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                    class="la la-cog"></i> Settings</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="content-body">
                 <!-- Basic form layout section start -->
@@ -57,7 +47,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title" id="basic-layout-colored-form-control">
-                                    {{ trans('validation.create_role') }}</h4>
+                                    {{ trans('admin.create_roles') }}</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -85,12 +75,11 @@
 
 
                                                         <div class="form-group w-100"style="width:100%">
-                                                            <label for="userinput5">{{ __('validation.role.en') }}
+                                                            <label for="userinput5">{{ __('admin.name_in_en') }}
                                                             </label>
                                                             <input class="form-control border-primary w-100"
-                                                                type="text"
-                                                                placeholder="{{ __('validation.enter_role') }}"
-                                                                id="userinput5" name='role[en]' style="width:100%">
+                                                                type="text" id="userinput5" name='role[en]'
+                                                                style="width:100%">
                                                         </div>
                                                         <div class="form-group px-3">
                                                             @if ($lang == 'en')
@@ -121,11 +110,10 @@
 
                                                         <div class="form-group w-100"style="width:100%">
                                                             <label
-                                                                for="userinput5">{{ __('validation.role.ar') }}</label>
+                                                                for="userinput5">{{ __('admin.name_in_ar') }}</label>
                                                             <input class="form-control border-primary w-100"
-                                                                type="text"
-                                                                placeholder="{{ __('validation.enter_role') }}"
-                                                                id="userinput5" style="width:100%"name='role[ar]'>
+                                                                type="text" id="userinput5"
+                                                                style="width:100%"name='role[ar]'>
                                                         </div>
 
 
@@ -136,7 +124,7 @@
 
                                                     <button type="submit" class="btn btn-primary">
                                                         <i class="la la-check-square-o"></i>
-                                                        {{ __('validation.add_btn') }}
+                                                        {{ __('admin.submit') }}
                                                     </button>
                                                 </div>
                                             </div>
@@ -160,6 +148,7 @@
 
     @include('dashboard.partials.footer')
 
-     @include('dashboard.partials.scripts') </body>
+    @include('dashboard.partials.scripts')
+</body>
 
 </html>

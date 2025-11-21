@@ -1,5 +1,7 @@
+@section('title',__('admin.login_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
+
 @include("dashboard.auth.partials.head")
 <body class="vertical-layout vertical-menu-modern 1-column  bg-cyan bg-lighten-2 menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu-modern" data-col="1-column">

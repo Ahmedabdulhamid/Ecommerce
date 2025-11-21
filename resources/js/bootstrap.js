@@ -11,6 +11,8 @@ window.Pusher = Pusher;
 
 
 console.log(layout);
+console.log(adminId);
+
 
 window.Echo = new Echo({
     broadcaster: 'pusher',

@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.show_pages_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -19,10 +20,10 @@
     <div class="app-content content mt-5">
         <div class="breadcrumb-wrapper col-12 my-5">
             <ol class="breadcrumb ">
-                <li class="breadcrumb-item"><a href="#">Home</a>
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                 </li>
 
-                <li class="breadcrumb-item active"><a href="#">Pages Tables</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('pages.index')}}">{{__('admin.pages_table')}}</a></li>
 
             </ol>
         </div>

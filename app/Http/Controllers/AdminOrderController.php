@@ -7,11 +7,13 @@ use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
+
 class AdminOrderController extends Controller
 {
-     protected $allowedTransitions = [
+    protected $allowedTransitions = [
         'pending'    => ['canceled'],               // فقط يمكن إلغاء الطلب
-        'paid'       => ['processing', 'canceled','delivered'], // من المدفوع ممكن ينتقل لمعالجة أو إلغاء
+        'paid'       => ['processing', 'canceled', 'delivered'], // من المدفوع ممكن ينتقل لمعالجة أو إلغاء
         'processing' => ['shipped', 'canceled'],    // أثناء المعالجة ممكن يشحن أو يُلغى
         'shipped'    => ['delivered'],               // بعد الشحن فقط يمكن التوصيل
         'delivered'  => [],                           // توصيل لا يمكن تغييره
@@ -21,6 +23,9 @@ class AdminOrderController extends Controller
     ];
     public function index()
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
+            abort(403);
+        }
         return view('dashboard.orders.index');
     }
     public function getData()
@@ -63,6 +68,9 @@ class AdminOrderController extends Controller
     }
     public function destroy()
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
+            abort(403);
+        }
         $order = Order::find(request('id'));
 
         if (in_array($order->status, ['pending', 'failed'])) {
@@ -77,7 +85,6 @@ class AdminOrderController extends Controller
 
         return response()->json(['msgErr' => 'You can\'t delete this order']);
     }
-
     private function hideEmail($email)
     {
         list($user, $domain) = explode('@', $email);
@@ -86,6 +93,9 @@ class AdminOrderController extends Controller
     }
     public function show(String $id)
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
+            abort(403);
+        }
         $order = Order::where('id', $id)->with('items.product')->first();
         if ($order) {
             // أضف خاصية جديدة للايميل المخفي
@@ -96,50 +106,53 @@ class AdminOrderController extends Controller
     }
     public function update(string $id)
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
+            abort(403);
+        }
         $order = Order::find($id);
-        if (in_array($order->status, ['processing', 'shipped','paid'])) {
+        if (in_array($order->status, ['processing', 'shipped', 'paid'])) {
 
             $order->update([
-                'status'=>'delivered'
+                'status' => 'delivered'
             ]);
 
 
-             Flasher::addSuccess('Status Updated Successfully!');
-
-        }else {
-           Flasher::addError('You can\'t update status of this order!');
+            Flasher::addSuccess('Status Updated Successfully!');
+        } else {
+            Flasher::addError('You can\'t update status of this order!');
         }
 
         return redirect()->back();
     }
- public function updateStatus(Request $request, string $id)
-{
-    $order = Order::findOrFail($id);
+    public function updateStatus(Request $request, string $id)
+    {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
+            abort(403);
+        }
+        $order = Order::findOrFail($id);
 
-    $request->validate([
-        'status' => ['required', Rule::in(array_keys($this->allowedTransitions))],
-    ]);
+        $request->validate([
+            'status' => ['required', Rule::in(array_keys($this->allowedTransitions))],
+        ]);
 
-    $oldStatus = $order->status;
-    $newStatus = $request->status;
+        $oldStatus = $order->status;
+        $newStatus = $request->status;
 
-    if ($oldStatus === $newStatus) {
-        Flasher::addInfo('Order is already in this status.');
+        if ($oldStatus === $newStatus) {
+            Flasher::addInfo('Order is already in this status.');
+            return redirect()->back();
+        }
+
+        if (!in_array($newStatus, $this->allowedTransitions[$oldStatus])) {
+            Flasher::addError("Transition from '$oldStatus' to '$newStatus' is not allowed.");
+        } else {
+            Flasher::addSuccess("Order status updated to '$newStatus' successfully.");
+        }
+
+        $order->status = $newStatus;
+        $order->save();
+
+
         return redirect()->back();
     }
-
-    if (!in_array($newStatus, $this->allowedTransitions[$oldStatus])) {
-        Flasher::addError("Transition from '$oldStatus' to '$newStatus' is not allowed.");
-
-    }else {
-         Flasher::addSuccess("Order status updated to '$newStatus' successfully.");
-    }
-
-    $order->status = $newStatus;
-    $order->save();
-
-
-    return redirect()->back();
-}
-
 }

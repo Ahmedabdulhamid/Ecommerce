@@ -1,13 +1,13 @@
 <section class="product-cart product footer-padding">
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container">
         <div class="cart-section">
             @if (isset($cart->products) && count($cart->products) > 0 && isset($cart))
@@ -15,32 +15,32 @@
                     <tbody>
                         <tr class="table-row table-top-row">
                             <td class="table-wrapper wrapper-product">
-                                <h5 class="table-heading">PRODUCT</h5>
+                                <h5 class="table-heading">{{ __('front.product') }}</h5>
                             </td>
                             <td class="table-wrapper">
                                 <div class="table-wrapper-center">
-                                    <h5 class="table-heading">ATTRIBUTES</h5>
+                                    <h5 class="table-heading">{{ __('front.attributes') }}</h5>
                                 </div>
                             </td>
                             <td class="table-wrapper">
                                 <div class="table-wrapper-center">
-                                    <h5 class="table-heading">PRICE</h5>
+                                    <h5 class="table-heading">{{ __('front.price') }}</h5>
                                 </div>
                             </td>
 
                             <td class="table-wrapper">
                                 <div class="table-wrapper-center">
-                                    <h5 class="table-heading">QUANTITY</h5>
+                                    <h5 class="table-heading">{{ __('front.quantity') }}</h5>
                                 </div>
                             </td>
                             <td class="table-wrapper wrapper-total">
                                 <div class="table-wrapper-center">
-                                    <h5 class="table-heading">TOTAL</h5>
+                                    <h5 class="table-heading">{{ __('front.total') }}</h5>
                                 </div>
                             </td>
                             <td class="table-wrapper">
                                 <div class="table-wrapper-center">
-                                    <h5 class="table-heading">ACTION</h5>
+                                    <h5 class="table-heading">{{ __('admin.actions') }}</h5>
                                 </div>
                             </td>
                         </tr>
@@ -72,7 +72,7 @@
                                                 <p class="mx-2">{{ ucfirst($key) }} : {{ $value }}</p>
                                             @endforeach
                                         @else
-                                            <p>NOT FOUND</p>
+                                            <p>{{ __('admin.not_found') }}</p>
                                         @endif
 
                                     </div>
@@ -127,14 +127,16 @@
                 <div class="wishlist-btn cart-btn  d-flex justify-content-between">
                     <div>
                         <p class='fw-bold'>
-                            Subtotal:
-                            {{number_format($totalPrice,2)  }} EGP
+                           {{__('front.subtotal')}}:
+                            {{ number_format($totalPrice, 2) }} EGP
                         </p>
                     </div>
-                    <div>
-                        <a href="#" wire:click.prevent='clearCart' class="clean-btn">Clear Cart</a>
+                    <div class="wishlist-btn">
+                        <a href="#" wire:click.prevent='clearCart'
+                            class="clean-btn">{{ __('front.clear_cart') }}</a>
 
-                        <a href="{{route('checkout')}}" class="shop-btn mb-2">Proceed to Checkout</a>
+                        <a href="{{ route('checkout') }}"
+                            class="shop-btn mb-2">{{ __('front.proceed_to_checkout') }}</a>
                     </div>
 
 

@@ -114,7 +114,7 @@ class AddReview extends Component
                             $this->cartAtrributeArray[$variant2->attr_value->attribute->getTranslation('name', 'en')] = $variant2->attr_value->value;
                         }
                         $cart->products()->attach($this->product->id, [
-                            'price' => $variant->price,
+                            'price' =>$this->product->has_discount? round($variant->price-($variant->price * $this->product->discount / 100),2):$variant->price,
                             'quantity' => $this->quantity,
                             'product_variant_id' => $variant->id,
                             'attributes' => json_encode($this->cartAtrributeArray, JSON_UNESCAPED_UNICODE)

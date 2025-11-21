@@ -65,7 +65,7 @@ class CategoryController extends Controller
      */
     public function create(Admin $admin, Category $category)
     {
-        if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+        if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
 
@@ -75,7 +75,7 @@ class CategoryController extends Controller
     }
     public function editStatus(Request $request)
     {
-        if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+        if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
         $category = Category::find($request->id);
@@ -89,10 +89,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
-        Gate::forUser(Auth::guard('admin')->user())->authorize('Category-management');
+
         $data = $request->validated();
 
         $category = Category::create($data);
@@ -110,7 +110,7 @@ class CategoryController extends Controller
      */
     public function edit(string $slug)
     {
-        if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+        if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
 
@@ -126,10 +126,11 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, string $slug)
     {
 
-   if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+   if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
         $data = $request->validated();
+
         $category = Category::where('slug', $slug)->firstOrFail();
         $categoryUpdate = $category->update($data);
         if (!$categoryUpdate) {
@@ -144,7 +145,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['super-admin','admin', 'category-manager'])) {
             abort(403);
         }
         $category = Category::findOrFail($id);
@@ -153,7 +154,7 @@ class CategoryController extends Controller
     }
     public function getRecycleBinData()
     {
-       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager','super-admin'])) {
             abort(403);
         }
         $categories = Category::onlyTrashed()->get();
@@ -161,7 +162,7 @@ class CategoryController extends Controller
     }
     public function restoreCategory()
     {
-       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager','super-admin'])) {
             abort(403);
         }
         $category = Category::onlyTrashed()->where('id', request('category'))->firstOrFail();
@@ -173,7 +174,7 @@ class CategoryController extends Controller
     }
     public function DeleteCategory()
     {
-       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager','super-admin'])) {
             abort(403);
         }
         $category = Category::onlyTrashed()->where('id', request('category'))->firstOrFail();
@@ -182,7 +183,7 @@ class CategoryController extends Controller
     }
     public function DeleteCategoryFinal()
     {
-       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager'])) {
+       if (!Gate::forUser(Auth::guard('admin')->user())->any(['admin', 'category-manager','super-admin'])) {
             abort(403);
         }
         $category = Category::where('id', request('category'))->firstOrFail();

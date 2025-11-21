@@ -15,17 +15,22 @@ class CheckoutPage extends Component
 {
     public $totalPrice, $cart, $countries, $governorates = [], $countryId, $fname, $lname, $email, $phone, $governorate;
     public $city, $street, $notice, $governorateId, $shipping_price = 0, $code, $coupon, $cartCount;
+    public $payment_methods,$paymentMethodId;
+
     public function rules()
     {
         return (new OrderRequest())->rules();
     }
-    public function mount()
+    public function mount(MyFatoorahService $myFatoorahService)
     {
         $this->cart = Cart::where('session_id', session()->getId())->with('products')->first();
 
 
         $this->getTotalPrice();
         $this->countries = Countary::whereStatus('active')->get();
+        $this->payment_methods = $myFatoorahService->getPaymentMethods($this->totalPrice, 'EGP');
+
+
     }
     public function getTotalPrice()
     {
@@ -59,24 +64,27 @@ class CheckoutPage extends Component
 
         if ($order) {
             $paymentData = [
-                "CustomerName"       => $order->f_name . ' ' . $order->l_name,
-                "NotificationOption" => "LNK", // رابط فقط (بدون إشعار)
-                "InvoiceValue"       => $this->totalPrice,
-                "CustomerEmail"      => $order->email,
-                "CallBackUrl"        => route('myfatoorah.callback'),
-                "ErrorUrl"           => route('myfatoorah.error'),
-                "MobileCountryCode"  => "+966",
-                "CustomerMobile"     => "512345678",
-                "Language"           => app()->getLocale() == 'ar' ? 'ar' : 'en',
-                "DisplayCurrencyIso" => "EGP",
-                "CustomerReference"  => 'ORDER-' . $order->id,
-                "UserDefinedField"   => auth()->check() ? auth()->id() : null,
+                "PaymentMethodId"     => $this->paymentMethodId, // بطاقة بنكية
+                "CustomerName"        => $order->f_name . ' ' . $order->l_name,
+                "DisplayCurrencyIso"  => "EGP",
+                "MobileCountryCode"   => "+966",
+                "CustomerMobile"      => "512345678",
+                "CustomerEmail"       => $order->email,
+                "InvoiceValue"        => $this->totalPrice,
+                "CallBackUrl"         => route('myfatoorah.callback'),
+                "ErrorUrl"            => route('myfatoorah.error'),
+                "Language"            => app()->getLocale() == 'ar' ? 'ar' : 'en',
+                "CustomerReference"   => 'ORDER-' . $order->id,
+                "UserDefinedField"    => auth()->check() ? auth()->id() : null,
+                "SaveToken"           => true,
+                "NotificationOption"=> "LNK", // دي أهم حاجة لحفظ البطاقة
             ];
+
 
             $response = $myFatoorahService->sendPayment($paymentData);
 
             if (isset($response['IsSuccess']) && $response['IsSuccess']) {
-                $paymentUrl = $response['Data']['InvoiceURL'];
+                $paymentUrl = $response['Data']['PaymentURL'];
 
                 // إعادة تعيين بيانات الكومبوننت
                 $this->cartCount = 0;
@@ -95,6 +103,10 @@ class CheckoutPage extends Component
     }
     public function applyCoupon(CouponService  $couponService)
     {
+        $this->validate([
+            'code'=>['required']
+        ]);
+
         if (!auth()->check()) {
             $this->dispatch('auth');
             return;

@@ -1,3 +1,4 @@
+@section('title',__('admin.contacts_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -7,12 +8,12 @@
     <section class="blog about-blog">
         <div class="container">
             <div class="blog-bradcrum">
-                <span><a href="index-2.html">Home</a></span>
+                <span><a href="{{route('home')}}">{{__('front.home')}}</a></span>
                 <span class="devider">/</span>
-                <span><a href="#">Contact</a></span>
+                <span><a href="{{url()->current()}}">{{__('front.contact')}}</a></span>
             </div>
             <div class="blog-heading about-heading">
-                <h1 class="heading">Contact</h1>
+                <h1 class="heading">{{__('front.contact')}}</h1>
             </div>
         </div>
     </section>
@@ -53,7 +54,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="wrapper-content">
-                                                    <h5 class="wrapper-heading">Phone</h5>
+                                                    <h5 class="wrapper-heading">{{__('front.phone')}}</h5>
                                                     <p class="paragraph">+1347-430-9510</p>
                                                 </div>
                                             </div>
@@ -83,7 +84,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="wrapper-content">
-                                                    <h5 class="wrapper-heading">Email</h5>
+                                                    <h5 class="wrapper-heading">{{__('front.email')}}</h5>
                                                     <p class="paragraph">
                                                         <a href="https://quomodothemes.website/cdn-cgi/l/email-protection"
                                                             class="__cf_email__"
@@ -108,7 +109,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="address-content">
-                                                        <h5 class="wrapper-heading">Address</h5>
+                                                        <h5 class="wrapper-heading">{{__('front.address')}}</h5>
                                                         <p class="paragraph">
                                                             2140 W Thunderbird Rd, Phoenix, Arkansas 85023,
                                                             United States

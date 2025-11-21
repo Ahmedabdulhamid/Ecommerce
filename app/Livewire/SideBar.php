@@ -18,14 +18,18 @@ use App\Models\Role;
 use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\User;
+use App\Models\WebFaqQuestion;
 
 class SideBar extends Component
 {
     public $products, $users, $admins, $brands, $categories, $faqs, $permissions, $roles;
-    public $attributesCount, $coupones, $countaries, $settings,$contacts,$sliders,$pages,$orders;
+    public $attributesCount, $coupones, $countaries, $settings,$contacts,$sliders,$pages,$orders,$userQuestions;
 
     // استماع للحدث الصحيح
-    protected $listeners = ['refreshData' => 'updateCounts'];
+    protected $listeners = [
+        'refreshData' => 'updateCounts',
+        "refreshAdmins"=>"refreshAdmins"
+];
 
     public function mount()
     {
@@ -50,6 +54,11 @@ class SideBar extends Component
         $this->sliders=Slider::count();
         $this->pages=Page::count();
         $this->orders=Order::count();
+        $this->userQuestions=WebFaqQuestion::count();
+    }
+    public function refreshAdmins()
+    {
+        $this->admins=Admin::count();
     }
 
     public function render()

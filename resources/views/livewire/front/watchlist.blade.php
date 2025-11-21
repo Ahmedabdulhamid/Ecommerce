@@ -7,16 +7,16 @@
                         <tbody>
                             <tr class="table-row table-top-row">
                                 <td class="table-wrapper wrapper-product">
-                                    <h5 class="table-heading">PRODUCT</h5>
+                                    <h5 class="table-heading">{{__('front.product')}}</h5>
                                 </td>
                                 <td class="table-wrapper">
                                     <div class="table-wrapper-center">
-                                        <h5 class="table-heading">PRICE</h5>
+                                        <h5 class="table-heading">{{__("front.price")}}</h5>
                                     </div>
                                 </td>
                                 <td class="table-wrapper">
                                     <div class="table-wrapper-center">
-                                        <h5 class="table-heading">ACTION</h5>
+                                        <h5 class="table-heading">{{__('front.action')}}</h5>
                                     </div>
                                 </td>
                             </tr>
@@ -76,8 +76,8 @@
                     </table>
 
                     <div class="wishlist-btn">
-                        <a href="empty-wishlist.html" class="clean-btn">Clean Wishlist</a>
-                        <a href="#" class="shop-btn">View Cards</a>
+                        <a href="#" wire:click='deleteWishlist' class="clean-btn">{{__('front.clean_whishlist')}}</a>
+                        <a href="{{route('cart.index')}}" class="shop-btn">{{__('front.view_cards')}}</a>
                     </div>
                 @else
                     <div class="d-flex justify-content-center">

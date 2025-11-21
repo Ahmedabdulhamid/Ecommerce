@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Coupon;
+use App\Notifications\SendCouponNotification;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -29,6 +32,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'g-recaptcha-response' => "required"
         ];
     }
 
@@ -36,30 +40,47 @@ class LoginRequest extends FormRequest
      * Attempt to authenticate the request's credentials.
      *
      * @throws \Illuminate\Validation\ValidationException
-     */public function authenticate(): void
-{
-    $this->ensureIsNotRateLimited();
+     */ public function authenticate(): void
+    {
+        $this->ensureIsNotRateLimited();
 
-    if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-        RateLimiter::hit($this->throttleKey());
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => trans('auth.failed'),
-        ]);
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
+        $user = Auth::guard('web')->user();
+        // ✅ التحقق من تفعيل البريد الإلكتروني
+        if (Auth::guard('web')->user()->email_verified_at == null) {
+            Auth::guard('web')->logout(); // تسجيل خروج فوري
+
+            throw ValidationException::withMessages([
+                'email' => 'You Should Verify Email',
+            ]);
+        }
+        if (is_null($user->last_login_at)) {
+            // أول مرة
+            $coupon = Coupon::create([
+                'code' => strtoupper(Str::random(10)), // كود عشوائي
+                'discount_precentage' => 15,
+                'start_at' => now(),
+                'end_at' => now()->addDays(7),
+                'limit' => 1,
+                'time_used' => 0,
+                'status' => 'active',
+
+            ]);
+            $user->notify(new SendCouponNotification($coupon));
+        }
+
+        $user->last_login_at = now();
+        $user->save();
+
+
+        RateLimiter::clear($this->throttleKey());
     }
-
-    // ✅ التحقق من تفعيل البريد الإلكتروني
-    if ( Auth::user()->email_verified_at==null) {
-        Auth::logout(); // تسجيل خروج فوري
-
-        throw ValidationException::withMessages([
-            'email' => 'You Should Verify Email',
-        ]);
-    }
-
-
-    RateLimiter::clear($this->throttleKey());
-}
 
 
     /**
@@ -90,6 +111,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

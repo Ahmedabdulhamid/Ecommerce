@@ -1,3 +1,4 @@
+@section('title',__('admin.recycle_brands_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('dashboard.categories.partials.head')
@@ -95,13 +96,12 @@
                                                         <td>
 
                                                             <a class="btn btn-sm btn-outline-success"
-                                                                href="{{ route('brands.restore', $value->id) }}">Restore</a>
-                                                            <form action="{{ route('brands.delete',$value->id) }}"
+                                                                href="{{ route('brands.restore', $value->id) }}">{{__('admin.restore')}}</a>
+                                                            <form action="{{ route('brands.forcedelete',$value->id) }}"
                                                                 id="deleteForm-{{ $value->id }}" class="d-inline">
                                                                 <button class="btn btn-sm btn-outline-danger delete-btn"
                                                                 data-id="{{ $value->id }}"
-                                                                >Final
-                                                                    Delete
+                                                                >{{__('admin.final_delete')}}
                                                                 </button>
                                                             </form>
 

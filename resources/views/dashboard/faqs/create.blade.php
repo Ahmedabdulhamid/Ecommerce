@@ -9,24 +9,24 @@
                 <form method="post" class="create_faq">
                     @csrf
                     <div class="mb-3">
-                        <label for="ques_ar" class="col-form-label">Question With Arabic</label>
+                        <label for="ques_ar" class="col-form-label">{{__('admin.question_ar')}}</label>
                         <input type="text" class="form-control" name="questions[ar]" id="ques_ar">
                     </div>
                     <div class="mb-3">
-                        <label for="ques_en" class="col-form-label">Question With English</label>
+                        <label for="ques_en" class="col-form-label">{{__('admin.question_en')}}</label>
                         <input type="text" class="form-control" name="questions[en]" id="ques_en">
                     </div>
                     <div class="mb-3">
-                        <label for="ans_ar" class="col-form-label">Answer with Arabic</label>
+                        <label for="ans_ar" class="col-form-label">{{__('admin.answer_ar')}}</label>
                         <textarea class="form-control" id="ans_ar" name="answers[ar]"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="ans_en" class="col-form-label">Answer with English</label>
+                        <label for="ans_en" class="col-form-label">{{__('admin.answer_en')}}</label>
                         <textarea class="form-control" id="ans_en"name="answers[en]"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('admin.close')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('admin.save')}}</button>
                     </div>
                 </form>
             </div>

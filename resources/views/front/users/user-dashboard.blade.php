@@ -1,10 +1,10 @@
+@section('title',__('front.user_dashboard_page'))
 <!DOCTYPE html>
 <html lang="en">
 
 @include('front.layouts.head')>
 
-<body
-    style=" @if (app()->getLocale() == 'ar') direction:rtl; @endif
+<body style=" @if (app()->getLocale() == 'ar') direction:rtl; @endif
 ">
     @include('front.layouts.header')
     <section class="user-profile footer-padding">
@@ -16,9 +16,9 @@
         <div class="container">
             <div class="user-profile-section">
                 <div class="dashboard-heading ">
-                    <h5 class="dashboard-title">Change Password</h5>
+
                     <div class="dashboard-switch">
-                        <span class="text">Switch Dashboard</span>
+                        <span class="text">{{__('front.switch_dashboard')}}</span>
                         <span onclick="switchDashboard()" class="switch-icon"></span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                                         d="M13.1081 11.3378C13.9592 11.3378 14.811 11.3338 15.6621 11.3391C16.5019 11.3444 16.9952 11.843 16.9972 12.6862C16.9998 13.6813 17.0005 14.6765 16.9972 15.6716C16.9939 16.4822 16.48 16.9968 15.6687 16.9981C13.9546 17.0014 12.2411 17.0014 10.527 16.9981C9.72831 16.9961 9.21977 16.4935 9.21446 15.6962C9.20716 14.6791 9.20716 13.6614 9.21446 12.6443C9.21977 11.837 9.71237 11.3464 10.521 11.3398C11.3834 11.3325 12.2458 11.3378 13.1081 11.3378Z" />
                                 </svg>
                             </span>
-                            <span class="text">Dashboard</span>
+                            <span class="text">{{__('front.dashboard')}}</span>
                         </button>
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-profile" type="button" role="tab"
@@ -59,7 +59,23 @@
                                 </svg>
                             </span>
                             <span class="text">
-                                Parsonal Info
+                                {{__('front.personal_info')}}
+                            </span>
+                        </button>
+                        <button class="nav-link" id="v-pills-payment-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-payment" type="button" role="tab"
+                            aria-controls="v-pills-payment" aria-selected="false">
+                            <span>
+                                <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12.7405 0.0107422H3.61054C1.81171 0.0136959 0.352563 1.46989 0.349609 3.27167H15.9985C15.9985 1.47284 14.5394 0.0136959 12.7405 0.0107422Z" />
+                                    <path
+                                        d="M0.349609 8.48814C0.352563 10.287 1.80876 11.7461 3.61054 11.7491H12.7405C14.5394 11.7461 15.9985 10.2899 16.0015 8.48814V4.57739H0.349609V8.48814ZM4.91314 8.16323C4.91314 8.70377 4.47598 9.14092 3.93545 9.14092C3.39492 9.14092 2.95776 8.70377 2.95776 8.16323C2.95776 7.6227 3.39492 7.18554 3.93545 7.18554C4.47598 7.18554 4.91314 7.6227 4.91314 8.16323Z" />
+                                </svg>
+                            </span>
+                            <span class="text">
+                                {{__('front.Payment_method')}}
                             </span>
                         </button>
 
@@ -76,7 +92,7 @@
                                 </svg>
                             </span>
                             <span class="text">
-                                Order
+                                {{__('front.order')}}
                             </span>
                         </button>
                         <button class="nav-link" id="v-pills-wishlist-tab" data-bs-toggle="pill"
@@ -97,7 +113,7 @@
                                 </svg>
                             </span>
                             <span class="text">
-                                Wishlist
+                                {{__('front.whishlist')}}
                             </span>
                         </button>
 
@@ -127,14 +143,15 @@
                                 </svg>
                             </span>
                             <span class="text">
-                                Reviews
+                                {{__('front.reviews')}}
                             </span>
                         </button>
+                        {{-- INVOICES --}}
 
-                          <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-password" type="button" role="tab"
-                            aria-controls="v-pills-password" aria-selected="false">
-                             <span>
+                        <button class="nav-link" id="v-pills-invoice-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-invoice" type="button" role="tab"
+                            aria-controls="v-pills-invoice" aria-selected="false">
+                            <span>
                                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -142,12 +159,31 @@
                                 </svg>
                             </span>
                             <span class="text">
-                                Change Password
+                                {{__('front.user_invoices')}}
                             </span>
                         </button>
 
+
+                        {{-- INVOICES-END --}}
+                        <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-password" type="button" role="tab"
+                            aria-controls="v-pills-password" aria-selected="false">
+                            <span>
+                                <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12.9919 6.43707V5.3498C12.9919 2.39616 10.5957 0 7.64208 0C4.68844 0 2.29227 2.39616 2.29227 5.3498V6.43707C0.900288 7.04304 0 8.41771 0 9.93435V14.5224C0.00346265 16.6311 1.71054 18.3417 3.82276 18.3451H11.4683C13.5771 18.3417 15.2876 16.6346 15.2911 14.5224V9.93781C15.2807 8.41771 14.3804 7.0465 12.9919 6.43707ZM8.40386 12.9953C8.40386 13.4178 8.06106 13.7606 7.63861 13.7606C7.21617 13.7606 6.87337 13.4178 6.87337 12.9953V11.4648C6.87337 11.0424 7.21617 10.6996 7.63861 10.6996C8.06106 10.6996 8.40386 11.0424 8.40386 11.4648V12.9953ZM11.4614 6.11505H3.81584V5.3498C3.81584 3.23758 5.52639 1.52703 7.63861 1.52703C9.75083 1.52703 11.4614 3.23758 11.4614 5.3498V6.11505Z" />
+                                </svg>
+                            </span>
+                            <span class="text">
+                                {{__('front.change_password')}}
+                            </span>
+                        </button>
+
+
+
                         <div class="nav-link">
-                            <a href="login.html">
+                            <a href="{{ route('login') }}">
                                 <span>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -168,7 +204,7 @@
                                     <form action="{{ route('logout') }}" class="d-inline" method="post">
                                         @csrf
                                         <button class="text">
-                                            Logout
+                                            {{__('front.logout')}}
                                         </button>
                                     </form>
                                 </span>
@@ -185,8 +221,8 @@
                             aria-labelledby="v-pills-home-tab" tabindex="0">
                             <div class="user-profile">
                                 <div class="user-title">
-                                    <p class="paragraph">Hello, {{ Auth::guard('web')->user()->name }}</p>
-                                    <h5 class="heading">Welcome to your Profile </h5>
+                                    <p class="paragraph">{{__('front.hello')}}, {{ Auth::guard('web')->user()->name }}</p>
+                                    <h5 class="heading">{{__('front.welcome_profile')}} </h5>
                                 </div>
                                 <div class="profile-section">
                                     <div class="row g-5">
@@ -207,13 +243,13 @@
                                                     </span>
                                                 </div>
                                                 <div class="wrapper-content">
-                                                    <p class="paragraph"> Orders</p>
-                                                    <h3 class="heading">{{count($orders)}}</h3>
+                                                    <p class="paragraph"> {{__('front.order')}}</p>
+                                                    <h3 class="heading">{{ count($orders) }}</h3>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        @livewire('front.dashboard',['country'=>$country,'governorate'=>$governorate,'orders'=>$orders])
+                                        @livewire('front.dashboard', ['country' => $country, 'governorate' => $governorate, 'orders' => $orders])
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +257,7 @@
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                             aria-labelledby="v-pills-profile-tab" tabindex="0">
                             <div class="seller-application-section">
-                               @livewire('front.personal-info')
+                                @livewire('front.personal-info')
                             </div>
                         </div>
 
@@ -230,126 +266,7 @@
                         <div class="tab-pane fade" id="v-pills-order" role="tabpanel"
                             aria-labelledby="v-pills-order-tab" tabindex="0">
 
-                            <section class="product-cart product footer-padding">
-                                <div class="container">
-
-                                    @forelse ($orders as $order)
-                                        <div class="cart-section container my-5 border-bottom pb-4">
-                                            <div class="my-3">
-                                                <p class="my-1"><strong>Order Number:</strong>
-                                                    {{ $order->order_number }}</p>
-                                                <p class="my-1"><strong>Status:</strong> {{ $order->status }}</p>
-                                                <p class="my-1"><strong>Name:</strong> {{ $order->f_name }}
-                                                    {{ $order->l_name }}</p>
-                                                <p class="my-1"><strong>Email:</strong>
-                                                    {{ $order->email_hidden ?? Str::mask($order->email, '*', 3) }}</p>
-                                                <p class="my-1"><strong>Phone:</strong> {{ $order->phone }}</p>
-                                                <p class="my-1"><strong>Shipping Address:</strong>
-                                                    {{ $order->country }},
-                                                    {{ $order->governorate }}, {{ $order->city }},
-                                                    {{ $order->street }}
-                                                </p>
-                                            </div>
-
-                                            <table>
-                                                <tbody>
-                                                    <tr class="table-row table-top-row">
-                                                        <td class="table-wrapper wrapper-product">
-                                                            <h5 class="table-heading">PRODUCT</h5>
-                                                        </td>
-                                                        <td class="table-wrapper">
-                                                            <div class="table-wrapper-center">
-                                                                <h5 class="table-heading">PRICE</h5>
-                                                            </div>
-                                                        </td>
-                                                        <td class="table-wrapper">
-                                                            <div class="table-wrapper-center">
-                                                                <h5 class="table-heading">QUANTITY</h5>
-                                                            </div>
-                                                        </td>
-                                                        <td class="table-wrapper wrapper-total">
-                                                            <div class="table-wrapper-center">
-                                                                <h5 class="table-heading">TOTAL</h5>
-                                                            </div>
-                                                        </td>
-                                                        <td class="table-wrapper">
-                                                            <div class="table-wrapper-center">
-                                                                <h5 class="table-heading">ACTION</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    @foreach ($order->items as $item)
-                                                        <tr class="table-row ticket-row">
-                                                            <td class="table-wrapper wrapper-product">
-                                                                <div class="wrapper">
-                                                                    <div class="wrapper-img">
-                                                                        <img src="{{ asset('storage/products/' . $item->product->images->first()->file_name) }}"
-                                                                            alt="{{ $item->product->getTranslation('name', app()->getLocale()) }}">
-                                                                    </div>
-                                                                    <div class="wrapper-content">
-                                                                        <h5 class="heading">
-                                                                            {{ $item->product->getTranslation('name', app()->getLocale()) }}
-                                                                        </h5>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="table-wrapper">
-                                                                <div class="table-wrapper-center">
-                                                                    <h5 class="heading">
-                                                                        {{ number_format($item->price, 2) }} EGP</h5>
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="table-wrapper">
-                                                                <div class="table-wrapper-center">
-                                                                    <div class="quantity">
-
-                                                                        <span
-                                                                            class="number">{{ $item->quantity }}</span>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="table-wrapper wrapper-total">
-                                                                <div class="table-wrapper-center">
-                                                                    <h5 class="heading">
-                                                                        {{ number_format($item->price * $item->quantity, 2) }}
-                                                                        EGP</h5>
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="table-wrapper">
-                                                                <div class="table-wrapper-center">
-                                                                    <span>
-                                                                        <svg width="10" height="10"
-                                                                            viewBox="0 0 10 10" fill="none"
-                                                                            xmlns="http://www.w3.org/2000/svg">
-                                                                            <path
-                                                                                d="M9.7 0.3C9.3 -0.1 8.7 -0.1 8.3 0.3L5 3.6L1.7 0.3C1.3 -0.1 0.7 -0.1 0.3 0.3C-0.1 0.7 -0.1 1.3 0.3 1.7L3.6 5L0.3 8.3C-0.1 8.7 -0.1 9.3 0.3 9.7C0.7 10.1 1.3 10.1 1.7 9.7L5 6.4L8.3 9.7C8.7 10.1 9.3 10.1 9.7 9.7C10.1 9.3 10.1 8.7 9.7 8.3L6.4 5L9.7 1.7C10.1 1.3 10.1 0.7 9.7 0.3Z"
-                                                                                fill="#AAAAAA" />
-                                                                        </svg>
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-
-                                            <div class="wishlist-btn cart-btn mt-3">
-                                                <a href="#" class="clean-btn">Cancel Order</a>
-
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <p>No orders found.</p>
-                                    @endforelse
-
-                                </div>
-                            </section>
+                            @livewire('front.user-orders')
 
 
                         </div>
@@ -357,16 +274,34 @@
                         <div class="tab-pane fade" id="v-pills-wishlist" role="tabpanel"
                             aria-labelledby="v-pills-wishlist-tab" tabindex="0">
                             <div class="wishlist">
-                               @livewire('front.watchlist')
+                                @livewire('front.watchlist')
                             </div>
                         </div>
+                        {{-- PAYMENT METHOD --}}
+                        <div class="tab-pane fade" id="v-pills-payment" role="tabpanel"
+                            aria-labelledby="v-pills-payment-tab" tabindex="0">
+                            <div class="wishlist">
+                                @livewire('front.payment-method')
+                            </div>
+                        </div>
+                        {{-- PAYMENT METHOD --}}
 
+
+                        {{-- INVOCE-START --}}
+
+                        <div class="tab-pane fade" id="v-pills-invoice" role="tabpanel"
+                            aria-labelledby="v-pills-invoice-tab" tabindex="0">
+                            <div class="wishlist">
+                                 @livewire('front.user-invoice')
+                            </div>
+                        </div>
+                        {{-- INVOCE-END --}}
 
 
                         <div class="tab-pane fade" id="v-pills-review" role="tabpanel"
                             aria-labelledby="v-pills-review-tab" tabindex="0">
                             <div class="top-selling-section">
-                               @livewire('front.reviews')
+                                @livewire('front.reviews')
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-password" role="tabpanel"
@@ -375,7 +310,8 @@
                                 @livewire('front.change-password')
                                 <div class="col-lg-6">
                                     <div class="reset-img text-end">
-                                        <img src="{{asset('front-assets/images/homepage-one')}}/reset.webp" alt="reset">
+                                        <img src="{{ asset('front-assets/images/homepage-one') }}/reset.webp"
+                                            alt="reset">
                                     </div>
                                 </div>
                             </div>

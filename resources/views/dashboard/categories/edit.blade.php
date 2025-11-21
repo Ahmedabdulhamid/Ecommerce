@@ -1,7 +1,7 @@
 @php
     use Flasher\Prime\FlasherInterface;
 @endphp
-
+@section('title',__('admin.edit_categories_page'))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +15,7 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-card-center">Create Category</h4>
+                    <h4 class="card-title" id="basic-layout-card-center">{{__('admin.update_cat')}}</h4>
                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -36,7 +36,7 @@
 
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label for="eventRegInput1">Name With English</label>
+                                    <label for="eventRegInput1">{{__('admin.name_in_en')}}</label>
                                     <input type="text"
                                     id="eventRegInput1"value="{{ $category->getTranslation('name', 'en') }}"
                                     class="form-control"name="name[en]">
@@ -44,19 +44,19 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="eventRegInput2">Name With Arabic </label>
+                                    <label for="eventRegInput2">{{__('admin.name_in_ar')}} </label>
                                     <input type="text" id="eventRegInput2"
                                         value="{{ $category->getTranslation('name', 'ar') }}" class="form-control"
                                         name="name[ar]">
 
                                 </div>
-                                <label for="">Select Your main Categoiry</label>
+                                <label for="">{{__('admin.select_cat')}}</label>
                                 <select class="form-select form-select-lg mb-3" @selected(true) name="parent_id"
                                     aria-label="Default select example">
                                     @if (!isset($category->parent_id))
-                                        <option value="">Main Category</option>
+                                        <option value="">{{__('admin.main_cat')}}</option>
                                         @else
-                                        <option value="$category->parent_id"selected>{{$category->parent->getTranslation('name',app()->getLocale())}}</option>
+                                        <option value="{{$category->parent_id}}"selected>{{$category->parent->getTranslation('name',app()->getLocale())}}</option>
 
                                     @endif
                                     @foreach ($categories as $cat)

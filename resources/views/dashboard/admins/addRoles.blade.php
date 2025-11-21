@@ -1,3 +1,4 @@
+@section('title',__('admin.admin_pages'))
 <div class="modal fade" id="add_role_{{ $admin->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -17,8 +18,8 @@
                         </div>
                     @endforeach
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Assign Role</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('admin.close')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('admin.assign_role')}}</button>
                     </div>
                 </form>
             </div>

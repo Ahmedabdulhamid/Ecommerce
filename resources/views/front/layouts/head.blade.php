@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Shopus: Your One-Stop Destination for Fashion and Style</title>
+    <title>@yield('title','Default Title')</title>
 
     <link rel="stylesheet" href="{{ asset('front-assets') }}/css2/swiper10-bundle.min.css" style="direction: rtl;">
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="{{ asset('front-assets') }}/css2/bootstrap-5.3.2.min.css"style="direction: rtl;">
 
     <link rel="stylesheet" href="{{ asset('front-assets') }}/css2/nouislider.min.css"style="direction: rtl;">
@@ -24,7 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" defer></script>
     <!-- jQuery -->
 
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- RateYo CSS & JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/3.3.4/jquery.rateyo.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/3.3.4/jquery.rateyo.min.js"></script>

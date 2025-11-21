@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use PhpParser\Node\Scalar\MagicConst\Function_;
 
-class CreateNotificaction extends Notification
+class CreateNotificaction extends Notification implements ShouldQueue
 {
     use Queueable;
 

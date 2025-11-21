@@ -6,7 +6,7 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
+use Illuminate\Support\Facades\Gate;
 
 class SettingsData extends Component
 {
@@ -79,6 +79,9 @@ class SettingsData extends Component
     }
     public function render()
     {
+        if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin','admin'])) {
+            abort(403);
+        }
         return view('livewire.admin.settings-data', ['setting' => Setting::get()]);
     }
 }

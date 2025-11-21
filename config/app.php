@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\FrontProvider;
 use App\Providers\sideBarProvider;
 use App\Providers\SliderWebProvider;
 use App\Providers\webPagesProvider;
@@ -190,6 +191,7 @@ return [
         Livewire\LivewireServiceProvider::class,
         webPagesProvider::class,
         SliderWebProvider::class,
+        FrontProvider::class,
 
 
 
@@ -215,6 +217,8 @@ return [
 
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Pdf' => Barryvdh\DomPDF\Facade\Pdf::class,
+
 
     ])->toArray(),
 

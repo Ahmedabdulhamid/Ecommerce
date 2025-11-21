@@ -12,7 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\SavedCard;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -57,7 +58,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Governorate::class);
     }
-
+    public function savedCards()
+    {
+        return $this->hasMany(SavedCard::class);
+    }
     /**
      * The attributes that should be cast.
      *
@@ -69,5 +73,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

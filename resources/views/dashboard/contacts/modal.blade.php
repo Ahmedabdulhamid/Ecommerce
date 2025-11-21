@@ -8,20 +8,20 @@
             <div class="modal-body">
                 <form wire:submit.prevent='submit'>
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Email:</label>
+                        <label for="recipient-name" class="col-form-label">{{__('admin.email')}}:</label>
                         <input type="text"wire:model='email' class="form-control" id="recipient-name">
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Subject:</label>
+                        <label for="message-text" class="col-form-label">{{__('admin.subject')}}:</label>
                         <input class="form-control" id="message-text"wire:model='subject'>
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Reply:</label>
+                        <label for="message-text" class="col-form-label">{{__('admin.reply')}}:</label>
                         <input class="form-control" id="message-text"wire:model='reply'>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('admin.close')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('admin.submit')}}</button>
                     </div>
                 </form>
             </div>

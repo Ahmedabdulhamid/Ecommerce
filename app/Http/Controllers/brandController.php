@@ -93,7 +93,7 @@ class brandController extends Controller
         $data['logo'] = $newLogo;
         $brand = Brand::create($data);
         if ($brand) {
-            Flasher::addSuccess('The Category added successfully!');
+            Flasher::addSuccess('The Brand added successfully!');
             return to_route('brands.index');
         }
 
@@ -189,12 +189,16 @@ class brandController extends Controller
         return to_route('brands.index');
     }
     public function DeleteBrandFinal(){
+
          if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin','admin','product-manager'])) {
             abort(403);
         }
-        $brand=Brand::where('id',request('brand'))->firstOrFail();
-        Storage::delete('public/logo/'.$brand->logo);
+        $brand=Brand::where('id',request('brand'))->first();
+        if (isset($brand->logo)) {
+              Storage::delete('public/logo/'.$brand->logo);
               $brand->forceDelete();
+        }
+
 
         return to_route('brands.index');
     }

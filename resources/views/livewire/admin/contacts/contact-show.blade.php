@@ -52,24 +52,23 @@
                                     <div class="btn-group ml-1">
                                         <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
                                             data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">More</button>
+                                            aria-expanded="false">{{__('admin.more')}}</button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Mark as unread</a>
-                                            <a class="dropdown-item" href="#">Mark as unimportant</a>
-                                            <a class="dropdown-item" href="#">Add star</a>
-                                            <a class="dropdown-item" href="#">Add to task</a>
+                                            <a class="dropdown-item" href="#">{{__('admin.marks_as_unread')}}</a>
+
+                                            <a class="dropdown-item" href="#">{{__('admin.add_star')}}</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Filter mail</a>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="email-app-title card-body">
-                            <h3 class="list-group-item-heading">Project ABC Status Report</h3>
+
                             <p class="list-group-item-text">
                                 <span class="primary">
-                                    <span class="badge badge-primary">Previous</span> <i
+                                    <span class="badge badge-primary">{{__('admin.previous')}}</span> <i
                                         class="float-right font-medium-3 ft-star warning"></i></span>
                             </p>
                         </div>
@@ -101,8 +100,8 @@
 
 
                                         <h6 class="list-group-item-heading">{{ $contactMsg['name'] }}</h6>
-                                        <p class="list-group-item-text">to me
-                                            <span>Today</span>
+                                        <p class="list-group-item-text">{{__('admin.to_me')}}
+                                            <span>{{__('admin.today')}}</span>
                                             <span class="float-right">
                                                 <i class="la la-reply mr-1"></i>
                                                 <i class="la la-arrow-right mr-1"></i>
@@ -119,8 +118,8 @@
                                         <div class="email-app-message">
 
 
-                                            <p>Subject : {{ $contactMsg['subject'] }}</p>
-                                            <p>Message: {{ $contactMsg['message'] }}</p>
+                                            <p>{{__('admin.subject')}} : {{ $contactMsg['subject'] }}</p>
+                                            <p>{{__('admin.messages')}}: {{ $contactMsg['message'] }}</p>
 
                                         </div>
                                     </div>

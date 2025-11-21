@@ -1,14 +1,14 @@
 <form class="form" wire:submit.prevent='submit'>
     <div class="row">
         <div class="form-group col-md-6 mb-2">
-            <input type="text" class="form-control" placeholder="Name in Arabic" wire:model='name.ar'>
+            <input type="text" class="form-control" placeholder="{{trans('admin.name_in_ar')}}" wire:model='name.ar'>
             @error('name.ar')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group col-md-6 mb-2">
 
-            <input type="text" class="form-control" placeholder="Name in English" wire:model='name.en'>
+            <input type="text" class="form-control" placeholder="{{trans('admin.name_in_en')}}" wire:model='name.en'>
             @error('name.en')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -18,7 +18,7 @@
 
     <button type="button" data-repeater-create class="btn btn-success my-3" style='color:white;' wire:click="addField">
 
-      Add Attribute Value  <i class="ft-plus"></i>
+      {{trans('admin.add_attr_val')}}  <i class="ft-plus"></i>
     </button>
     <br>
 
@@ -43,8 +43,8 @@
         </div>
     @endforeach
 
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary" >Save</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{trans('admin.close')}}</button>
+    <button type="submit" class="btn btn-primary" >{{trans('admin.save')}}</button>
 
 </form>
 

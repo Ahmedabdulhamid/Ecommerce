@@ -9,12 +9,12 @@
             @forelse ($role->permissions as $permission)
                 <p>{{$permission->getTranslation('name',app()->getLocale())}}</p>
             @empty
-                <p class="text-center">No Permissions in this Role</p>
+                <p class="text-center">{{__('admin.no_per')}}</p>
             @endforelse
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('admin.close')}}</button>
 
         </div>
       </div>

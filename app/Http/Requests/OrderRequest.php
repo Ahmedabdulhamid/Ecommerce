@@ -32,6 +32,7 @@ class OrderRequest extends FormRequest
             'city' => 'required|string|max:255',
             'street' => 'required|string|max:255',
             'notice' => 'nullable|string|max:1000',
+            'paymentMethodId'=>['required']
         ];
     }
 }

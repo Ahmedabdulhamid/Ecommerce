@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.create_coupon_page'))
 <!DOCTYPE html>
 <html lang="en">
 @livewireStyles
@@ -20,10 +21,10 @@
     <div class="app-content content mt-5">
         <div class="breadcrumb-wrapper col-12 my-5">
             <ol class="breadcrumb ">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{__('admin.home')}}</a>
                 </li>
 
-                <li class="breadcrumb-item active"><a href="{{ url('admin/coupones') }}">Coupons Tables</a></li>
+                <li class="breadcrumb-item active"><a href="{{ url('admin/coupones') }}">{{__('admin.coupons_table')}}</a></li>
 
             </ol>
         </div>
@@ -78,7 +79,7 @@
             <div class="form-actions center">
 
                 <button type="submit" class="btn btn-primary">
-                    Create
+                     {{__('admin.save')}}
                 </button>
             </div>
 

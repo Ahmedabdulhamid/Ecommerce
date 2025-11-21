@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ResetPasswordNotification extends Notification
+class ResetPasswordNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     public $otp;
@@ -39,7 +39,7 @@ class ResetPasswordNotification extends Notification
         }
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    
+
                     ->action('Reset Your Password', url(route('admin.reset_password',$this->otp)))
                     ->line('Thank you for using our application!');
     }

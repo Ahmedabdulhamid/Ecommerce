@@ -20,24 +20,17 @@ class FaqQuestion extends Component
             $this->name = '';
         }
     }
-    public function attributes(){
-        return [
-            'email'=>__('front.email'),
-            'name'=>__('front.name'),
-            'message'=>__('front.message'),
-            'subject'=>__('front.subject')
-        ];
-    }
+
     public function submit()
     {
 
         $data = $this->validate([
-            'email' => ['required', 'email', 'exists:users,email'],
-            'name' => ['required', 'string', 'exists:users,name'],
+            'email' => ['required', 'email'],
+            'name' => ['required', 'string'],
             'subject' => ['required'],
             'message' => ['required']
 
-        ],$this->attributes());
+        ]);
         if (auth()->user()) {
             $faq_question = WebFaqQuestion::create($data);
             $this->reset(['subject','message']);

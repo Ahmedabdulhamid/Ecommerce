@@ -1,3 +1,4 @@
+@section('title',__('front.carts_page'))
 <!doctype html>
 <html lang="en">
 
@@ -10,21 +11,17 @@
     <section class="blog about-blog">
         <div class="container">
             <div class="blog-bradcrum">
-                <span><a href="{{route('home')}}">Home</a></span>
+                <span><a href="{{route('home')}}">{{__('front.home')}}</a></span>
                 <span class="devider">/</span>
-                <span><a href="{{url()->current()}}">Cart</a></span>
+                <span><a href="{{url()->current()}}">{{__('front.cart')}}</a></span>
             </div>
             <div class="blog-heading about-heading">
-                <h1 class="heading">Cart</h1>
+                <h1 class="heading">{{__('front.cart')}}</h1>
             </div>
         </div>
     </section>
     @livewire('front.cart-page',['cart'=>$cart])
-
-
     @include('front.layouts.footer')
-
-
     @include('front.layouts.script')
     @livewireScripts
 </body>

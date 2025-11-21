@@ -9,9 +9,9 @@
                 <div class="blog-bradcrum">
                     <span><a href="{{ route('home') }}">{{ __('front.home') }}</a></span>
                     <span class="devider">/</span>
-                    <span><a href="product-sidebar.html">{{ __('front.shop') }}</a></span>
+                    <span><a href="{{ route('shop.index') }}">{{ __('front.shop') }}</a></span>
                     <span class="devider">/</span>
-                    <span><a href="{{ url()->current() }}">Product Details</a></span>
+                    <span><a href="{{ url()->current() }}">{{ __('front.product-details') }}</a></span>
                 </div>
                 <div class="">
                     <div class="row ">
@@ -102,7 +102,14 @@
         @if ($selected == false)
             <span class="new-price">{{ __('products.has_variants_yes') }}</span>
         @else
-            <span class="new-price text-dark">{{ number_format($variant['price'], 2) }} EGP</span>
+            @if ($product->has_discount)
+                <span
+                    class="new-price text-dark">{{ number_format($variant['price'] - ($variant['price'] * $product->discount) / 100, 2) }}
+                    EGP</span>
+            @else
+                <span class="new-price text-dark">{{ number_format($variant['price'], 2) }} EGP</span>
+            @endif
+
         @endif
 
     @endif
@@ -114,12 +121,12 @@
 <hr>
 <div class="product-availability">
     @if (!$product->has_variants)
-        <span>Availabillity : </span>
-        <span class="inner-text">{{ $product->quantity }} Products Available</span>
+        <span>{{ __('front.availability') }} : </span>
+        <span class="inner-text">{{ $product->quantity }} {{ __('front.product_available') }}</span>
     @else
-        <span>Availabillity : </span>
+        <span>{{ __('front.availability') }} : </span>
         @if ($selected == false)
-            Available
+            {{ __('front.available') }}
         @else
             {{ $variant['stock'] }}
         @endif
@@ -136,7 +143,7 @@
 @if ($product->has_variants)
 
     <div class="custom-dropdown w-100" onclick="toggleDropdown(this)">
-        <button class="dropdown-btn custom_dropdown-btn" id="selectedSize">Select Your Variant</button>
+        <button class="dropdown-btn custom_dropdown-btn" id="selectedSize">{{ __('front.select_your_var') }}</button>
         <div class="dropdown-list">
             @foreach ($product->product_variants as $variant)
                 <div class="dropdown-item "
@@ -210,7 +217,7 @@
                     fill="white" />
             </svg>
         </span>
-        <span>Add to Cart</span>
+        <span>{{ __('front.add_to_cart') }}</span>
     </a>
 </div>
 <hr>
@@ -223,50 +230,7 @@
     <p class="sku">{{ __('products.sku') }}: <span class="inner-text">{{ $product->sku }}</span></p>
 </div>
 <hr>
-<div class="product-report">
-    <a href="#" class="report" onclick="modalAction('.action')">
-        <span>
-            <svg width="15" height="16" viewBox="0 0 15 16" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M0 0C0.30478 0 0.585152 0 0.897442 0C0.908707 0.197137 0.919972 0.389267 0.932488 0.607056C1.30235 0.482516 1.64781 0.347336 2.00391 0.250332C3.83134 -0.247829 5.5555 0.0450599 7.19017 0.959399C7.97121 1.39686 8.7898 1.71165 9.68599 1.81178C10.9308 1.95072 12.0873 1.6716 13.1813 1.08832C13.4566 0.941876 13.7257 0.783541 14.0443 0.604553C14.0505 0.745991 14.0599 0.853634 14.0599 0.960651C14.0605 3.92396 14.058 6.88665 14.0662 9.84996C14.0668 10.079 13.9961 10.2042 13.7964 10.3143C11.4702 11.5973 9.14277 11.6123 6.82531 10.3106C4.99976 9.28546 3.14292 9.1484 1.22162 10.0164C0.990065 10.1209 0.908081 10.2524 0.909958 10.5096C0.921849 12.21 0.916217 13.911 0.916217 15.6114C0.916217 15.7353 0.916217 15.8586 0.916217 16C0.600172 16 0.312916 16 0 16C0 10.6779 0 5.35336 0 0Z"
-                    fill="#EB5757" />
-            </svg>
-        </span>
-        <span>Report This Item</span>
-    </a>
 
-    <div class="modal-wrapper action">
-        <div onclick="modalAction('.action')" class="anywhere-away"></div>
-
-        <div class="login-section account-section modal-main">
-            <div class="review-form">
-                <div class="review-content">
-                    <h5 class="comment-title">Report Products</h5>
-                    <div class="close-btn">
-                        <img src="{{ asset('front-assets') }}/images/homepage-one/close-btn.png"
-                            onclick="modalAction('.action')" alt="close-btn">
-                    </div>
-                </div>
-                <div class="review-form-name address-form">
-                    <label for="reporttitle" class="form-label">Enter Report
-                        Ttile*</label>
-                    <input type="text" id="reporttitle" class="form-control" placeholder="Reports Headline here">
-                </div>
-                <div class="review-form-name address-form">
-                    <label for="reportnote" class="form-label">Enter Report Note*</label>
-                    <textarea name="ticketmassage" id="reportnote" cols="40" rows="3" class="form-control"
-                        placeholder="Type Here"></textarea>
-                </div>
-                <div class="login-btn text-center">
-                    <a href="#" onclick="modalAction('.action')" class="shop-btn">Submit
-                        Report</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 <div class="product-share">
     <p>Share This:</p>
     <div class="social-icons">
@@ -339,7 +303,7 @@
         toastr.success('Your Comment added Successfuly!')
 
     })
-       window.addEventListener('chooseVar', function() {
+    window.addEventListener('chooseVar', function() {
         toastr.error('You Should Choose Variant')
     })
 </script>
@@ -401,5 +365,4 @@
     window.addEventListener('AlreadyExists', function() {
         toastr.warning('Already Exists')
     })
-
 </script>

@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.show_orders_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -20,41 +21,27 @@
             <div class="content-wrapper">
                 <div class="content-header row">
                     <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                        <h3 class="content-header-title mb-0 d-inline-block">Product Table</h3>
+                        <h3 class="content-header-title mb-0 d-inline-block">{{__('admin.order_table')}}</h3>
                         <div class="row breadcrumbs-top d-inline-block">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Tables</a>
+                                    <li class="breadcrumb-item"><a href="{{route('orders.index')}}">{{__('admin.order_table')}}</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Product Table
-                                    </li>
+
+
                                 </ol>
                             </div>
                         </div>
                     </div>
-                    <div class="content-header-right col-md-6 col-12">
-                        <div class="dropdown float-md-right">
-                            <button class="btn btn-danger dropdown-toggle round btn-glow px-2"
-                                id="dropdownBreadcrumbButton" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">Actions</button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a
-                                    class="dropdown-item" href="#"><i class="la la-calendar-check-o"></i>
-                                    Calender</a>
-                                <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                                <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                        class="la la-cog"></i> Settings</a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <form action="{{ route('orders.update', $order->id) }}" method="post">
                     @csrf
                     @method('PUT')
                     <button type="submit" class="mr-1 mb-1 btn btn-outline-success btn-min-width"><i
-                            class="la la-truck mx-1"></i>Mark As Delivered</button>
+                            class="la la-truck mx-1"></i>{{__('admin.mark_as_delivered')}}</button>
                 </form>
 
                 <div class="content-body">
@@ -64,7 +51,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">{{ __('categories.Product_table') }}</h4>
+                                    <h4 class="card-title">{{ __('admin.order_table') }}</h4>
 
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
@@ -86,20 +73,20 @@
                                         <div class="row my-3">
                                             <div class="col-lg-6 col-md-6 col-sm-12">
                                                 <div class="w-100">
-                                                    <p class="my-1"><strong>User Name:</strong> {{ $order->f_name }}
+                                                    <p class="my-1"><strong>{{__('admin.user_name')}}:</strong> {{ $order->f_name }}
                                                         {{ $order->l_name }}</p>
-                                                    <p class="my-1"><strong>User Phone:</strong> {{ $order->phone }}
+                                                    <p class="my-1"><strong>{{__('admin.user_phone')}}:</strong> {{ $order->phone }}
                                                     </p>
-                                                    <p class="my-1"><strong>Shipping Address:</strong>
+                                                    <p class="my-1"><strong>{{__('admin.shipping_address')}}:</strong>
                                                         {{ $order->country }}, {{ $order->governorate }},
                                                         {{ $order->city }}, {{ $order->street }}</p>
                                                     @if ($order->notes)
-                                                        <p class="my-1"><strong>Notes:</strong> {{ $order->notes }}
+                                                        <p class="my-1"><strong>{{__('admin.notes')}}:</strong> {{ $order->notes }}
                                                         </p>
                                                     @else
-                                                        <p class="my-1"><strong>Notes:</strong> Not Found</p>
+                                                        <p class="my-1"><strong>{{__('admin.notes')}}:</strong> {{__('admin.not_found')}}</p>
                                                     @endif
-                                                    <p class="my-1"><strong>Status:</strong> <span
+                                                    <p class="my-1"><strong>{{__('admin.status')}}:</strong> <span
                                                             style="background:orange; color:white;padding:3px;">{{ $order->status }}</span>
                                                     </p>
 
@@ -109,15 +96,15 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12">
                                                 <div class="w-100">
-                                                    <p class="my-1"><strong>Country:</strong> {{ $order->country }}
+                                                    <p class="my-1"><strong>{{__('admin.country')}}:</strong> {{ $order->country }}
                                                     </p>
-                                                    <p class="my-1"><strong>Governorate:</strong>
+                                                    <p class="my-1"><strong>{{__('admin.governorate')}}:</strong>
                                                         {{ $order->governorate }}</p>
 
 
-                                                    <p class="my-1"><strong>City:</strong> {{ $order->city }}</p>
+                                                    <p class="my-1"><strong>{{__('admin.city')}}:</strong> {{ $order->city }}</p>
 
-                                                    <p class="my-1"><strong>Email:</strong>{{ $order->email_hidden }}
+                                                    <p class="my-1"><strong>{{__('admin.email')}}:</strong>{{ $order->email_hidden }}
                                                     </p>
 
 
@@ -134,13 +121,13 @@
                                 </div>
                                 <div class="row ">
                                     <div class="d-flex justify-content-evenly">
-                                        <p class="mx-1"><strong> Price</strong>
+                                        <p class="mx-1"><strong> {{__('admin.price')}}</strong>
                                             {{ number_format($order->total_price - $order->shipping_price, 2) }} EGP
                                         </p>
-                                        <p class="mx-1"><strong> Shipping Price</strong>
+                                        <p class="mx-1"><strong> {{__('admin.shipping_price')}}</strong>
                                             {{ number_format($order->shipping_price, 2) }} EGP
                                         </p>
-                                        <p class="mx-1"><strong> Total Price</strong>
+                                        <p class="mx-1"><strong> {{__('admin.total_price')}}</strong>
                                             {{ number_format($order->total_price, 2) }} EGP
                                         </p>
                                     </div>
@@ -149,11 +136,11 @@
                                     <table class="table mb-0">
                                         <thead>
                                             <tr class="bg-success white">
-                                                <th>Product Name</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Price For Quantity</th>
-                                                <th>Attributes</th>
+                                                <th>{{__('admin.product_name')}}</th>
+                                                <th>{{__('admin.quantity')}}</th>
+                                                <th>{{__('admin.price')}}</th>
+                                                <th>{{__('admin.price_for_quantity')}}</th>
+                                                <th>{{__('admin.attributes')}}</th>
 
                                             </tr>
                                         </thead>
@@ -177,7 +164,7 @@
                                                                     {{ $value }}</p>
                                                             @endforeach
                                                         @else
-                                                            <p>NOT FOUND</p>
+                                                            <p>{{__('admin.not_found')}}</p>
                                                         @endif
                                                     </td>
                                                 </tr>

@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.categories_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -19,34 +20,20 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Category Table</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">{{trans('admin.categories_table')}}</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Tables</a>
-                                </li>
-                                <li class="breadcrumb-item active">Category Table
+
+                                <li class="breadcrumb-item active">{{trans('admin.categories_table')}}
                                 </li>
                             </ol>
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="dropdown float-md-right">
-                        <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Actions</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item"
-                                href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-                            <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                            <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                    class="la la-cog"></i> Settings</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="content-body">
                 <!-- Table row borders end-->
@@ -69,18 +56,17 @@
 
                             <div class="card-content">
                                 <div class="my-5 container d-flex justify-content-between">
-                                    <a href="{{route('categories.create')}}"class="btn btn-primary ">Create Category</a>
-                                    <a href="{{route('categories.recyclebin')}}"class="btn btn-danger ">Recycle Bin</a>
+                                    <a href="{{ route('categories.create') }}"class="btn btn-primary ">{{trans('admin.create_cat')}}</a>
+                                    <a href="{{ route('categories.recyclebin') }}"class="btn btn-danger ">{{trans('admin.recycle_bin')}}</a>
 
                                 </div>
-                              <div class="table-responsive">
+                                <div class="table-responsive">
                                     <table class="table mb-0 "id="category_table">
                                         <thead>
                                             <tr>
                                                 <th>{{ __('categories.index') }}</th>
                                                 <th>{{ __('categories.name') }}</th>
                                                 <th>{{ __('categories.status') }}</th>
-                                                <th>{{ __('categories.actions') }}</th>
 
                                             </tr>
 
@@ -108,8 +94,12 @@
     @include('dashboard.categories.partials.scribts')
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <!-- JS Buttons -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
@@ -131,7 +121,6 @@
             serverSide: true,
             responsive: true,
             colReorder: true,
-            rowReorder: true,
 
             scrollY: 200,
             deferRender: true,
@@ -141,7 +130,11 @@
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'dt-control',
+                    orderable: false,
+
+                    defaultContent: '<i class="la la-plus-circle"></i>',
                 },
                 {
                     data: 'name',
@@ -151,12 +144,7 @@
                     data: 'status',
                     name: 'status'
                 },
-                {
-                    data: "actions",
-                    name: "actions",
-                    orderable: false,
-                    searchable: false
-                }
+
 
             ],
 
@@ -168,11 +156,38 @@
                 url: "{{ app()->getLocale() == 'ar' ? '//cdn.datatables.net/plug-ins/1.11.5/i18n/Arabic.json' : '' }}"
             }
         });
+        $('#category_table tbody').on('click', 'td.dt-control', function() {
+            var table = $('#category_table').DataTable();
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // إذا كانت التفاصيل ظاهرة، قم بإخفائها
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // عرض التفاصيل
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        // دالة تنسيق التفاصيل المخفية
+        function format(data) {
+            return `
+        <table class="table ">
+
+
+            <tr><td>${data.actions}</td></tr>
+
+        </table>
+    `;
+        }
     </script>
-     <script>
+    <script>
         $(document).on('change', '.switch', function(e) {
             var id = $(this).attr('name');
-             console.log(id);
+            console.log(id);
 
             $.ajax({
                 url: "{{ route('editStatusCategories') }}",

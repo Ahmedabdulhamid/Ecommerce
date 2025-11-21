@@ -32,23 +32,15 @@ class UpdateCategoryRequest extends FormRequest
             'name.en' => [
                 'required',
                 'string',
-                function ($attributes, $value, $fail) {
-                    if (Category::where('name->en', $value)->exists()) {
-                        $fail('Name with English Exists');
-                    }
-                }
+
             ],
             'name.ar' => [
                 'required',
                 'string',
-                function ($attributes, $value, $fail) {
-                    if (Category::where('name->ar', $value)->exists()) {
-                        $fail('Name with Arabic Exists');
-                    }
-                }
+
             ],
 
-            'parent_id' => "nullable"
+            'parent_id' => "required|integer"
 
 
         ];

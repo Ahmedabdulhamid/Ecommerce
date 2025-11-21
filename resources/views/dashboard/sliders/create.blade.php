@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -34,7 +35,7 @@
 
         let formData = new FormData(this);
         formData.append("_token", "{{ csrf_token() }}");
-           console.log('click');
+
 
         $.ajax({
             url: "{{ route('sliders.store') }}",
@@ -45,14 +46,8 @@
             success: function(response) {
                 toastr.success(response.message);
                 console.log(response);
-
-                // تحديث الجدول بدون الرجوع لأول صفحة
                 $('#Slider_table').DataTable().ajax.reload(null, false);
-
-                // تفضية الفورم
                 $('.form-slider')[0].reset();
-
-                // إغلاق المودال بشكل صحيح
                 let modalEl = document.getElementById('exampleModal');
                 let modal = bootstrap.Modal.getInstance(modalEl);
                 if (modal) {

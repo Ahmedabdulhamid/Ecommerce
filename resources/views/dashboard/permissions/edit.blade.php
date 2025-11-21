@@ -9,18 +9,18 @@
                 <form class="permission_update_form"id="{{ $permission->id }}">
 
                     <div class="mb-3">
-                        <label for="name_ar" class="col-form-label">Name In Arabic:</label>
+                        <label for="name_ar" class="col-form-label">{{__('admin.name_in_ar')}}:</label>
                         <input type="text" name="name[ar]" class="form-control"
                             id="name_ar"value='{{ $permission->getTranslation('name', 'ar') }}'>
                     </div>
                     <div class="mb-3">
-                        <label for="name_en" class="col-form-label">Name In English:</label>
+                        <label for="name_en" class="col-form-label">{{__('admin.name_in_en')}}:</label>
                         <input type="text" name="name[en]" class="form-control"
                             id="name_en"value='{{ $permission->getTranslation('name', 'en') }}'>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('admin.close')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('admin.submit')}}</button>
                     </div>
                 </form>
 

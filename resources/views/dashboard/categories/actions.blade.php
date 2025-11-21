@@ -1,30 +1,26 @@
-<a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-sm btn-primary">{{ __('categories.edit') }}</a>
-<button class="btn btn-sm btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown"
-    aria-expanded="false">{{ __('categories.delete') }}</button>
-<ul class="dropdown-menu">
-    <form action="{{ route('categories.forcedelete',$category->id) }}"
-        id="deleteFormFinal-{{ $category->id }}" class="d-inline">
-        <button class="dropdown-item delete-btnr deleteFN-btn"
-        data-id="{{ $category->id }}"
-        >Final
-            Delete
-        </button>
-    </form>
-
-    <form id="deleteForm-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}"method="POST"
-        class="soft_delete">
-        @csrf
-        @method('DELETE')
-        <button class="dropdown-item delete-btn" data-id="{{ $category->id }}">Soft
-            Deletes</button>
-
-    </form>
+<a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-primary">{{ __('categories.edit') }}</a>
 
 
 
+<button class="deleteFN-btn btn btn-danger" data-id="{{ $category->id }}">{{ __('admin.final_delete') }}</button>
 
 
-</ul>
+<button class="delete-btn btn btn-warning text-white" data-id="{{ $category->id }}">{{ trans('admin.soft_delete') }}</button>
+
+
+<!-- Hidden forms -->
+<form action="{{ route('categories.forcedelete', $category->id) }}" id="deleteFormFinal-{{ $category->id }}" method="POST"
+    class="d-none">
+    @csrf
+    @method('DELETE')
+</form>
+
+<form action="{{ route('categories.destroy', $category->id) }}" id="deleteForm-{{ $category->id }}" method="POST"
+    class="d-none">
+    @csrf
+    @method('DELETE')
+</form>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">

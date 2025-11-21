@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WebFaqQuestion;
 use App\Notifications\AnswerUsersQuestionsNotification;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 class UserQuestions extends Controller
@@ -13,6 +14,7 @@ class UserQuestions extends Controller
      */
     public function index()
     {
+
        return view('dashboard.questions.index');
     }
     public function getData(){
@@ -35,7 +37,9 @@ class UserQuestions extends Controller
 
     }
     public function answer(Request $request,string $id){
-
+         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin','contact-manager'])) {
+            abort(403);
+        }
         $data=$request->validate([
             'reply'=>['required']
         ]);
@@ -60,25 +64,18 @@ class UserQuestions extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //

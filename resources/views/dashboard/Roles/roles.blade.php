@@ -4,6 +4,7 @@
 
     use Flasher\Prime\FlasherInterface;
 @endphp
+@section('title',__('admin.roles_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
 
@@ -19,34 +20,20 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Basic Tables</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">{{__('admin.roles_table')}}</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Tables</a>
-                                </li>
-                                <li class="breadcrumb-item active "><a href="{{ route('roles.create') }}" class="btn btn-primary">Add Role</a>
+
+                                <li class="breadcrumb-item active "><a href="{{ route('roles.create') }}" class="btn btn-primary">{{__('admin.create_roles')}}</a>
                                 </li>
                             </ol>
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="dropdown float-md-right">
-                        <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Actions</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item"
-                                href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-                            <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                            <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                    class="la la-cog"></i> Settings</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="content-body">
                 <!-- Basic Tables start -->
@@ -54,7 +41,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Basic Tables</h4>
+                                <h4 class="card-title">{{__('admin.roles_table')}}</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -73,10 +60,10 @@
                                               <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Roles</th>
+                                                    <th>{{__('admin.roles')}}</th>
 
 
-                                                    <th>Actions</th>
+                                                    <th>{{__('categories.actions')}}</th>
 
 
 

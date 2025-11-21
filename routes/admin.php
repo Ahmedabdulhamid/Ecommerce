@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserFaqQuestion;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -25,18 +26,20 @@ use App\Livewire\CouponGetData;
 use App\Livewire\Test;
 use Illuminate\Support\Facades\Gate;
 
+
 Route::prefix(LaravelLocalization::setLocale() . '/admin')->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function () {
     Route::get('/', function () {
         return view('dashboard.home');
     })->name('admin.dashboard')->middleware('guest_:admin');
+        Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/livewire/update', $handle)->name('livewire.update')->withoutMiddleware(['localization']);
+});
 
-    \Livewire\Livewire::setUpdateRoute(function ($handle) {
-        return Route::post('/livewire/update', $handle);
-    });
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get('/livewire/livewire.js', $handle)->name('livewire.js')->withoutMiddleware(['localization']);
+});
 
-    \Livewire\Livewire::setScriptRoute(function ($handle) {
-        return Route::get('/livewire/livewire.js', $handle);
-    });
+
 
     Route::middleware('auth_:admin')->controller(AdminAuthController::class)->group(function () {
         Route::get('login', 'index')->name('login.get');
@@ -69,7 +72,7 @@ Route::prefix(LaravelLocalization::setLocale() . '/admin')->middleware(['localeS
         Route::get('/recycle-bin', [CategoryController::class, 'getRecycleBinData'])->name('categories.recyclebin');
         Route::get('/recycle-bin/{category}', [CategoryController::class, 'restoreCategory'])->name('categories.restore');
         Route::get('/delete/{category}', [CategoryController::class, 'DeleteCategory'])->name('categories.delete');
-        Route::get('/force-delete/{category}', [CategoryController::class, 'DeleteCategoryFinal'])->name('categories.forcedelete');
+        Route::delete('/force-delete/{category}', [CategoryController::class, 'DeleteCategoryFinal'])->name('categories.forcedelete');
         Route::post('category/edit-status', [CategoryController::class, 'editStatus'])->name('editStatusCategories');
         Route::get('/brand/data', [brandController::class, 'getBrandsData'])->name('getBrands.index');
         Route::resource("brands", brandController::class)->except('show');
@@ -99,8 +102,9 @@ Route::prefix(LaravelLocalization::setLocale() . '/admin')->middleware(['localeS
         Route::get('/attributes', function () {
             return view('dashboard.attributes.index');
         })->name('attributes');
-
-
+        Route::get('user-faqs/data',[UserFaqQuestion::class,'getData'])->name('user-faqs.getData');
+        Route::resource('user-faqs',UserFaqQuestion::class);
+        Route::post('answer-ques/{id}',[UserFaqQuestion::class,'answerQuestion'])->name('user-faqs.answer');
         Route::get('permission/data', [PermissionController::class, 'getData'])->name('permission.getData');
         Route::resource('permissions', PermissionController::class);
         Route::get('products/data', [ProductController::class, 'getData'])->name('products.getData');
@@ -127,4 +131,6 @@ Route::prefix(LaravelLocalization::setLocale() . '/admin')->middleware(['localeS
              Route::patch('orders/{id}', 'updateStatus')->name('orders.updateStatus');
         });
     });
+
 });
+

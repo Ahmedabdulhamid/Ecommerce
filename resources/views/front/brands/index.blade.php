@@ -1,3 +1,4 @@
+@section('title',__('admin.brands_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')

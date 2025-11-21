@@ -12,7 +12,7 @@
     <meta name="description" content="Modern admin template">
     <meta name="keywords" content="admin template, dashboard template, responsive admin template">
     <meta name="author" content="PIXINVENT">
-    <title>لوحة التحكم</title>
+    <title>@yield('title', 'Default Title')</title>
     <meta name="admin-id" content="{{ auth('admin')->user()->id }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets') }}/images/ico/favicon.ico">
     <link rel="apple-touch-icon" href="{{ asset('assets') }}/images/ico/apple-icon-120.png">

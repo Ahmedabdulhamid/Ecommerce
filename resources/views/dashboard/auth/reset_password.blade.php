@@ -1,4 +1,5 @@
 
+@section('title',__('admin.reset_password_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
 @include('dashboard.auth.partials.head')
@@ -17,42 +18,40 @@
                   <div class="card-title text-center">
                     <img src="{{asset('assets')}}/images/logo/logo-dark.png" alt="branding logo">
                   </div>
-                  <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                    <span>We will send you a link to reset password.</span>
-                  </h6>
+
                 </div>
                 <div class="card-content">
                   <div class="card-body">
                     <form class="form-horizontal" action="{{route('admin.post.reset_password')}}" novalidate method="POST">
                       @csrf
-                      
+
                       <fieldset class="form-group position-relative has-icon-left">
                         <input type="hidden"name="token" value="{{$token}}">
                         <input type="password" class="form-control form-control-lg input-lg" name="password" id="user-email"
-                        placeholder="Enter New Paswword" >
+                        placeholder="{{__('admin.enter_new_password')}}" >
                         <div class="form-control-position">
                           <i class="ft-mail"></i>
                         </div>
                        @error('password')
                         <span class="text-danger">{{$message}}</span>
-                        @enderror 
+                        @enderror
                       </fieldset>
                       <fieldset class="form-group position-relative has-icon-left">
                         <input type="password" class="form-control form-control-lg input-lg" name="password_confirmation" id="user-email"
-                        placeholder="Confirm Paswword" >
+                        placeholder="{{__('admin.confirm_password')}}" >
                         <div class="form-control-position">
                           <i class="ft-mail"></i>
                         </div>
                         @error('password_confirmation')
                         <span class="text-danger">{{$message}}</span>
-                        @enderror 
+                        @enderror
                       </fieldset>
-                     
-                      <button type="submit" class="btn btn-outline-info btn-lg btn-block"><i class="ft-unlock"></i>Reset Password</button>
+
+                      <button type="submit" class="btn btn-outline-info btn-lg btn-block"><i class="ft-unlock"></i>{{__('admin.reset_password_page')}}</button>
                     </form>
                   </div>
                 </div>
-               
+
               </div>
             </div>
           </div>

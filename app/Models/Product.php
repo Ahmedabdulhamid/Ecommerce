@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Spatie\Translatable\HasTranslations;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -11,6 +12,24 @@ use Spatie\Sluggable\SlugOptions;
 class Product extends Model
 {
     use HasFactory, HasTranslations, HasSlug;
+    use Searchable;
+    protected $casts = [
+        'name' => 'array',
+    ];
+
+public function toSearchableArray()
+{
+    return [
+        'id' => $this->id,
+        'name_en' => $this->getTranslation('name', 'en'),
+        'name_ar' => $this->getTranslation('name', 'ar'),
+        'category_en' => $this->category?->getTranslation('name', 'en'),
+        'category_ar' => $this->category?->getTranslation('name', 'ar'),
+        'brand_en' => $this->brand?->getTranslation('name', 'en'),
+        'brand_ar' => $this->brand?->getTranslation('name', 'ar'),
+    ];
+}
+
     protected $guarded = ['id'];
     protected $translatable = ['name', 'small_desc', 'desc'];
     public function category()
@@ -48,11 +67,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
     public function carts()
-{
-    return $this->belongsToMany(Cart::class, 'cart_products')
-                ->withPivot('price', 'quantity', 'product_variant_id', 'attributes')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Cart::class, 'cart_products')
+            ->withPivot('price', 'quantity', 'product_variant_id', 'attributes')
+            ->withTimestamps();
+    }
     function formatDiscount()
     {
         if ($this->has_discount) {
@@ -65,12 +84,21 @@ class Product extends Model
         return $this->belongsToMany(WatchList::class, '_watchlist_products', 'product_id', 'watchlist_id');
     }
     public function getFinalPriceAttribute()
-{
-    if ($this->has_discount) {
-        return round($this->price * (1 - $this->discount / 100), 2);
+    {
+        if ($this->has_discount) {
+            return round($this->price * (1 - $this->discount / 100), 2);
+        }
+
+
+        return $this->price;
     }
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    public function ordersItems()
+    {
+        return $this->hasMany(OrderItem::class);
 
-
-    return $this->price;
-}
+    }
 }

@@ -1,7 +1,7 @@
 @php
     use Flasher\Prime\FlasherInterface;
 @endphp
-
+@section('title',__('admin.create_categories_page'))
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +15,7 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-card-center">Create Category</h4>
+                    <h4 class="card-title" id="basic-layout-card-center">{{__('admin.create_cat')}}</h4>
                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -35,7 +35,7 @@
 
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label for="eventRegInput1">Name With English</label>
+                                    <label for="eventRegInput1">{{__('admin.name_in_en')}}</label>
                                     <input type="text" id="eventRegInput1" class="form-control"name="name[en]">
                                     @error('name*')
                                         <span class="text-danger">{{ $message }}</span>
@@ -43,13 +43,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="eventRegInput2">Name With Arabic </label>
+                                    <label for="eventRegInput2">{{__('admin.name_in_ar')}} </label>
                                     <input type="text" id="eventRegInput2" class="form-control" name="name[ar]">
                                     @error('name.ar')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <label for="">Select Your main Categoiry</label>
+                                <label for="">{{__('admin.select_cat')}}</label>
                                 <select class="form-select form-select-lg mb-3" name="parent_id"
                                     aria-label="Default select example">
                                     <option value="">we don't need main category</option>

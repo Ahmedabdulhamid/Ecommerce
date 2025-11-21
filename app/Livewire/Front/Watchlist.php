@@ -38,6 +38,18 @@ class Watchlist extends Component
         // تحديث المنتجات بعد الحذف
         $this->getProducts();
     }
+    public function deleteWishlist()
+    {
+        if (auth()->guard('web')->user()->id) {
+           $watchlist=WatchListModal::where('user_id',auth()->user()->id)->with('products')->first();
+           $products=$watchlist->products;
+           $watchlist->products()->detach($products);
+           $this->productCount=count($watchlist->products);
+            $this->dispatch('updateCountWishlistComponent')->to('front.header');
+
+        }
+        $this->getProducts();
+    }
 
     public function render()
     {

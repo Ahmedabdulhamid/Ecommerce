@@ -8,12 +8,12 @@ use Livewire\Component;
 
 class Header extends Component
 {
-    public $wishlist, $productsCount,$cartCount,$cart;
+    public $wishlist, $productsCount, $cartCount, $cart;
     protected $listeners = [
         'updateCountWishlist' => 'updateCountWishlist',
         'updateCountWishlistComponent' => 'updateCountWishlistComponent',
         'getNewWishlistProductCount' => 'getNewWishlistProductCount',
-        'getCartCount'=>'getCartCount'
+        'getCartCount' => 'getCartCount'
 
 
     ];
@@ -26,13 +26,21 @@ class Header extends Component
             $this->productsCount = 0;
         }
         $this->getCartCount();
-        $this->cart=Cart::where('session_id',session()->getId())->with('products')->first();
+        $this->cart = Cart::where('session_id', session()->getId())->with('products')->first();
     }
     public function updateCountWishlist()
     {
         $this->wishlist = WatchList::where('user_id', auth()->user()->id)->with('products')->first();
 
-        $this->productsCount = count($this->wishlist->products);
+        if (isset($this->wishlist)) {
+            $this->productsCount = count($this->wishlist->products);
+
+        }
+        else{
+             $this->productsCount = 0;
+        }
+
+
     }
     public function updateCountWishlistComponent()
     {
@@ -43,17 +51,15 @@ class Header extends Component
     {
         $this->productsCount = count($this->wishlist->products);
     }
-    public function getCartCount(){
-
-    $this->cart=Cart::where('session_id',session()->getId())->with('products')->first();
-    if(isset($this->cart))
+    public function getCartCount()
     {
-$this->cartCount=count($this->cart->products);
 
-    }else{
-        $this->cartCount=0;
-    }
-
+        $this->cart = Cart::where('session_id', session()->getId())->with('products')->first();
+        if (isset($this->cart)) {
+            $this->cartCount = count($this->cart->products);
+        } else {
+            $this->cartCount = 0;
+        }
     }
 
     public function render()

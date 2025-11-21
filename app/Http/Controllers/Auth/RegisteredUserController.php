@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\SendCouponNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -45,7 +47,23 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::login($user);
+        if (is_null($user->last_login_at)) {
+            // أول مرة
+            $coupon = Coupon::create([
+                'code' => strtoupper(Str::random(10)), // كود عشوائي
+                'discount_precentage' => 15,
+                'start_at' => now(),
+                'end_at' => now()->addDays(7),
+                'limit' => 1,
+                'time_used' => 0,
+                'status' => 'active',
 
+            ]);
+            $user->notify(new SendCouponNotification($coupon));
+        }
+
+        $user->last_login_at = now();
+        $user->save();
         // 💡 استرجاع cart_id من الجلسة
         $cart_id = session()->get('cart_id');
 
@@ -59,15 +77,13 @@ class RegisteredUserController extends Controller
                 ]);
             }
         }
-       $orderNumber = session('current_order_number');
+        $orderNumber = session('current_order_number');
 
         if ($orderNumber) {
             $order = Order::where('order_number', $orderNumber)->first();
             if ($order) {
-                $order->update(['user_id'=>auth()->id()]);
+                $order->update(['user_id' => auth()->id()]);
             }
-
-
         }
 
 

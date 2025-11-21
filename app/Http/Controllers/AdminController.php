@@ -103,6 +103,14 @@ class AdminController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $admin = Admin::find(request('admin'));
+;
+       $admin->delete();
+        return response()->json([
+                'msg' => 'Admin deleted successfully',
+                'status' => 200,
+                'countadmins' => Admin::count()
+            ]);
+
     }
 }

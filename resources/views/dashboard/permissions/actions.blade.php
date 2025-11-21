@@ -1,6 +1,6 @@
-<button type="button" class="btn btn-danger btn-min-width btn-glow mr-1 mb-1 del "id="{{$permission->id}}">Delete</button>
+<button type="button" class="btn btn-danger btn-min-width btn-glow mr-1 mb-1 del "id="{{$permission->id}}">{{__('admin.delete')}}</button>
 <button class="btn btn-info btn-min-width btn-glow mr-1 mb-1" data-bs-toggle="modal"
-    data-bs-target="#exampleModal_{{$permission->id}}">Edit</button>
+    data-bs-target="#exampleModal_{{$permission->id}}">{{__('admin.edit')}}</button>
     @include('dashboard.permissions.edit')
 
 <script>

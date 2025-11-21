@@ -1,3 +1,4 @@
+@section('title',__('front.about_us_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -83,7 +84,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="contact-us.html" class="shop-btn">
+                            <a href="{{route('contact-us')}}" class="shop-btn">
                                {{__('front.contact_us')}}
                                 <span>
                                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none"

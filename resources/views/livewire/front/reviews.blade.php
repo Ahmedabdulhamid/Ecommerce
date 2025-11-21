@@ -44,11 +44,11 @@
                          style="{{ app()->getLocale() == 'ar' ? 'direction: rtl;' : '' }}"style="z-index:1;">
                          <button class="product-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
                              wire:click="editReview({{ $review->id }})">
-                             Edit Review
+                             {{__('front.edit_review')}}
                          </button>
                          @include('front.users.modal_actions')
                          <button class="product-btn mx-2" wire:click='confirmDelete({{ $review->id }})'>
-                             Delete Review
+                             {{__('front.delete_review')}}
                          </button>
                      </div>
 

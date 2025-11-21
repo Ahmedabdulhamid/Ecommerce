@@ -1,7 +1,7 @@
-<button type="button" class="btn btn-danger btn-min-width btn-glow mr-1 mb-1 del" id="{{ $role->id }}">Delete</button>
-<button class="btn btn-success btn-min-width btn-glow mr-1 mb-1 text-white show" data-bs-toggle="modal" data-bs-target="#role_{{$role->id}}">Show</button>
+<button type="button" class="btn btn-danger btn-min-width btn-glow mr-1 mb-1 del" id="{{ $role->id }}">{{__('admin.delete')}}</button>
+<button class="btn btn-success btn-min-width btn-glow mr-1 mb-1 text-white show" data-bs-toggle="modal" data-bs-target="#role_{{$role->id}}">{{__('admin.show')}}</button>
 @include('dashboard.Roles.show')
-<a class="btn btn-info btn-min-width btn-glow mr-1 mb-1 text-white" href="{{ route('roles.show', $role->id) }}">Edit</a>
+<a class="btn btn-info btn-min-width btn-glow mr-1 mb-1 text-white" href="{{ route('roles.show', $role->id) }}">{{__('admin.edit')}}</a>
 <script>
     $(document).off('click', '.del').on('click', '.del', function() {
         let id = $(this).attr('id')

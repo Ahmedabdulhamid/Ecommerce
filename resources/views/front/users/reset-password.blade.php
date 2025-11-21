@@ -1,3 +1,5 @@
+@section('title',__('admin.reset_password_page'))
+@section()
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,28 +17,28 @@ direction:rtl;
                     <div class="card py-5 container "style="height:400px;">
                         <input type="hidden" name="token" value="{{ $request->route('token') }}">
                         <div class="card-title">
-                           <h4> Reset Your Password Password</h4>
+                           <h4> {{__('front.reset_pass_msg')}}</h4>
                         </div>
                         <div class="mt-5">
-                            <label for="">  Email *</label>
+                            <label for="">  {{__('admin.email')}} *</label>
                             <input type="text"  class="form-control" style="height: 40px" name="email" :value="old('email', $request->email)">
                             <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
 
                         </div>
                         <div class="mt-5">
-                            <label for="">  Password *</label>
+                            <label for="">  {{__('admin.password')}} *</label>
                             <input type="password"  class="form-control" style="height: 40px"  name="password">
                             <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />>
 
                         </div>
                         <div class="mt-5">
-                            <label for="">Confirm Password *</label>
+                            <label for="">{{__('admin.confirm_password')}} *</label>
                             <input type="password"  class="form-control" style="height: 40px"   name="password_confirmation">
                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-danger" />
 
                         </div>
                         <div class="login-btn text-center">
-                            <button class="shop-btn">Submit</button>
+                            <button class="shop-btn">{{__('admin.submit')}}</button>
 
                           </div>
                     </div>

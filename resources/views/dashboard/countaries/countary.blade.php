@@ -5,9 +5,10 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.countries_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
-@include('dashboard.partials.head')
+@include('dashboard.categories.partials.head')
 <style>
     /* إخفاء الـ checkbox */
     .switch {

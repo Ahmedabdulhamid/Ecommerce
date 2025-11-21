@@ -1,3 +1,4 @@
+@section('title',$page?->title)
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')

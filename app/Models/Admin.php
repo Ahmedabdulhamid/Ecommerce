@@ -24,7 +24,7 @@ class Admin extends Authenticatable
       $this->save();
 
    }
- protected $guard_name = 'admin';
+ protected string $guard_name = 'admin';
     /**
      * The attributes that should be hidden for serialization.
      *

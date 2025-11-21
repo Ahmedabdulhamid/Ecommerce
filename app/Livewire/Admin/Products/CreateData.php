@@ -57,12 +57,12 @@ class CreateData extends Component
         $this->validate([
             'name_en' => ['required', 'string', 'max:80'],
             'name_ar' => ['required', 'string', 'max:80'],
-            'desc_ar' => ['required', 'string', 'max:1000'],
-            'desc_en' => ['required', 'string', 'max:1000'],
+            'desc_ar' => ['required', 'string'],
+            'desc_en' => ['required', 'string'],
             'small_desc_en' => ['required', 'string', 'max:600'],
             'small_desc_ar' => ['required', 'string', 'max:600'],
             'category_id' => ['required', 'exists:categories,id'],
-            'brand_id' => ['required', 'exists:brands,id']
+            'brand_id' => ['nullable', 'exists:brands,id']
         ]);
         $this->currentStep = 2;
     }
@@ -172,7 +172,9 @@ class CreateData extends Component
                     'price' => $price,
                    'stock'=>$this->quantities[$index]
                 ]);
+
                 foreach ($this->attributeValues[$index] as $attr) {
+
                     productAttribute::create([
                         'product_variant_id' => $variant->id,
                         'attribute_value_id' => $attr

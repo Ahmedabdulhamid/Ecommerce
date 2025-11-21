@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class OrderController extends Controller
 {
     public function showForm()
     {
+
         return view('front.orders.form');
     }
     public function getOrder(Request $request, $order_number)

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+@section('title',__('admin.recycle_categories_page'))<!DOCTYPE html>
 <html lang="en">
 @include('dashboard.categories.partials.head')
 

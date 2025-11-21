@@ -1,3 +1,4 @@
+@section('title',__('admin.contacts_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
     @include('dashboard.categories.partials.head')

@@ -1,3 +1,4 @@
+@section('title',__('front.whishlist_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -8,12 +9,12 @@
     <section class="blog about-blog">
         <div class="container">
             <div class="blog-bradcrum">
-                <span><a href="{{ route('home') }}">Home</a></span>
+                <span><a href="{{ route('home') }}">{{__('front.home')}}</a></span>
                 <span class="devider">/</span>
-                <span><a href="{{ url()->current() }}">Wishlist</a></span>
+                <span><a href="{{ url()->current() }}">{{__('front.whishlist')}}</a></span>
             </div>
             <div class="blog-heading about-heading">
-                <h1 class="heading">Wishlist</h1>
+                <h1 class="heading">{{__('front.whishlist')}}</h1>
             </div>
         </div>
     </section>

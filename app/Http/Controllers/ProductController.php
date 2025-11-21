@@ -42,9 +42,9 @@ class ProductController extends Controller
         })->addColumn('status', function ($product) {
             return $product->status == 1 ? __('products.status_yes') : __('products.status_no');
         })->addColumn('category', function ($product) {
-            return $product->category->getTranslation('name', app()->getLocale());
+            return $product->category->getTranslation('name', app()->getLocale())??__('admin.not_found');
         })->addColumn('brand', function ($product) {
-            return $product->brand->getTranslation('name', app()->getLocale());
+            return $product->brand?->getTranslation('name', app()->getLocale())??__('admin.not_found');
         })->addColumn('sku', function ($product) {
             return $product->sku;
         })->addColumn('available_for', function ($product) {

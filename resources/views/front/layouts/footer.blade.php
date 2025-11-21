@@ -27,8 +27,8 @@
                             </span>
                         </div>
                         <div class="service-content">
-                            <h5 class="service-info service-title">Free Shipping</h5>
-                            <p class="service-info service-details">When ordering over $100</p>
+                            <h5 class="service-info service-title">{{__('front.free_shipping')}}</h5>
+                            <p class="service-info service-details">{{__('front.footer_sentence-1')}}</p>
                         </div>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
                             </span>
                         </div>
                         <div class="service-content">
-                            <h5 class="service-info service-title">Free Return</h5>
-                            <p class="service-info service-details">Get Return within 30 days</p>
+                            <h5 class="service-info service-title">{{__('front.free_return')}}</h5>
+                            <p class="service-info service-details">{{__('front.footer_sentence-2')}}</p>
                         </div>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
                             </span>
                         </div>
                         <div class="service-content">
-                            <h5 class="service-info service-title">Secure Payment</h5>
-                            <p class="service-info service-details">100% Secure Online Payment</p>
+                            <h5 class="service-info service-title">{{__('front.secure_payments')}}</h5>
+                            <p class="service-info service-details">{{__('front.footer_sentence-3')}}</p>
                         </div>
                     </div>
                 </div>
@@ -99,8 +99,8 @@
                             </span>
                         </div>
                         <div class="service-content">
-                            <h5 class="service-info service-title">Best Quality</h5>
-                            <p class="service-info service-details">Original Product Guarenteed</p>
+                            <h5 class="service-info service-title">{{__('front.best_quality')}}</h5>
+                            <p class="service-info service-details">{{__('front.footer_sentence-4')}}</p>
                         </div>
                     </div>
                 </div>
@@ -116,9 +116,9 @@
                         </div>
                         <div class="footer-link order-link">
                             <ul>
-                                <li><a href="order.html">Track Order</a></li>
-                                <li><a href="cart.html">Delivery & Returns</a></li>
-                                <li><a href="about.html">Warranty</a></li>
+                                <li><a href="{{ route('orders.track.form') }}">{{__('front.track_order')}}</a></li>
+                                <li><a href="{{route('cart.index')}}">{{__('front.delivery_returns')}}</a></li>
+                                <li><a href="{{route('about-us')}}">{{__('front.Warranty')}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -126,14 +126,14 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="about-us">
                         <h4 class="footer-heading footer-title">
-                            About Us
+                            {{__('front.about us')}}
                         </h4>
                         <div class="footer-link about-link">
                             <ul>
-                                <li><a href="about.html">Rave’s Story</a></li>
-                                <li><a href="about.html">Work With Us</a></li>
-                                <li><a href="about.html">Coporate News</a></li>
-                                <li><a href="about.html">Investors</a></li>
+                                <li><a href="{{route('about-us')}}">{{__('front.Rave’s Story')}}</a></li>
+                                <li><a href="{{route('about-us')}}">{{__('front.work_with_us')}}</a></li>
+                                <li><a href="{{route('about-us')}}">{{__("front.coporate_news")}}</a></li>
+                                <li><a href="{{route('about-us')}}">{{__('front.Investors')}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -141,14 +141,14 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="links">
                         <h4 class="footer-heading footer-title">
-                            Useful Links
+                           {{__('front.useful_links')}}
                         </h4>
                         <div class="footer-link useful-link">
                             <ul>
-                                <li><a href="about.html">Secure Payment</a></li>
-                                <li><a href="privacy.html">Privacy Policy</a></li>
-                                <li><a href="terms.html">Terms of Use</a></li>
-                                <li><a href="product-sidebar.html">Archived Products</a></li>
+                                <li><a href="{{route('about-us')}}">{{__('front.secure_payments')}}t</a></li>
+                                <li><a href="{{ route('goToPage', 'syas-alkhsosy') }}" >{{__('front.privacy_policy')}}</a></li>
+                                <li><a href="{{ route('goToPage', 'alshrot-oalahkam') }}">{{__('front.terms_of_use')}}</a></li>
+                                <li><a href="{{route('shop.index')}}">{{__('front.archived_products')}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="contact-info">
                         <h4 class="footer-heading footer-title">
-                            Contact Info
+                            {{__('front.contact_info')}}
                         </h4>
                         <div class="footer-link contact-link">
                             <div class="address">
@@ -184,7 +184,7 @@
                                     </span>
                                 </div>
                                 <div class="details">
-                                    <h4 class="footer-heading">Address:</h4>
+                                    <h4 class="footer-heading">{{__('front.address')}}:</h4>
                                     <p>4517 Washington Ave. Manchester, Kentucky 39495</p>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                                     </span>
                                 </div>
                                 <div class="details">
-                                    <h4 class="footer-heading">Phone:</h4>
+                                    <h4 class="footer-heading">{{__('front.phone')}}:</h4>
                                     <p>+880171889547</p>
                                 </div>
                             </div>

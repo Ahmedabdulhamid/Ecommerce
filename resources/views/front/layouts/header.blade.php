@@ -1,5 +1,5 @@
 
-@livewire('front.header')
+@livewire('front.header',)
 <script>
     function toggleSubMenu(anchor) {
         const hiddenDiv = anchor.parentElement.querySelector('.dropdown-hidden-text');

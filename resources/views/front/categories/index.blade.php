@@ -1,3 +1,4 @@
+@section('title',__('admin.categories_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -36,3 +37,34 @@
 </body>
 
 </html>
+   <script>
+        $(document).on('click', '.favourite', function() {
+            let id = $(this).attr('id')
+            let url = "{{ route('wichlist.store', ':id') }}"
+            url = url.replace(':id', id)
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    if (data.status === 409) {
+                        toastr.warning(data.message); // Already exists
+                    } else if (data.status === 201) {
+                        toastr.success(data.message);
+                        $(".wishlist-count").html(data.productCount);
+                    } else if (data.status === 401) {
+                        toastr.error(data.message); // You should login first
+                    }
+                }, // <-- فاصلة هنا
+                error: function(xhr) {
+                    // في حالة خطأ غير متوقع (500 الخ)
+                    let msg = xhr.responseJSON?.message || 'Something went wrong';
+                    toastr.error(msg);
+                }
+            })
+
+
+        })
+    </script>

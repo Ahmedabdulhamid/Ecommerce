@@ -5,7 +5,9 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.create_products_page'))
 <!DOCTYPE html>
+
 <html lang="{{ app()->getLocale() }}">
 <style>
     .displayNone{
@@ -31,7 +33,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Form wizard with number tabs</h4>
+                            <h4 class="card-title">{{__('admin.form_wizard')}} </h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-h font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">

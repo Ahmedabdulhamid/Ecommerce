@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-actions center">
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">{{__('admin.save')}}</button>
                     </div>
                 </form>
 

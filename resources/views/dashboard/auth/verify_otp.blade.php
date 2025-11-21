@@ -1,4 +1,4 @@
-
+@section('title',__('admin.email_verification_page'))
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
 @include('dashboard.auth.partials.head')
@@ -27,8 +27,8 @@
                     @csrf
                     @method('post')
                       <input type="hidden" name="email" value="">
-                     
-                      
+
+
                       <fieldset class="form-group position-relative has-icon-left">
                         <input type="text" class="form-control form-control-lg input-lg" name="otp" id="user-email"
                         placeholder="Your OTP" >
@@ -37,13 +37,13 @@
                         </div>
                      @error('otp')
                         <span class="text-danger">{{$message}}</span>
-                        @enderror 
+                        @enderror
                       </fieldset>
                       <button type="submit" class="btn btn-outline-info btn-lg btn-block"><i class="ft-unlock"></i>Submit22</button>
                     </form>
                   </div>
                 </div>
-               
+
               </div>
             </div>
           </div>

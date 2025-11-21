@@ -1,3 +1,4 @@
+@section('title',__('admin.faqs_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')

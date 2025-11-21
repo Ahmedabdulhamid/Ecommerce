@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.attributes_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 

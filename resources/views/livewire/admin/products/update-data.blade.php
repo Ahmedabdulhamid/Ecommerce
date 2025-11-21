@@ -6,11 +6,11 @@
     @endif
     {{-- First Step --}}
     <fieldset class="@if ($currentStep != 1) displayNone @endif">
-        <h6>Step 1</h6>
+        <h6>{{__('admin.step_1')}}</h6>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name_ar">Name in arabic:</label>
+                    <label for="name_ar">{{__('admin.name_in_ar')}}:</label>
                     <input type="text" class="form-control" wire:model='name_ar' id="name_ar">
                 </div>
                 @error('name_ar')
@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name_en">Name in english</label>
+                    <label for="name_en">{{__('admin.name_in_en')}}</label>
                     <input type="text" class="form-control" id="name_en" wire:model='name_en'>
                 </div>
                 @error('name_en')
@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="small_desc_ar">Small Description in arabic:</label>
+                    <label for="small_desc_ar">{{__('admin.sm_desc_ar')}}:</label>
                     <textarea type="text" class="form-control" id="desc_ar" wire:model='small_desc_ar' rows="6"></textarea>
                 </div>
                 @error('small_desc_ar')
@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="small_desc_ar">Small Description in english:</label>
+                    <label for="small_desc_ar">{{__('admin.sm_desc_en')}}:</label>
                     <textarea type="text" class="form-control" id="desc_ar" wire:model='small_desc_en' rows="6"></textarea>
                 </div>
                 @error('small_desc_en')
@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="desc_ar">Description in arabic :</label>
+                    <label for="desc_ar">{{__('admin.desc_ar')}} :</label>
                     <textarea type="text" class="form-control" id="desc_ar" wire:model='desc_ar' rows="8"></textarea>
                 </div>
                 @error('desc_ar')
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="desc_en">Description in english :</label>
+                    <label for="desc_en">{{__('admin.desc_en')}} :</label>
                     <textarea type="text" class="form-control" id="desc_ar" wire:model='desc_en' rows="8"></textarea>
                 </div>
                 @error('desc_en')
@@ -72,9 +72,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="location1">Select Category:</label>
+                    <label for="location1">{{__('admin.select_cat')}}:</label>
                     <select class="custom-select form-control" wire:model='category_id'>
-                        <option value="" selected>Select</option>
+                        <option value="" selected>{{__('admin.select')}}</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">
                                 {{ $category->getTranslation('name', app()->getLocale()) }}</option>
@@ -87,9 +87,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="location1">Select Brand :</label>
+                    <label for="location1">{{__('admin.select_br')}} :</label>
                     <select class="custom-select form-control" wire:model='brand_id'>
-                        <option value="" selected>Select</option>
+                        <option value="" selected>{{__('admin.select')}}</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}">
                                 {{ $brand->getTranslation('name', app()->getLocale()) }}</option>
@@ -101,7 +101,7 @@
                 @enderror
             </div>
         </div>
-        <button class="btn btn-primary" type="button" wire:click='secondStep'>Next</button>
+        <button class="btn btn-primary" type="button" wire:click='secondStep'>{{__('admin.next')}}</button>
 
     </fieldset>
     {{-- End First Step --}}
@@ -109,23 +109,23 @@
 
     {{-- Second Step --}}
     <fieldset class="@if ($currentStep != 2) displayNone @endif">
-        <h6>Step 2</h6>
+        <h6>{{__('admin.step_2')}}</h6>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="has_variants">Has Variants :</label>
-                    <select class="custom-select form-control" wire:model.live='has_variants'>
+                    <label for="hasVar">{{__('admin.has_variants')}} :</label>
+                    <select class="custom-select form-control" wire:model.live='hasVar'>
 
-                        <option value="0">no</option>
-                        <option value="1">Yes</option>
+                        <option value="0">{{__('admin.no')}}</option>
+                        <option value="1">{{__('admin.yes')}}</option>
 
                     </select>
                 </div>
-                @error('has_variants')
+                @error('hasVar')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
                 <div class="form-group">
-                    <label for="tages">Tags :</label>
+                    <label for="tages">{{__('admin.tags')}} :</label>
                     <input type="text" class="form-control" id="tages" wire:model='tags'>
                 </div>
                 @error('tags')
@@ -134,9 +134,9 @@
 
             </div>
             <div class="col-md-6">
-                @if ($has_variants == 0)
+                @if ($hasVar == 0)
                     <div class="form-group">
-                        <label for="price">Price :</label>
+                        <label for="price">{{__('admin.price')}} :</label>
                         <input type="number" class="form-control" id="price" wire:model='price'>
 
                     </div>
@@ -144,10 +144,30 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 @endif
-
-
                 <div class="form-group">
-                    <label for="sku">Sku :</label>
+                    <label for="manage_stock">{{__('admin.manage_quantity')}} :</label>
+                    <select class="custom-select form-control" wire:model.live='manage_stock'>
+
+                        <option value="0">{{__('admin.no')}}</option>
+                        <option value="1">{{__('admin.yes')}}</option>
+
+                    </select>
+                </div>
+                @error('manage_stock')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+                @if ($manage_stock == 1 && !$hasVar)
+                    <div class="form-group">
+                        <label for="quantity1">{{__('admin.quantity')}} :</label>
+                        <input id="quantity1" type="number" min="1" wire:model='quantity'
+                            class="form-control">
+                    </div>
+                    @error('quantity')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                @endif
+                <div class="form-group">
+                    <label for="sku">{{__('admin.sku')}} :</label>
                     <input type="string" class="form-control" id="sku" wire:model='sku'>
 
                 </div>
@@ -160,14 +180,16 @@
         </div>
         <div class="row">
 
-            @if ($has_variants == 1)
+            @if ($hasVar == 1)
+
                 <hr class="bf-black">
-                @if (count($prices) > 0)
+
+                @if (count($prices) > 0 )
                     @for ($i = 0; $i < $valueRowCount; $i++)
                         <div class="row">
                             <hr>
                             <div class="col-3">
-                                <label for="prices">Product Price :</label>
+                                <label for="prices">{{__('admin.product_price')}} :</label>
                                 <input type="string" class="form-control" id="prices"
                                     wire:model='prices.{{ $i }}'>
                                 @error('prices')
@@ -179,7 +201,7 @@
                             </div>
 
                             <div class="col-3">
-                                <label for="quantities">Product Quantity :</label>
+                                <label for="quantities">{{__('admin.product_quantity')}} :</label>
                                 <input type="string" class="form-control" id="quantities"
                                     wire:model='quantities.{{ $i }}'>
                                 @error('quantities')
@@ -192,11 +214,11 @@
 
                             @foreach ($productAttributes as $index => $attr)
                                 <div class="col-3">
-                                    <label for="has_variants">{{ $attr->name }} :</label>
+                                    <label for="hasVar">{{ $attr->name }} :</label>
                                     <select class="custom-select form-control"
                                         wire:model='attributeValues.{{ $i }}.{{ $attr->id }}'>
 
-                                        <option value="">Select</option>
+                                        <option value="">{{__('admin.select')}}</option>
                                         @foreach ($attr->attr_values as $item)
                                             <option value="{{ $item->id }}">
                                                 {{ $item->value }}
@@ -223,11 +245,11 @@
                 <div class="d-inline-block my-3">
                     <button class="btn btn-success  d-inline-block" type="button"
                         wire:click='addNewVariant'style='color:white;'>
-                        Add Product Variant <i class="fa-solid fa-plus"></i>
+                       {{__('admin.add_product_var')}} <i class="fa-solid fa-plus"></i>
                     </button>
                     <button class="btn btn-danger d-inline-block" type="button" wire:click='removeVariant'
                         @if ($valueRowCount == 1) disabled @endif>
-                        Remove Product Variant <i class="fa-solid fa-minus"></i>
+                        {{__('admin.rm_product_var')}} <i class="fa-solid fa-minus"></i>
                     </button>
                 </div>
             @endif
@@ -235,21 +257,22 @@
 
 
         </div>
-        <button class="btn btn-primary" type="button" wire:click='thirdStep'>Next</button>
-        <button class="btn btn-light" type="button" wire:click='back(1)'>Previous</button>
+        <button class="btn btn-primary" type="button" wire:click='thirdStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-light" type="button" wire:click='back(1)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Secon Step --}}
     {{-- Third Step --}}
     <fieldset class="@if ($currentStep != 3) displayNone @endif">
-        <h6>Step 3</h6>
+        <h6>{{__('admin.step_3')}}</h6>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="eventName1">Has Discount :</label>
+                    <label for="eventName1">{{__('admin.has_discount')}} :</label>
                     <select class="custom-select form-control" wire:model.live='has_discount'>
 
-                        <option value="0">no</option>
-                        <option value="1">yes</option>
+                        <option value="0">{{__('admin.no')}}</option>
+                        <option value="1">{{__('admin.yes')}}</option>
+
 
                     </select>
                 </div>
@@ -259,7 +282,7 @@
                 @enderror
                 @if ($has_discount == 1)
                     <div class="form-group">
-                        <label for="discount">Discount :</label>
+                        <label for="discount">{{__('admin.discount')}} :</label>
                         <input type="number" id="discount" class="form-control datetime" wire:model='discount'>
 
                     </div>
@@ -269,7 +292,7 @@
                 @endif
                 @if ($has_discount == 1)
                     <div class="form-group">
-                        <label for="start_discount">Start Date :</label>
+                        <label for="start_discount">{{__('admin.start_date')}} :</label>
                         <input type="date" id="start_discount" class="form-control datetime"
                             wire:model='start_discount'>
 
@@ -282,7 +305,7 @@
 
                 @if ($has_discount == 1)
                     <div class="form-group">
-                        <label for="end_discount">End Date :</label>
+                        <label for="end_discount">{{__('admin.end_date')}} :</label>
                         <input type="date" id="end_discount" class="form-control datetime"
                             wire:model='end_discount'>
 
@@ -295,31 +318,10 @@
 
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="manage_stock">Manage Quantity :</label>
-                    <select class="custom-select form-control" wire:model.live='manage_stock'>
 
-                        <option value="0">no</option>
-                        <option value="1">yes</option>
-
-                    </select>
-                </div>
-                @error('manage_stock')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-                @if ($manage_stock == 1)
-                    <div class="form-group">
-                        <label for="quantity1">Quantity :</label>
-                        <input id="quantity1" type="number" min="1" wire:model='quantity'
-                            class="form-control">
-                    </div>
-                    @error('quantity')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                @endif
 
                 <div class="form-group">
-                    <label for="available_for">Available For :</label>
+                    <label for="available_for">{{__('admin.availabe_for')}} :</label>
                     <input type="date" id="available_for" class="form-control datetime"
                         wire:model='available_for'>
 
@@ -329,18 +331,18 @@
                 @enderror
             </div>
         </div>
-        <button class="btn btn-primary" type="button" wire:click='fourthStep'>Next</button>
-        <button class="btn btn-light" type="button" wire:click='back(2)'>Previous</button>
+        <button class="btn btn-primary" type="button" wire:click='fourthStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-light" type="button" wire:click='back(2)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Third Step --}}
     {{-- Fourth Step --}}
     <fieldset class="@if ($currentStep != 4) displayNone @endif">
-        <h6>Step 4</h6>
+        <h6>{{__('admin.step_4')}}</h6>
         <div class="row">
 
             <div class="col-12">
                 <div class="form-group">
-                    <label for="decisions1">Upload Images for product</label>
+                    <label for="decisions1">{{__('admin.upload_images_pro')}}</label>
                     <input type="file" class="form-control" wire:model.live="images2" multiple>
 
                 </div>
@@ -395,15 +397,16 @@
             @endif
 
         </div>
-        <button class="btn btn-primary" type="button" wire:click='fivthStep'>Next</button>
-        <button class="btn btn-light" type='button' wire:click='back(3)'>Previous</button>
+        <button class="btn btn-primary" type="button" wire:click='fivthStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-light" type='button' wire:click='back(3)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Fourth Step --}}
     {{-- END STEP --}}
     <fieldset class="@if ($currentStep != 5) displayNone @endif">
-        <h6>Step 5</h6>
+        <h6>{{__('admin.step_5')}}</h6>
 
-        <button class="btn btn-primary" type="submit">Submit</button>
-        <button class="btn btn-light" type='button' wire:click='back(4)'>Previous</button>
+
+        <button class="btn btn-primary" type="submit">{{__('admin.submit')}}</button>
+        <button class="btn btn-light" type='button' wire:click='back(4)'>{{__('admin.previous')}}</button>
     </fieldset>
 </form>

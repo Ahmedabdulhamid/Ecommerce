@@ -2,16 +2,7 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
+
     'indisposable' => 'لا يُسمح بعناوين البريد الإلكتروني التي تستخدم لمرة واحدة',
     'accepted' => 'يجب قبول الحقل :attribute',
     'accepted_if' => 'حقل :attribute يجب قبوله عندما يكون حقل :other بقيمة :value.',
@@ -121,6 +112,7 @@ return [
         'symbols' => 'يجب ان يشمل حقل :attribute على رمز واحد على الاقل.',
         'uncompromised' => 'حقل :attribute تبدو غير آمنة. الرجاء اختيار قيمة اخرى.',
     ],
+
     'present' => 'يجب تقديم الحقل :attribute',
     'prohibited' => 'الحقل :attribute محظور',
     'prohibited_if' => 'الحقل :attribute محظور في حال ما إذا كان :other يساوي :value.',
@@ -216,18 +208,87 @@ return [
         'title'                 => 'العنوان',
         'q'                     => 'البحث',
         'link'                  => 'رابط',
-        'order_number'          =>'رقم الطلب',
-        'governorate'           =>'المحافظة',
-        'countryId'             =>'الدولة',
-        'governorateId'         =>"المحافظة",
-        "lname"                 =>"اسم العائلة",
-        "fname"                 =>"الاسم الاول",
-        "street"                =>"الشارع",
-        "subject"               =>"الموضوع",
-        "message"               =>"الرسالة",
-        "current_password"      =>"كلمة المرور الحالية",
-        "new_password"          =>"كلمة المرور الجديدة"
-        // 'slug'                  => ' ',
+        'order_number'          => 'رقم الطلب',
+        'governorate'           => 'المحافظة',
+        'countryId'             => 'الدولة',
+        'governorateId'         => "المحافظة",
+        "lname"                 => "اسم العائلة",
+        "fname"                 => "الاسم الاول",
+        "street"                => "الشارع",
+        "subject"               => "الموضوع",
+        "message"               => "الرسالة",
+        "current_password"      => "كلمة المرور الحالية",
+        "new_password"          => "كلمة المرور الجديدة",
+        'g-recaptcha-response' => 'يرجى تأكيد أنك لست روبوتاً.',
+        'recaptch' => 'يرجى تأكيد أنك لست روبوتاً.',
+        'code' => "الكود الخاص بالكوبون",
+        "paymentMethodId" => "طريقة الدفع",
+        "comment" => "التعليق",
+
+
+    "name_ar" => "الاسم بالعربية",
+    "name_en" => "الاسم بالإنجليزية",
+    "desc_ar" => "الوصف بالعربية",
+    "desc_en" => "الوصف بالإنجليزية",
+    "small_desc_en" => "الوصف المختصر بالإنجليزية",
+    "small_desc_ar" => "الوصف المختصر بالعربية",
+    "category_id" => "الفئة",
+    "tags" => "الوسوم",
+    "prices" => "الأسعار",
+    "sku" => "رمز المنتج (SKU)",
+    "quantity" => "الكمية",
+    "prices.*" => "الأسعار",
+    "quantities.*" => "الكميات",
+    "attributeValues" => "بيانات النموذج",
+    "attributeValues.*" => "بيانات النموذج",
+    "attributeValues.*.*" => "بيانات النموذج",
+    "discount" => "الخصم",
+    "start_discount" => "تاريخ بدء الخصم",
+    "end_discount" => "تاريخ انتهاء الخصم",
+    "available_for" => "تاريخ التوفر",
+    "images" => "الصور",
+    "images.*" => "الصور",
+    "name" => "الاسم",
+    "name.en" => "الاسم بالإنجليزية",
+    "name.ar" => "الاسم بالعربية",
+    "status" => "الحالة",
+    "name." => "الاسم",
+    "value" => "القيمة",
+    "value.*" => "القيمة",
+    "start_at" => "تاريخ البدء",
+    "discount_precentage" => "نسبة الخصم",
+    "end_at" => "تاريخ الانتهاء",
+    "limit" => "الحد الأقصى",
+    "questions.ar" => "الأسئلة بالعربية",
+    "questions.en" => "الأسئلة بالإنجليزية",
+    "answers.ar" => "الإجابات بالعربية",
+    "answers.en" => "الإجابات بالإنجليزية",
+    "role" => "الدور",
+    "role.ar" => "الدور بالعربية",
+    "role.en" => "الدور بالإنجليزية",
+    "site_name.ar" => "اسم الموقع بالعربية",
+    "site_name.en" => "اسم الموقع بالإنجليزية",
+    "site_desc.ar" => "وصف الموقع بالعربية",
+    "site_desc.en" => "وصف الموقع بالإنجليزية",
+    "meta_description.ar" => "الوصف التعريفي (Meta) بالعربية",
+    "meta_description.en" => "الوصف التعريفي (Meta) بالإنجليزية",
+    "site_email" => "بريد الموقع الإلكتروني",
+    "site_address.ar" => "عنوان الموقع بالعربية",
+    "site_address.en" => "عنوان الموقع بالإنجليزية",
+    "email_support" => "البريد الإلكتروني للدعم",
+    "logo" => "الشعار",
+    "promotion_video_url" => "رابط الفيديو الترويجي",
+    "note.ar" => "الملاحظة بالعربية",
+    "note.en" => "الملاحظة بالإنجليزية",
+    "image"=>"الصورة",
+
+    "permissions"=>"الصلاحيات",
+    "reply"=>"الرد"
+
+
+
+
+
     ],
 
 ];

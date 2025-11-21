@@ -19,7 +19,7 @@
 </div>
 
 <button class="btn btn-sm btn-outline-success " wire:click="$dispatch('show',{id:{{ $attribute->id }}})"
-    type="button"id="" data-bs-toggle="modal" data-bs-target="#show_{{ $attribute->id }}">Show</button>
+    type="button"id="" data-bs-toggle="modal" data-bs-target="#show_{{ $attribute->id }}">{{trans('admin.show')}}</button>
 
 {{-- MODAL START --}}
 <div class="modal fade showModal" id="show_{{ $attribute->id }}" data_id="{{ $attribute->id }}" tabindex="-1"

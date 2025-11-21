@@ -1,14 +1,8 @@
+@section('title',__('admin.faqs_page'))
 <!DOCTYPE html>
 <html lang="en">
+@include('dashboard.categories.partials.head')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Faqs Page</title>
-    @include('dashboard.categories.partials.head')
-
-</head>
 
 <body class="vertical-layout vertical-menu-modern 2-columns   menu-expanded fixed-navbar" data-open="click"
     data-menu="vertical-menu-modern" data-col="2-columns">
@@ -19,11 +13,11 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Faq Page</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">{{__('admin.faqs_page')}}</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                                 </li>
 
 
@@ -36,13 +30,12 @@
             <section id="sortable-collapsibles">
                 <div class="row">
                     <div class="col-12 mt-1 mb-3">
-                        <h4>Faqs page</h4>
+                        <h4>{{__('admin.faqs_page')}}</h4>
                         <hr>
                     </div>
 
                 </div>
-                <button class="btn btn-primary my-5" data-bs-toggle="modal" data-bs-target="#exampleModal">Create
-                    Faq</button>
+                <button class="btn btn-primary my-5" data-bs-toggle="modal" data-bs-target="#exampleModal">{{__('admin.create_faqs')}}</button>
                 @include('dashboard.faqs.create')
                 <div class="row ">
                     <div class="col-xl-12 col-lg-12 parent">

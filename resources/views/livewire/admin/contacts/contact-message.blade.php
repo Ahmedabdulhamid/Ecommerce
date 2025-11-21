@@ -1,7 +1,7 @@
 <div class="email-app-list w-100">
     <div class="card-body chat-fixed-search">
         <fieldset class="form-group position-relative has-icon-left m-0 pb-1">
-            <input type="text" class="form-control" id="iconLeft4" placeholder="Search" wire:model.live='itemSearch'>
+            <input type="text" class="form-control" id="iconLeft4" placeholder="{{__('admin.search')}}" wire:model.live='itemSearch'>
             <div class="form-control-position">
                 <i class="ft-search"></i>
             </div>
@@ -9,8 +9,10 @@
     </div>
     <div id="users-list" class="list-group">
         <div class="users-list-padding media-list">
+
             @forelse ($contacts as $contact)
-                <a href="#" class="media border-0" wire:click='submit({{ $contact->id }})'>
+
+                <a href="#" class="media border-0" wire:click='submit({{ $contact->id }})'wire:key="contact-{{ $contact->id }}">
                     <div class="media-left pr-1">
                         <span class="avatar avatar-md">
                             <span class="media-object rounded-circle text-circle bg-info">T</span>
@@ -54,7 +56,7 @@
                     </div>
                 </a>
             @empty
-                <h1 class="text-center">No Contacts Fount</h1>
+                <h1 class="text-center">No Contacts Found</h1>
             @endforelse
             <div class="container">
                 {{ $contacts->links('vendor.livewire.bootstrap') }}

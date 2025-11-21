@@ -1,3 +1,4 @@
+@section('title',__('front.checkout_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -13,12 +14,12 @@
     <section class="blog about-blog">
         <div class="container">
             <div class="blog-bradcrum">
-                <span><a href="index-2.html">Home</a></span>
+                <span><a href="{{route('home')}}">{{__('front.home')}}</a></span>
                 <span class="devider">/</span>
-                <span><a href="#">Checkout</a></span>
+                <span><a href="{{url()->current()}}">{{__('front.checkout')}}</a></span>
             </div>
             <div class="blog-heading about-heading">
-                <h1 class="heading">Checkout</h1>
+                <h1 class="heading">{{__('front.checkout')}}</h1>
             </div>
         </div>
     </section>

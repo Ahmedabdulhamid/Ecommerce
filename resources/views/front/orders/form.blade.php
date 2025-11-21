@@ -1,3 +1,4 @@
+@section('title',__('front.order_tracking_page'))
 <!DOCTYPE html>
 <html lang="en">
 @include('front.layouts.head')
@@ -21,7 +22,7 @@
                 </div>
             @endif
             <div class="mb-3">
-                <label class="form-label">Email address</label>
+                <label class="form-label">{{__('front.email')}}</label>
                 <input type="email" class="form-control" name='email' style='height:40px;'>
                 @error('email')
                     <span class="fw-bold text-danger fs-4">{{ $message }}</span>
@@ -29,14 +30,14 @@
 
             </div>
             <div class="mb-3">
-                <label class="form-label">Order Number</label>
+                <label class="form-label">{{__('front.order_numb')}}</label>
                 <input type="text" class="form-control" name='order_number' style='height:40px;'>
                 @error('order_number')
                     <span class="fw-bold text-danger fs-4">{{ $message }}</span>
                 @enderror
             </div>
 
-            <button class="shop-btn apply-coupon-btn mt-3"type='submit'>Track Order</button>
+            <button class="shop-btn apply-coupon-btn mt-3"type='submit'>{{__('front.track_order')}}</button>
         </form>
     </div>
 

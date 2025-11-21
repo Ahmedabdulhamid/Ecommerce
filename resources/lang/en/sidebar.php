@@ -14,6 +14,7 @@ return[
     'settings'=>"Settings",
     "sliders"=>"Sliders",
     "pages"=>"Pages",
-    "orders"=>"Orders"
+    "orders"=>"Orders",
+    "user-faqs"=>"User Questions"
 
 ];

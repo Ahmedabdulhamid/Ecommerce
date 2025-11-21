@@ -1,58 +1,73 @@
+@section('title',__('front.register_page'))
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    /* تصميم الزر الأساسي */
-    .google-btn {
-        display: inline-flex;
-        align-items: center;
-        background-color: #fff;
-        border: 1px solid #dcdcdc;
-        border-radius: 4px;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: box-shadow 0.3s ease;
-        font-family: Roboto, Arial, sans-serif;
-    }
+<head>
+    @include('front.layouts.head')
 
-    /* تأثير hover عشان يظهر للمستخدم إن في تفاعل */
-    .google-btn:hover {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-    }
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
 
-    /* لف المحيط اللي فيه أيقونة جوجل */
-    .google-icon-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        border-radius: 50%;
-        margin-right: 12px;
-    }
+    <style>
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: box-shadow 0.3s ease;
+            font-family: Roboto, Arial, sans-serif;
+        }
 
-    /* خصائص أيقونة جوجل */
-    .google-icon {
-        width: 18px;
-        height: 18px;
-    }
+        .google-btn:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        }
 
-    /* نص الزر */
-    .btn-text {
-        font-size: 14px;
-        color: #757575;
-        font-weight: 500;
-    }
-</style>
+        .google-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
 
-@include('front.layouts.head')>
+        .google-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-text {
+            font-size: 14px;
+            color: #757575;
+            font-weight: 500;
+        }
+    </style>
+</head>
 
 <body style="@if (app()->getLocale() == 'ar') direction:rtl; @endif">
     @include('front.layouts.header')
 
-    @livewire('create-account')
+    <div
+        style="
+            margin: 0;
+            padding: 0;
+            background-image: url('{{ asset('front-assets/images/homepage-one/login-bg.webp') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            width: 100vw;
+        "
+    >
 
-    @include('front.layouts.footer')
+        {{-- محتوى Livewire اللي فيه الفورم --}}
+        @livewire('create-account')
 
-    @include('front.layouts.script')
+        @include('front.layouts.footer')
+        @include('front.layouts.script')
+    </div>
+
+
 </body>
-
 </html>

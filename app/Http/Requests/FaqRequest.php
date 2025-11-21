@@ -22,8 +22,10 @@ class FaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'questions.*'=>['required','string','max:255'],
-            'answers.*'=>['required','string','max:5000']
+            'questions.ar'=>['required','string','max:255'],
+            'questions.en'=>['required','string','max:255'],
+            'answers.ar'=>['required','string','max:5000'],
+            'answers.en'=>['required','string','max:5000'],
         ];
     }
 }

@@ -6,6 +6,7 @@
     use App\Models\AttributeValue;
 
 @endphp
+@section('title',__('admin.show_products_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -20,34 +21,20 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Product Table</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">{{__('admin.product_table')}}</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('admin.home')}}</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Tables</a>
-                                </li>
-                                <li class="breadcrumb-item active">Product Table
+
+                                <li class="breadcrumb-item active">{{__('admin.product_table')}}
                                 </li>
                             </ol>
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="dropdown float-md-right">
-                        <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Actions</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item"
-                                href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-                            <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                            <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                    class="la la-cog"></i> Settings</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="content-body">
                 <!-- Table row borders end-->
@@ -79,22 +66,22 @@
                                                 @if (!$product->has_variants)
                                                     <p>EGP {{ number_format($product->price, 2) }}</p>
                                                 @endif
-                                                <p>Available For: {{ $product->available_for }}</p>
+                                                <p>{{__('admin.availabe_for')}}: {{ $product->available_for }}</p>
                                                 @if (!$product->has_variants)
-                                                    <p>In Stock: Yes</p>
+                                                    <p>{{__('admin.in_stock')}}: {{__('admin.yes')}}</p>
                                                 @else
-                                                    <p>In Stock: No</p>
+                                                    <p>{{__('admin.in_stock')}}: {{__('admin.no')}}</p>
                                                 @endif
-                                                <p>views: {{ $product->views }}</p>
-                                                <p>Category:
-                                                    {{ $product->category->getTranslation('name', app()->getLocale()) }}
+                                                <p>{{__('admin.views')}}: {{ $product->views }}</p>
+                                                <p>{{__('admin.category')}}:
+                                                    {{ $product->category?->getTranslation('name', app()->getLocale())??__('admin.not_found') }}
                                                 </p>
-                                                <p>Brand:
-                                                    {{ $product->brand->getTranslation('name', app()->getLocale()) }}
+                                                <p>{{__('admin.brand')}}:
+                                                   {{ $product->brand?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found')}}
                                                 </p>
                                             </div>
                                             @if ($product->has_variants == 0)
-                                                <p>This Product has no variants</p>
+                                                <p>{{__('admin.pro_has_no_var')}}</p>
                                             @endif
 
                                         </div>
@@ -102,24 +89,28 @@
                                             <div id="carouselExampleControlsNoTouching" class="carousel slide"
                                                 data-bs-touch="false">
                                                 <div class="carousel-inner">
-                                                    @foreach ($product->productImages as $index => $img)
-                                                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                    @forelse ($product->productImages as $index => $img)
+                                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                                             <img src="{{ asset('storage/products/' . $img->file_name) }}"
                                                                 class="d-block w-100" alt="...">
                                                         </div>
-                                                    @endforeach
+                                                    @empty
+                                                     {{__('admin.no_images')}}
+
+                                                    @endforelse
+
                                                 </div>
                                                 <button class="carousel-control-prev" type="button"
                                                     data-bs-target="#carouselExampleControlsNoTouching"
                                                     data-bs-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
+                                                    <span class="visually-hidden">{{__('admin.previous')}}</span>
                                                 </button>
                                                 <button class="carousel-control-next" type="button"
                                                     data-bs-target="#carouselExampleControlsNoTouching"
                                                     data-bs-slide="next">
                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
+                                                    <span class="visually-hidden">{{__('admin.next')}}</span>
                                                 </button>
                                             </div>
 
@@ -133,10 +124,10 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Stock</th>
-                                                    <th scope="col">Attributes</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">{{__('admin.price')}}</th>
+                                                    <th scope="col">{{__('admin.stock')}}</th>
+                                                    <th scope="col">{{__('admin.attributes')}}</th>
+                                                    <th scope="col">{{__('categories.actions')}}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -181,7 +172,7 @@
                 </div>
 
 
-                <a href="{{route('products.edit',$product->id)}}" class="btn btn-info" >Edit The Product</a >
+                <a href="{{route('products.edit',$product->id)}}" class="btn btn-info" >{{__('admin.edit_pro')}}</a >
 
             </div>
         </div>

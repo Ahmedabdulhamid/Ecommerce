@@ -5,6 +5,7 @@
     use Flasher\Prime\FlasherInterface;
 
 @endphp
+@section('title',__('admin.brands_page'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
@@ -19,34 +20,20 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Brand Table</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">{{trans('admin.brands_table')}}</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{trans('admin.home')}}</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Tables</a>
-                                </li>
-                                <li class="breadcrumb-item active">Brand Table
+
+                                <li class="breadcrumb-item active">{{trans('admin.brands_table')}}
                                 </li>
                             </ol>
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="dropdown float-md-right">
-                        <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Actions</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item"
-                                href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-                            <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-                            <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
-                                    class="la la-cog"></i> Settings</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="content-body">
                 <!-- Table row borders end-->
@@ -54,7 +41,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header ">
-                                <h4 class="card-title">{{ __('categories.Brand_table') }}</h4>
+                                <h4 class="card-title">{{ __('admin.brands_table') }}</h4>
 
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -69,8 +56,8 @@
 
                             <div class="card-content">
                                 <div class="my-5 container d-flex justify-content-between">
-                                    <a href="{{ route('brands.create') }}"class="btn btn-primary ">Create Brand</a>
-                                    <a href="{{route('brands.recyclebin')}}"class="btn btn-danger ">Recycle Bin</a>
+                                    <a href="{{ route('brands.create') }}"class="btn btn-primary ">{{trans('admin.create_brand')}}</a>
+                                    <a href="{{ route('brands.recyclebin') }}"class="btn btn-danger ">{{trans('admin.recycle_bin')}}</a>
 
                                 </div>
                                 <div class="table-responsive">
@@ -81,7 +68,7 @@
                                                 <th>{{ __('categories.name') }}</th>
                                                 <th>{{ __('categories.status') }}</th>
                                                 <th>{{ __('brand.logo') }}</th>
-                                                <th>{{ __('categories.actions') }}</th>
+
 
                                             </tr>
 
@@ -136,8 +123,7 @@
             serverSide: true,
             responsive: true,
             colReorder: true,
-            rowReorder: true,
-            //select: true,
+
             scrollY: 200,
             deferRender: true,
             scroller: true,
@@ -146,7 +132,11 @@
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'dt-control',
+                    orderable: false,
+
+                    defaultContent: '<i class="la la-plus-circle"></i>',
                 },
                 {
                     data: 'name',
@@ -161,12 +151,7 @@
                     name: 'image'
                 },
 
-                {
-                    data: "actions",
-                    name: "actions",
-                    orderable: false,
-                    searchable: false
-                }
+
 
             ],
 
@@ -178,6 +163,33 @@
                 url: "{{ app()->getLocale() == 'ar' ? '//cdn.datatables.net/plug-ins/1.11.5/i18n/Arabic.json' : '' }}"
             }
         });
+        $('#Brand_table tbody').on('click', 'td.dt-control', function() {
+            var table = $('#Brand_table').DataTable();
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // إذا كانت التفاصيل ظاهرة، قم بإخفائها
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // عرض التفاصيل
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        // دالة تنسيق التفاصيل المخفية
+        function format(data) {
+            return `
+        <table class="table ">
+
+
+            <tr><td>${data.actions}</td></tr>
+
+        </table>
+    `;
+        }
     </script>
     <script>
         $(document).on('change', '.switch', function(e) {
