@@ -1,8 +1,8 @@
-# 🛒 E-Commerce Platform (Laravel + Yajra DataTables)
+# 🛒 E-Commerce Platform (Laravel + Yajra DataTables + Algolia)
 
-A complete E-Commerce platform built with **Laravel**, featuring a custom admin dashboard powered by **Yajra DataTables**, and secure online payments using **MyFatoorah**.
+A full-featured E-Commerce platform built with **Laravel**, featuring a custom admin dashboard powered by **Yajra DataTables**, blazing-fast search using **Algolia**, and secure online payments via **MyFatoorah**.
 
-This project focuses on performance, clean UI, and a fully functional order and payment system.
+This project focuses on performance, scalability, and delivering a smooth user experience.
 
 ---
 
@@ -39,6 +39,23 @@ This project focuses on performance, clean UI, and a fully functional order and 
 * Product categories support
 * Pricing system
 * Image uploads
+* Optimized product listing with server-side tables
+
+---
+
+### 🔎 Advanced Search (Algolia)
+
+* Integrated with **Algolia Search**
+* Features:
+
+  * Ultra-fast search results
+  * Typo-tolerant search
+  * Real-time suggestions
+* Indexed:
+
+  * Products
+  * Categories (optional)
+* Improves user experience significantly
 
 ---
 
@@ -71,18 +88,23 @@ This project focuses on performance, clean UI, and a fully functional order and 
 
   * Online payments (cards, wallets)
 * Secure payment flow
-* Payment status handling (success / failed / pending)
-* Callback & webhook handling
+* Handles:
+
+  * Payment success
+  * Payment failure
+  * Pending payments
+* Includes callback & webhook handling
 
 ---
 
 ### ⚙️ Technical Highlights
 
 * Built with Laravel MVC architecture
-* Clean code structure
-* Server-side rendering (Blade)
-* Optimized queries with Eloquent
-* Uses **Yajra DataTables** for high performance tables
+* Clean and maintainable code
+* Server-side rendering using Blade
+* Optimized queries using Eloquent
+* Fast tables using **Yajra DataTables**
+* Lightning-fast search powered by **Algolia**
 
 ---
 
@@ -92,6 +114,7 @@ This project focuses on performance, clean UI, and a fully functional order and 
 * **Frontend:** Blade
 * **Admin Dashboard:** Custom + Yajra DataTables
 * **Database:** MySQL
+* **Search Engine:** Algolia
 * **Payment Gateway:** MyFatoorah
 * **Tables Engine:** Yajra DataTables
 
@@ -99,29 +122,30 @@ This project focuses on performance, clean UI, and a fully functional order and 
 
 ## 📂 Project Structure Highlights
 
-* `app/Http/Controllers` → Controllers logic
+* `app/Http/Controllers` → Application logic
 * `app/Models` → Eloquent models
 * `resources/views` → Blade templates
 * `routes/web.php` → Web routes
-* `database/migrations` → Database structure
+* `database/migrations` → Database schema
 
 ---
 
 ## 🔒 Security
 
 * CSRF Protection
-* Secure authentication
 * Input validation
-* Payment verification handling
+* Secure authentication system
+* Payment verification (callbacks & webhooks)
 
 ---
 
 ## 📈 Future Improvements
 
-* Add real-time notifications
+* Add real-time notifications (WebSockets)
 * Add advanced analytics dashboard
 * Multi-language support
-* Discount & coupon system
+* Coupon & discount system
+* Wishlist feature
 
 ---
 
@@ -137,3 +161,4 @@ Full Stack Laravel Developer 🚀
 This project is open-source and available under the MIT License.
 
 ---
+
