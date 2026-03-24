@@ -4,102 +4,148 @@ namespace App\Livewire\Front;
 
 use App\Models\Cart;
 use App\Models\CartProduct;
-use App\Models\Product;
-use App\Models\ProductVariant;
 use Livewire\Component;
 
 class CartPage extends Component
 {
-    public $cart, $products, $cartCount, $cartProducts, $totalPrice;
-    public $quantity = 5;
-    protected $listeners = [
-        'getProducts' => 'getProducts'
-    ];
-    public function mount($cart)
+    public $cart = null;
+    public float $totalPrice = 0;
+
+    protected $listeners = ['getCartItem' => 'getCartItem'];
+
+    public function mount($cart = null): void
     {
+        if ($cart) {
+            $this->cart = $cart;
+        }
+        $this->getCartItem();
+    }
+
+    public function getCartItem(): void
+    {
+        $cart = $this->getCurrentCart();
+
         $this->cart = $cart;
-        $this->getProducts();
-        $this->getTotalPrice();
-    }
-    public function getProducts()
-    {
+        $this->totalPrice = 0;
 
-        $this->products = $this->cart->products ?? [];
-    }
-    public function incrementQuantity($pivot)
-    {
-        $productvar = ProductVariant::where('id', $pivot['product_variant_id'])->first();
-        $product = Product::where('id', $pivot['product_id'])->first();
-        $productCart = CartProduct::where('cart_id', $pivot['cart_id'])->where('product_id', $pivot['product_id'])
-            ->where('product_variant_id', $pivot['product_variant_id'])->first();
-        if ($product->has_variants) {
-            if ($productCart->quantity < $productvar->stock) {
-                $productCart->update([
-                    'quantity' => $productCart->quantity + 1
-                ]);
-                $this->getTotalPrice();
-            } else {
-                $this->dispatch('error');
-            }
+        if (!$cart) {
+            return;
         }
-        if (!$product->has_variants) {
-            if ($productCart->quantity < $product->quantity) {
-                $productCart->update([
-                    'quantity' => $productCart->quantity + 1
-                ]);
-            } else {
-                $this->dispatch('error');
-            }
-        }
-    }
 
-    public function decrementQuantity($pivot)
-    {
-        $productCart = CartProduct::where('cart_id', $pivot['cart_id'])->where('product_id', $pivot['product_id'])
-            ->where('product_variant_id', $pivot['product_variant_id'])->first();
-        if ($productCart->quantity > 1) {
-            $productCart->update([
-                'quantity' => $productCart->quantity - 1
-            ]);
-            $this->getTotalPrice();
-        }
-    }
-    public function deleteProductFromCart($pivot)
-    {
-        $productCart = CartProduct::where('cart_id', $pivot['cart_id'])->where('product_id', $pivot['product_id'])
-            ->where('product_variant_id', $pivot['product_variant_id'])->first();
-        $cartProducts = CartProduct::where('cart_id', $pivot['cart_id'])->get();
-        $cart = Cart::where('session_id', session()->getId())->with('products')->first();
-
-        $productCart->delete();
-        $this->cartCount = count($cartProducts);
-        $this->dispatch('getCartCount')->to('front.header');
-        $this->dispatch('success');
-
-        $this->getTotalPrice();
-    }
-    public function clearCart()
-    {
-        $cart = Cart::where('session_id', $this->cart['session_id'])->with('products')->first();
-
-        $cart->products()->detach($this->products);
-        $this->cartCount = 0;
-        $this->dispatch('clearCart');
-        $this->dispatch('getCartCount')->to('front.header');
-
-        $this->getTotalPrice();
-    }
-    public function getTotalPrice()
-    {
-            if (isset($this->cart)) {
-            $cart = Cart::where('session_id', $this->cart['session_id'])->with('products')->first();
-
-        $this->totalPrice = $cart->products->sum(function ($product) {
-            return $product->pivot->price * $product->pivot->quantity;
+        $this->totalPrice = (float) $cart->products->sum(function ($product) {
+            return ((float) $product->pivot->price) * ((int) $product->pivot->quantity);
         });
+    }
+
+    protected function getCurrentCart(): ?Cart
+    {
+        $userId = auth()->guard('web')->id();
+        $sessionId = session()->getId();
+
+        return Cart::query()
+            ->when($userId, function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }, function ($query) use ($sessionId) {
+                $query->where('session_id', $sessionId);
+            })
+            ->with(['products.images'])
+            ->first();
+    }
+
+    public function decrementQuantity(?int $cartProductId = null): void
+    {
+        if (!$cartProductId) {
+            return;
         }
 
+        $cart = $this->getCurrentCart();
+        if (!$cart) {
+            return;
+        }
+
+        $cartItem = CartProduct::where('cart_id', $cart->id)
+            ->where('id', $cartProductId)
+            ->first();
+
+        if (!$cartItem) {
+            return;
+        }
+
+        if ((int) $cartItem->quantity > 1) {
+            $cartItem->decrement('quantity');
+        }
+
+        $this->dispatch('getCartCount')->to('front.header');
+        $this->getCartItem();
     }
+
+    public function incrementQuantity(?int $cartProductId = null): void
+    {
+        if (!$cartProductId) {
+            return;
+        }
+
+        $cart = $this->getCurrentCart();
+        if (!$cart) {
+            return;
+        }
+
+        $cartItem = CartProduct::where('cart_id', $cart->id)
+            ->where('id', $cartProductId)
+            ->with(['product', 'productVariant'])
+            ->first();
+
+        if (!$cartItem) {
+            return;
+        }
+
+        $maxStock = $cartItem->product_variant_id
+            ? (int) optional($cartItem->productVariant)->stock
+            : (int) optional($cartItem->product)->quantity;
+
+        if ($maxStock > 0 && (int) $cartItem->quantity >= $maxStock) {
+            $this->dispatch('error');
+            return;
+        }
+
+        $cartItem->increment('quantity');
+        $this->dispatch('getCartCount')->to('front.header');
+        $this->getCartItem();
+    }
+
+    public function deleteProductFromCart(?int $cartProductId = null): void
+    {
+        if (!$cartProductId) {
+            return;
+        }
+
+        $cart = $this->getCurrentCart();
+        if (!$cart) {
+            return;
+        }
+
+        CartProduct::where('cart_id', $cart->id)
+            ->where('id', $cartProductId)
+            ->delete();
+
+        $this->dispatch('success');
+        $this->dispatch('getCartCount')->to('front.header');
+        $this->getCartItem();
+    }
+
+    public function clearCart(): void
+    {
+        $cart = $this->getCurrentCart();
+        if (!$cart) {
+            return;
+        }
+
+        $cart->products()->detach();
+        $this->dispatch('success');
+        $this->dispatch('getCartCount')->to('front.header');
+        $this->getCartItem();
+    }
+
     public function render()
     {
         return view('livewire.front.cart-page');

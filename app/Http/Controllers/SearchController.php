@@ -2,22 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Throwable;
 
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = $request->input('s');
-        $scoutResults = Product::search($query)->get();
-        $ids = $scoutResults->pluck('id');
+        $query = trim((string) $request->input('s', ''));
 
-        // Step 3: Load full products with relationships
-        $products = Product::whereIn('id', $ids)
-            ->with(['images', 'product_variants']) // صححت كتابة variants
-            ->get();
+        if ($query === '') {
+            return view('front.products.search', ['products' => collect()]);
+        }
 
-        return view('front.products.search',['products'=>$products]);
+        try {
+            $scoutResults = Product::search($query)->get();
+            $ids = $scoutResults->pluck('id');
+
+            $products = Product::whereIn('id', $ids)
+                ->with(['images', 'product_variants'])
+                ->get();
+        } catch (NotFoundException|Throwable $e) {
+            // Local fallback when Algolia index is missing/unavailable.
+            $products = Product::query()
+                ->where('name->en', 'like', '%' . $query . '%')
+                ->orWhere('name->ar', 'like', '%' . $query . '%')
+                ->with(['images', 'product_variants'])
+                ->get();
+        }
+
+        return view('front.products.search', ['products' => $products]);
     }
 }

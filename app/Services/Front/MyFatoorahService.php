@@ -74,6 +74,7 @@ class MyFatoorahService
                 return $response->json()['Data']['PaymentMethods'];
             } else {
                 Log::error('MyFatoorah Payment Methods Error: ' . $response->body());
+
                 return [];
             }
         } catch (\Exception $e) {

@@ -10,7 +10,7 @@
     @endif
     <div class="container">
         <div class="cart-section">
-            @if (isset($cart->products) && count($cart->products) > 0 && isset($cart))
+            @if (isset($cart) && isset($cart->products) && count($cart->products) > 0)
                 <table>
                     <tbody>
                         <tr class="table-row table-top-row">
@@ -86,12 +86,12 @@
                                 <td class="table-wrapper">
                                     <div class="table-wrapper-center">
                                         <div class="quantity">
-                                            <a wire:click.prevent='decrementQuantity({{ $product->pivot }})'href="#"
+                                            <a wire:click.prevent='decrementQuantity({{ $product->pivot->id }})' href="#"
                                                 class="minus">
                                                 -
                                             </a>
                                             <span class="number">{{ $product->pivot->quantity }}</span>
-                                            <a wire:click.prevent='incrementQuantity({{ $product->pivot }})'href="#"
+                                            <a wire:click.prevent='incrementQuantity({{ $product->pivot->id }})' href="#"
                                                 class="plus">
                                                 +
                                             </a>
@@ -109,7 +109,7 @@
                                     <div class="table-wrapper-center">
                                         <span>
                                             <a href=""
-                                                wire:click.prevent='deleteProductFromCart({{ $product->pivot }})'><svg
+                                                wire:click.prevent='deleteProductFromCart({{ $product->pivot->id }})'><svg
                                                     width="10" height="10" viewBox="0 0 10 10" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path

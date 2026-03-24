@@ -56,7 +56,7 @@
                                         {{-- الدولة --}}
                                         <div class="review-form-name my-2">
                                             <label for="country" class="form-label">{{ __('admin.country') }}*</label>
-                                            <select id="country" class="form-select" wire:model="countryId" wire:ignore>
+                                            <select id="country" class="form-select" wire:model.live="countryId" wire:ignore>
                                                 <option>{{ __('front.choose_country') }}</option>
                                                 @forelse ($countries as $country)
                                                     <option value="{{ $country->id }}">
@@ -73,7 +73,7 @@
                                         {{-- المحافظة --}}
                                         <div class="review-form-name my-2">
                                             <label for="governorate" class="form-label">{{ __('admin.governorate') }}*</label>
-                                            <select id="governorate" class="form-select" wire:model="governorateId">
+                                            <select id="governorate" class="form-select" wire:model.live="governorateId">
                                                 <option>{{ __('front.choose_governorate') }}</option>
                                                 @forelse ($governorates as $item)
                                                     <option value="{{ $item->id }}">
@@ -100,7 +100,7 @@
                                         {{-- وسيلة الدفع --}}
                                         <div class="review-form-name my-2">
                                             <label for="paymentMethod" class="form-label">{{ __('front.Payment_method') }}*</label>
-                                            <select id="paymentMethod" class="form-select" wire:model="paymentMethodId" wire:ignore>
+                                            <select id="paymentMethod" class="form-select" wire:model.live="paymentMethodId" wire:ignore>
                                                 <option>{{ __('front.choose_payment_method') }}</option>
                                                 @forelse ($payment_methods as $method)
                                                     <option value="{{ $method['PaymentMethodId'] }}">
