@@ -56,6 +56,9 @@
                             </form>
                             @if (count($reviews) > 0)
                                 @foreach ($reviews as $review)
+                                    @php
+                                        $reviewUser = $review->user;
+                                    @endphp
                                     <div class="review-wrapper">
                                         <div class="wrapper">
 
@@ -69,10 +72,10 @@
 
                                                     </div>
                                                     <div class="author-details">
-                                                        <h5>{{ $review->user->name }}</h5>
-                                                        @if ($review->user->country !== null)
-                                                            <p>{{ $review->user->country->getTranslation('name', app()->getLocale()) }},
-                                                                {{ $review->user->governorate->getTranslation('name', app()->getLocale()) }}
+                                                        <h5>{{ $reviewUser?->name ?? __('admin.not_found') }}</h5>
+                                                        @if ($reviewUser?->country !== null)
+                                                            <p>{{ $reviewUser?->country?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }},
+                                                                {{ $reviewUser?->governorate?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}
                                                             </p>
                                                         @endif
 

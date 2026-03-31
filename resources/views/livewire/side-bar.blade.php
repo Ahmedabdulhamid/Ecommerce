@@ -31,7 +31,7 @@
 
                 </ul>
             </li>
-            @if (($admin && $admin->can('admin')) || $admin->can('super-admin') || $admin->can('product-manager'))
+            @if ($admin && ($admin->can('admin') || $admin->can('super-admin') || $admin->can('product-manager')))
                 <li class=" nav-item"><a href="#"><i class="fa-solid fa-copyright"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.brands') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2">{{ $brands }}</span></a>
@@ -45,7 +45,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('admin')) || $admin->can('category-manager') || $admin->can('super-admin'))
+            @if ($admin && ($admin->can('admin') || $admin->can('category-manager') || $admin->can('super-admin')))
                 <li class=" nav-item">
                     <a href="#"><i class="fa-solid fa-table-cells-row-lock"></i>
                         <span class="menu-title" data-i18n="nav.templates.main">{{ __('sidebar.categories') }}</span>
@@ -59,7 +59,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('product-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('product-manager')))
                 <li class=" nav-item"><a href="#"><i class="fa-solid fa-percent"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.coupones') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 coupon-bar">{{ $coupones }}</span></a>
@@ -73,7 +73,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('product-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('product-manager')))
                 <li class=" nav-item"><a href="#"><i class="la la-television"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.attributes') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 attribute-bar">{{ $attributesCount }}</span></a>
@@ -87,7 +87,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('product-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('product-manager')))
                 <li class=" nav-item"><a href="#"><i class="la la-television"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.products') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 product-bar">{{ $products }}</span></a>
@@ -101,7 +101,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('admin'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('admin')))
                 <li class=" nav-item"><a href="#"><i class="fa-solid fa-globe"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.countaries') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 coupon-bar">{{ $countaries }}</span></a>
@@ -114,7 +114,7 @@
                     </ul>
                 </li>
             @endif
-            @if (($admin && $admin->can('super-admin')) || $admin->can('contact-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('contact-manager')))
                 <li class=" nav-item"><a href="#"><i class="fa-solid fa-address-card"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('contacts.contacts') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 users-bar">{{ $contacts }}</span></a>
@@ -127,7 +127,7 @@
                     </ul>
                 </li>
             @endif
-            @if (($admin && $admin->can('super-admin')) || $admin->can('contact-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('contact-manager')))
                 <li class=" nav-item"><a href="#"><i class="la la-question"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.faqs') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 faq-bar">{{ $faqs }}</span></a>
@@ -142,7 +142,7 @@
             @endif
 
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('contact-manager'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('contact-manager')))
                 <li class=" nav-item"><a href="#"><i class="la la-question"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.user-faqs') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 user-ques-bar">{{ $userQuestions }}</span></a>
@@ -185,7 +185,7 @@
 
                 </li>
             @endif
-            @if (($admin && $admin->can('super-admin')) || $admin->can('admin'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('admin')))
                 <li class=" nav-item"><a href="#"><i class="la la-gear"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.settings') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2">{{ $settings }}</span></a>
@@ -200,7 +200,7 @@
                 </li>
             @endif
 
-            @if (($admin && $admin->can('super-admin')) || $admin->can('designer'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('designer')))
                 <li class=" nav-item"><a href="#"><i class="la la-sliders"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.sliders') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 product-bar">{{ $sliders }}</span></a>
@@ -213,7 +213,7 @@
                     </ul>
                 </li>
             @endif
-            @if (($admin && $admin->can('super-admin')) || $admin->can('designer'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('designer')))
                 <li class=" nav-item"><a href="#"><i class="la la-file"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.pages') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 product-bar">{{ $pages }}</span></a>
@@ -226,7 +226,7 @@
                     </ul>
                 </li>
             @endif
-            @if (($admin && $admin->can('super-admin')) || $admin->can('order-manger'))
+            @if ($admin && ($admin->can('super-admin') || $admin->can('order-manger')))
                 <li class=" nav-item"><a href="#"><i class="la la-cart-plus"></i><span class="menu-title"
                             data-i18n="nav.templates.main">{{ __('sidebar.orders') }}</span><span
                             class="badge badge badge-info badge-pill float-right mr-2 order-bar">{{ $orders }}</span></a>

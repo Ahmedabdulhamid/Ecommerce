@@ -13,8 +13,8 @@
 </head>
 <body>
     <h2 style="text-align: center;">Invoice #{{ $invoice->invoice_id }}</h2>
-    <p><strong>Date:</strong> {{ $invoice->created_at->format('Y-m-d') }}</p>
-    <p style=""><strong>Customer:</strong> {{ $invoice->customer_name }} ({{ auth()->user()->email }})</p>
+    <p><strong>Date:</strong> {{ optional($invoice->created_at)->format('Y-m-d') ?? __('admin.not_found') }}</p>
+    <p style=""><strong>Customer:</strong> {{ $invoice->customer_name }} ({{ auth()->user()?->email ?? __('admin.not_found') }})</p>
 
     <table>
         <thead>

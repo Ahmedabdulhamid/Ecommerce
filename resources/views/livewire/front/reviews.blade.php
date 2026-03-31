@@ -1,10 +1,14 @@
  <div class="row g-5">
      @if (isset($reviews) && count($reviews) > 0)
          @foreach ($reviews as $review)
+             @php
+                 $reviewProduct = $review->product;
+                 $primaryImage = optional(optional($reviewProduct)->images?->first())->file_name;
+             @endphp
              <div class="col-md-6">
                  <div class="product-wrapper py-5">
                      <div class="product-img">
-                         <img src="{{ asset('storage/products/' . $review->product->images->first()->file_name) }}"
+                         <img src="{{ $primaryImage ? asset('storage/products/' . $primaryImage) : asset('front-assets/images/homepage-one/product-img-1.webp') }}"
                              alt="product-img" style="z-index: 1;">
                      </div>
                      <div class="product-info">
@@ -35,7 +39,7 @@
                          </div>
                          <div class="product-description">
                              <a href="product-sidebar.html" class="product-details">
-                                 {{ $review->product->getTranslation('name', app()->getLocale()) }}
+                                 {{ $reviewProduct?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}
                              </a>
                              <p>{{ $review->comment }}</p>
                          </div>

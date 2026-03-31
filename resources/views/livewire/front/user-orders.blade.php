@@ -45,16 +45,20 @@
                                 </tr>
 
                                 @foreach ($order->items as $item)
+                                    @php
+                                        $orderedProduct = $item->product;
+                                        $primaryImage = optional(optional($orderedProduct)->images?->first())->file_name;
+                                    @endphp
                                     <tr class="table-row ticket-row">
                                         <td class="table-wrapper wrapper-product">
                                             <div class="wrapper">
                                                 <div class="wrapper-img">
-                                                    <img src="{{ asset('storage/products/' . $item->product->images->first()->file_name) }}"
-                                                        alt="{{ $item->product->getTranslation('name', app()->getLocale()) }}">
+                                                    <img src="{{ $primaryImage ? asset('storage/products/' . $primaryImage) : asset('front-assets/images/homepage-one/product-img-1.webp') }}"
+                                                        alt="{{ $orderedProduct?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}">
                                                 </div>
                                                 <div class="wrapper-content">
                                                     <h5 class="heading">
-                                                        {{ $item->product->getTranslation('name', app()->getLocale()) }}
+                                                        {{ $orderedProduct?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}
                                                     </h5>
                                                 </div>
                                             </div>

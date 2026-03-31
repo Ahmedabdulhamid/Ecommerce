@@ -56,7 +56,7 @@
                                     @if (!isset($category->parent_id))
                                         <option value="">{{__('admin.main_cat')}}</option>
                                         @else
-                                        <option value="{{$category->parent_id}}"selected>{{$category->parent->getTranslation('name',app()->getLocale())}}</option>
+                                        <option value="{{ $category->parent_id }}" selected>{{ $category->parent?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}</option>
 
                                     @endif
                                     @foreach ($categories as $cat)

@@ -88,10 +88,14 @@
                   @if (isset($products) && count($products) > 0)
 
                       @foreach ($products as $product)
+                          @php
+                              $primaryImage = optional($product->images->first())->file_name;
+                              $productCategory = $product->category;
+                          @endphp
                           <div class="col-lg-4 col-sm-6">
                               <<div class="product-wrapper position-relative" >
                                     <div class="product-img">
-                                        <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                        <img src="{{ $primaryImage ? asset('storage/products/' . $primaryImage) : asset('front-assets/images/homepage-one/product-img-1.webp') }}"
                                             alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
                                         <div
                                             class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
@@ -197,8 +201,12 @@
                                         </div>
                                     </div>
                                     <div class="product-cart-btn">
-                                        <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                            class="product-btn">{{ $product->category->getTranslation('name', app()->getLocale()) }}</a>
+                                        @if ($productCategory)
+                                            <a href="{{ route('getProductsByCategories', $productCategory->slug) }}"
+                                                class="product-btn">{{ $productCategory->getTranslation('name', app()->getLocale()) }}</a>
+                                        @else
+                                            <span class="product-btn">{{ __('admin.not_found') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                           </div>

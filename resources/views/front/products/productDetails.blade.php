@@ -61,12 +61,35 @@
 </style>
 
 <body style=";@if (app()->getLocale() == 'ar') direction:rtl; @endif">
+    @php
+        $locale = app()->getLocale();
+        $fallbackLocale = config('app.fallback_locale');
+        $translateValue = function ($value) use ($locale, $fallbackLocale) {
+            if (is_array($value)) {
+                return $value[$locale] ?? $value[$fallbackLocale] ?? reset($value) ?? '';
+            }
+
+            if (is_string($value)) {
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    return $decoded[$locale] ?? $decoded[$fallbackLocale] ?? reset($decoded) ?? '';
+                }
+            }
+
+            return $value ?? '';
+        };
+        $relatedImage = fn($item) => data_get($item, 'image_file_name') ?? optional(data_get($item, 'images')?->first())->file_name;
+        $relatedName = fn($item) => $translateValue(data_get($item, 'name'));
+        $relatedBrandName = fn($item) => data_get($item, 'brand_name') ? $translateValue(data_get($item, 'brand_name')) : null;
+        $relatedCategoryName = fn($item) => data_get($item, 'category_name') ? $translateValue(data_get($item, 'category_name')) : null;
+        $relatedCategorySlug = fn($item) => data_get($item, 'category_slug');
+    @endphp
     @include('front.layouts.header')
 
 
 
 
-    @livewire('front.add-review', ['product' => $product, 'reviews' => $product->reviews, 'attributeValues' => $attributeValues])
+    @livewire('front.add-review', ['product' => $product, 'reviews' => $product->reviews])
 
     <section class="product weekly-sale product-weekly footer-padding">
         <div class="container">
@@ -76,19 +99,19 @@
             </div>
             <div class="weekly-sale-section">
                 <div class="row g-5">
-                    @forelse ($sameProducts as $product)
+                    @forelse ($sameProducts as $relatedProduct)
                         <div class="col-lg-3 col-sm-6">
                                 <div class="product-wrapper position-relative" data-aos="fade-up">
                                     <div class="product-img">
-                                        <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
-                                            alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
+                                        <img src="{{ asset('storage/products/' . $relatedImage($relatedProduct)) }}"
+                                            alt="{{ $relatedName($relatedProduct) }}">
                                         <div
                                             class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                            {{ $product->brand?->getTranslation('name', app()->getLocale())??__('admin.not_found') }}
+                                            {{ $relatedBrandName($relatedProduct) ?? __('admin.not_found') }}
                                         </div>
 
                                         <div class="product-cart-items">
-                                            <a href="{{ route('getProductDetails', $product->slug) }}"
+                                            <a href="{{ route('getProductDetails', $relatedProduct->slug) }}"
                                                 class="cart cart-item">
                                                 <span>
                                                     <svg width="40" height="40" viewBox="0 0 40 40"
@@ -122,7 +145,7 @@
                                                     </svg>
                                                 </span>
                                             </a>
-                                            <button id={{ $product->id }} class="favourite cart-item">
+                                            <button id={{ $relatedProduct->id }} class="favourite cart-item">
                                                 <span>
                                                     <svg width="40" height="40" viewBox="0 0 40 40"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,19 +184,19 @@
                                             </span>
                                         </div>
                                         <div class="product-description">
-                                            <a href="{{ route('getProductDetails', $product->slug) }}"
-                                                class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                            <a href="{{ route('getProductDetails', $relatedProduct->slug) }}"
+                                                class="product-details">{{ $relatedName($relatedProduct) }}
                                             </a>
                                             <div class="price">
-                                                @if (!$product->has_variants)
-                                                    @if ($product->has_discount)
+                                                @if (!$relatedProduct->has_variants)
+                                                    @if ($relatedProduct->has_discount)
                                                         <span
-                                                            class="price-cut">{{ number_format($product->price, 2) }}</span>
+                                                            class="price-cut">{{ number_format($relatedProduct->price, 2) }}</span>
                                                         <span
-                                                            class="new-price">{{ number_format($product->price - ($product->price * $product->discount) / 100, 2) }}
+                                                            class="new-price">{{ number_format($relatedProduct->price - ($relatedProduct->price * $relatedProduct->discount) / 100, 2) }}
                                                             EGP</span>
                                                     @else
-                                                        <span class="new-price">{{ number_format($product->price, 2) }}
+                                                        <span class="new-price">{{ number_format($relatedProduct->price, 2) }}
                                                             EGP</span>
                                                     @endif
                                                 @else
@@ -186,8 +209,8 @@
                                         </div>
                                     </div>
                                     <div class="product-cart-btn">
-                                        <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                            class="product-btn">{{ $product->category->getTranslation('name', app()->getLocale()) }}</a>
+                                        <a href="{{ $relatedCategorySlug($relatedProduct) ? route('getProductsByCategories', $relatedCategorySlug($relatedProduct)) : '#' }}"
+                                            class="product-btn">{{ $relatedCategoryName($relatedProduct) ?? __('admin.not_found') }}</a>
                                     </div>
                                 </div>
                             </div>

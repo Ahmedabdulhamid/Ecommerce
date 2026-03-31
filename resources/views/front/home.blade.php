@@ -6,6 +6,48 @@
 @include('front.layouts.head')
 
 <body style=";@if (app()->getLocale() == 'ar') direction:rtl; @endif">
+    @php
+        $locale = app()->getLocale();
+        $fallbackLocale = config('app.fallback_locale');
+        $translateValue = function ($value) use ($locale, $fallbackLocale) {
+            if (is_array($value)) {
+                return $value[$locale] ?? $value[$fallbackLocale] ?? reset($value) ?? '';
+            }
+
+            if (is_string($value)) {
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    return $decoded[$locale] ?? $decoded[$fallbackLocale] ?? reset($decoded) ?? '';
+                }
+            }
+
+            return $value ?? '';
+        };
+        $productImage = fn($product) => data_get($product, 'image_file_name')
+            ?? optional(data_get($product, 'images')?->first())->file_name;
+        $productBrandName = function ($product) use ($translateValue, $locale) {
+            $brandName = data_get($product, 'brand_name');
+            if ($brandName) {
+                return $translateValue($brandName);
+            }
+
+            $brand = data_get($product, 'brand');
+
+            return $brand ? $brand->getTranslation('name', $locale) : null;
+        };
+        $productCategoryName = function ($product) use ($translateValue, $locale) {
+            $categoryName = data_get($product, 'category_name');
+            if ($categoryName) {
+                return $translateValue($categoryName);
+            }
+
+            $category = data_get($product, 'category');
+
+            return $category ? $category->getTranslation('name', $locale) : null;
+        };
+        $productCategorySlug = fn($product) => data_get($product, 'category_slug') ?? data_get($product, 'category.slug');
+        $productName = fn($product) => $translateValue(data_get($product, 'name'));
+    @endphp
 
     @include('front.layouts.header')
 
@@ -78,7 +120,7 @@
 
                             <div class="wrapper-info">
                                 <a href="{{ route('getProductsByCategories', $category->slug) }}"
-                                    class="wrapper-details">{{ $category->getTranslation('name', app()->getLocale()) }}</a>
+                                    class="wrapper-details">{{ $translateValue($category->name ?? null) }}</a>
                             </div>
                         </div>
                     @endforeach
@@ -105,16 +147,16 @@
                             <div class="wrapper-img">
                                 @if (filter_var($brand->logo, FILTER_VALIDATE_URL))
                                     <img src="{{ $brand->logo }}"
-                                        alt="{{ $brand->getTranslation('name', app()->getLocale()) }}"class="w-25">
+                                        alt="{{ $translateValue($brand->name ?? null) }}"class="w-25">
                                 @else
                                     <img src="{{ asset('storage/logo/' . $brand->logo) }}"
-                                        alt="{{ $brand->getTranslation('name', app()->getLocale()) }}"class="w-25">
+                                        alt="{{ $translateValue($brand->name ?? null) }}"class="w-25">
                                 @endif
                             </div>
 
                             <div class="wrapper-info">
                                 <a href="{{ route('getProductsByBrand', $brand->slug) }}"
-                                    class="wrapper-details">{{ $brand->getTranslation('name', app()->getLocale()) }}</a>
+                                    class="wrapper-details">{{ $translateValue($brand->name ?? null) }}</a>
                             </div>
                         </div>
                     @endforeach
@@ -140,11 +182,11 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="product-wrapper position-relative" data-aos="fade-up">
                                 <div class="product-img">
-                                    <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                    <img src="{{ asset('storage/products/' . $productImage($product)) }}"
                                         alt="product-img">
                                     <div
                                         class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                        {{ $product->brand?->getTranslation('name', app()->getLocale()) }}
+                                        {{ $productBrandName($product) }}
                                     </div>
 
                                     <div class="product-cart-items">
@@ -222,7 +264,7 @@
                                     </div>
                                     <div class="product-description">
                                         <a href="{{ route('getProductDetails', $product->slug)}}"
-                                            class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                            class="product-details">{{ $productName($product) }}
                                         </a>
                                         <div class="price">
                                             @if (!$product->has_variants)
@@ -244,8 +286,8 @@
                                     </div>
                                 </div>
                                 <div class="product-cart-btn">
-                                    <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                        class="product-btn">{{ $product->category->getTranslation('name', app()->getLocale()) }}</a>
+                                    <a href="{{ route('getProductsByCategories', $productCategorySlug($product)) }}"
+                                        class="product-btn">{{ $productCategoryName($product) }}</a>
                                 </div>
                             </div>
                         </div>
@@ -290,11 +332,11 @@
                             <div class="col-lg-3 col-sm-6">
                                 <div class="product-wrapper position-relative" data-aos="fade-up">
                                     <div class="product-img">
-                                        <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
-                                            alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
+                                        <img src="{{ asset('storage/products/' . $productImage($product)) }}"
+                                            alt="{{ $productName($product) }}">
                                         <div
                                             class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                            {{ $product->brand?->getTranslation('name', app()->getLocale())??__('admin.not_found') }}
+                                            {{ $productBrandName($product) ?? __('admin.not_found') }}
                                         </div>
 
                                         <div class="product-cart-items">
@@ -372,7 +414,7 @@
                                         </div>
                                         <div class="product-description">
                                             <a href="{{ route('getProductDetails', $product->slug) }}"
-                                                class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                                class="product-details">{{ $productName($product) }}
                                             </a>
                                             <div class="price">
                                                 @if (!$product->has_variants)
@@ -397,8 +439,8 @@
                                         </div>
                                     </div>
                                     <div class="product-cart-btn">
-                                        <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                            class="product-btn">{{ $product->category?->getTranslation('name', app()->getLocale()) }}</a>
+                                        <a href="{{ route('getProductsByCategories', $productCategorySlug($product)) }}"
+                                            class="product-btn">{{ $productCategoryName($product) }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -424,11 +466,11 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="product-wrapper position-relative" data-aos="fade-up">
                                 <div class="product-img">
-                                    <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
-                                        alt="product-img">
+                                        <img src="{{ asset('storage/products/' . $productImage($product)) }}"
+                                            alt="product-img">
                                     <div
                                         class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                        {{ $product->brand?->getTranslation('name', app()->getLocale())??__('admin.not_found') }}
+                                            {{ $productBrandName($product) ?? __('admin.not_found') }}
                                     </div>
 
                                     <div class="product-cart-items">
@@ -506,7 +548,7 @@
                                     </div>
                                     <div class="product-description">
                                         <a href="{{ route('getProductDetails', $product->slug)}}"
-                                            class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                            class="product-details">{{ $productName($product) }}
                                         </a>
                                         <div class="price" >
                                             @if (!$product->has_variants)
@@ -528,8 +570,8 @@
                                     </div>
                                 </div>
                                 <div class="product-cart-btn">
-                                    <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                        class="product-btn">{{ $product->category->getTranslation('name', app()->getLocale()) }}</a>
+                                        <a href="{{ route('getProductsByCategories', $productCategorySlug($product)) }}"
+                                            class="product-btn">{{ $productCategoryName($product) }}</a>
                                 </div>
                             </div>
                         </div>
@@ -557,11 +599,11 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="product-wrapper position-relative" data-aos="fade-up">
                                 <div class="product-img">
-                                    <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                    <img src="{{ asset('storage/products/' . $productImage($product)) }}"
                                         alt="product-img">
                                     <div
                                         class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                        {{ $product->brand?->getTranslation('name', app()->getLocale()) ??__('admin.not_found')}}
+                                        {{ $productBrandName($product) ?? __('admin.not_found') }}
                                     </div>
 
                                     <div class="product-cart-items">
@@ -639,7 +681,7 @@
                                     </div>
                                     <div class="product-description">
                                         <a href="{{ route('getProductDetails', $product->slug)}}"
-                                            class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                            class="product-details">{{ $productName($product) }}
                                         </a>
                                         <div class="price">
                                             @if (!$product->has_variants)
@@ -661,8 +703,8 @@
                                     </div>
                                 </div>
                                 <div class="product-cart-btn">
-                                    <a href="{{ route('getProductsByCategories', $product->category->slug) }}"
-                                        class="product-btn">{{ $product->category->getTranslation('name', app()->getLocale()) }}</a>
+                                    <a href="{{ route('getProductsByCategories', $productCategorySlug($product)) }}"
+                                        class="product-btn">{{ $productCategoryName($product) }}</a>
                                 </div>
                             </div>
                         </div>
@@ -734,11 +776,11 @@
                         <div class="col-xl-2 col-md-4 col-sm-12 h-100">
                             <div class="product-wrapper position-relative" data-aos="fade-up">
                                 <div class="product-img">
-                                    <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                    <img src="{{ asset('storage/products/' . $productImage($product)) }}"
                                         alt="product-img">
                                     <div
                                         class="span position-absolute top-0 start-0 bg-danger  text-white fw-bold my-2 p-3">
-                                        {{ $product->brand?->getTranslation('name', app()->getLocale())??__('admin.not_found') }}
+                                        {{ $productBrandName($product) ?? __('admin.not_found') }}
                                     </div>
 
                                     <div class="product-cart-items">
@@ -817,7 +859,7 @@
                                     <div class="product-description my-2">
 
                                         <a href="{{ route('getProductDetails', $product->slug)}}"
-                                            class="product-details">{{ $product->getTranslation('name', app()->getLocale()) }}
+                                            class="product-details">{{ $productName($product) }}
                                         </a>
                                         <div class="price ">
                                             @if (!$product->has_variants)

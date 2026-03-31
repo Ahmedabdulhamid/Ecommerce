@@ -146,9 +146,12 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($order->items as $item)
+                                                @php
+                                                    $orderedProduct = $item->product;
+                                                @endphp
                                                 <tr class="bg-success white">
                                                     <th scope="row">
-                                                        {{ $item->product->getTranslation('name', app()->getLocale()) }}
+                                                        {{ $orderedProduct?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}
                                                     </th>
                                                     <td>{{ $item->quantity }}</td>
                                                     <td>{{ number_format($item->price, 2) }} EGP</td>

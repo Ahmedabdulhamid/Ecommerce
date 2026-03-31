@@ -1,24 +1,8 @@
 <?php
 namespace App\Livewire;
 
-use App\Models\Admin;
+use App\Support\AdminCache;
 use Livewire\Component;
-use App\Models\Attribute;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Models\Countary;
-use App\Models\Coupon;
-use App\Models\Faq;
-use App\Models\Order;
-use App\Models\Page;
-use App\Models\Permission;
-use App\Models\Product;
-use App\Models\Role;
-use App\Models\Setting;
-use App\Models\Slider;
-use App\Models\User;
-use App\Models\WebFaqQuestion;
 
 class SideBar extends Component
 {
@@ -33,32 +17,28 @@ class SideBar extends Component
 
     public function mount()
     {
-        $this->updateCounts();
+        $this->loadCounts();
+    }
+
+    public function loadCounts(): void
+    {
+        foreach (AdminCache::sidebarCounts() as $property => $value) {
+            $this->{$property} = $value;
+        }
     }
 
     public function updateCounts()
     {
-        $this->products = Product::count();
-        $this->users = User::count();
-        $this->brands = Brand::count();
-        $this->coupones = Coupon::count();
-        $this->permissions = Permission::count();
-        $this->roles = Role::count();
-        $this->faqs = Faq::count();
-        $this->categories = Category::count();
-        $this->countaries = Countary::count();
-        $this->attributesCount = Attribute::count();
-        $this->settings = Setting::count();
-        $this->admins=Admin::count();
-        $this->contacts=Contact::count();
-        $this->sliders=Slider::count();
-        $this->pages=Page::count();
-        $this->orders=Order::count();
-        $this->userQuestions=WebFaqQuestion::count();
+        AdminCache::flush(['admin.sidebar']);
+
+        $this->loadCounts();
     }
+
     public function refreshAdmins()
     {
-        $this->admins=Admin::count();
+        AdminCache::flush(['admin.sidebar']);
+
+        $this->loadCounts();
     }
 
     public function render()

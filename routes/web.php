@@ -23,7 +23,7 @@ use App\Models\Countary;
 use App\Models\Faq;
 use App\Models\Governorate;
 use App\Models\Order;
-use App\Models\Product;
+use App\Support\FrontCache;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -31,40 +31,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function () {
 
     Route::get('/', function () {
-        $products = Product::with('images', 'category', 'brand')->latest()->limit(8)->get();
-        $brands = Brand::limit(12)->get();
-        $saleProducts = Product::with('images', 'category', 'brand')->where('has_discount', 1)->limit(12)->get();
-        $flasSaleProducts = Product::where('has_discount', 1)->with('images', 'category', 'brand')->where('available_for', date('y-m-d'))->get();
-        $topSellingProducts = Product::withSum([
-            'ordersItems as total_quantity' => function ($query) {
-                $query->whereHas('order', function ($q) {
-                    $q->where('status', 'delivered');
-                });
-            }
-        ], 'quantity')
-            ->orderByDesc('total_quantity')
-            ->take(10)
-            ->get()
-            ->filter(function ($product) {
-                return $product->total_quantity > 0;
-            });
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
-        $topSellingProductsInWeek = Product::withSum([
-            'ordersItems as total_quantity' => function ($query) use ($startOfWeek, $endOfWeek) {
-                $query->whereHas('order', function ($q) use ($startOfWeek, $endOfWeek) {
-                    $q->where('status', 'delivered')
-                        ->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
-                });
-            }
-        ], 'quantity')
-            ->orderByDesc('total_quantity')
-            ->take(10)
-            ->get()
-            ->filter(function($product){
-                return $product->total_quantity>0;
-            });
-        return view('front.home', ['brands' => $brands, 'products' => $products, 'saleProducts' => $saleProducts, 'flasSaleProducts' => $flasSaleProducts, 'topSellingProducts' => $topSellingProducts,'topSellingProductsInWeek'=>$topSellingProductsInWeek]);
+        return view('front.home', FrontCache::homeData());
     })->name('home');
     Route::controller(BestSellingController::class)->group(function(){
         Route::get('top-selling','getBestSellingProducts')->name('bestSelling');
@@ -72,13 +39,13 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
 
     });
     Route::get('viewAllCategoris', function () {
-        $all_categories = Category::all();
+        $all_categories = FrontCache::allCategories();
         return view('front.categories.index', ['allCategories' => $all_categories]);
     })->name('allcategories');
     Route::get('shop', [ShopController::class, 'index'])->name('shop.index');
 
     Route::get('viewAllBrands', function () {
-        $all_brands = Brand::all();
+        $all_brands = FrontCache::allBrands();
         return view('front.brands.index', ['allBrands' => $all_brands]);
     })->name('allBrands');
     Route::get('user-dashboard', function () {
@@ -93,7 +60,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware(['localeSessionRedir
         return view('front.pages.about-us');
     })->name('about-us');
     Route::get('faqs', function () {
-        $faqs = Faq::get();
+        $faqs = FrontCache::faqs();
         return view('front.pages.faqs', ['faqs' => $faqs]);
     })->name('faq');
     Route::controller(FrontProductController::class)->group(function () {

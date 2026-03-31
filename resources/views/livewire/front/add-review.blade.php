@@ -1,5 +1,7 @@
 @php
     $url = url()->current();
+    $productCategory = $product->category;
+    $productTag = $product->tags->first();
 @endphp
 <div>
 
@@ -54,7 +56,7 @@
                         <div class="col-md-6">
                             <div class="product-info-content">
                                 <span
-                                    class="wrapper-subtitle">{{ $product->category->getTranslation('name', app()->getLocale()) }}</span>
+                                    class="wrapper-subtitle">{{ $productCategory?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}</span>
                                 <h5>{{ $product->getTranslation('name', app()->getLocale()) }}
                                 </h5>
                                 <div class="ratings">
@@ -147,7 +149,7 @@
         <div class="dropdown-list">
             @foreach ($product->product_variants as $variant)
                 <div class="dropdown-item "
-                    onclick="selectSize('{{ $variant->product_attributes[0]->attr_value->value }}')"
+                    onclick="selectSize('{{ optional(optional($variant->product_attributes->first())->attr_value)->value ?? '' }}')"
                     wire:click='chooseVariant({{ $variant }})'>
 
                     <div class="size-info ">
@@ -223,10 +225,10 @@
 <hr>
 <div class="product-details">
     <p class="category">{{ __('product.category') }}: <span
-            class="inner-text">{{ $product->category->getTranslation('name', app()->getLocale()) }}</span>
+            class="inner-text">{{ $productCategory?->getTranslation('name', app()->getLocale()) ?? __('admin.not_found') }}</span>
     </p>
     <p class="tags">{{ __('products.tags') }} : <span
-            class="inner-text">{{ $product->tags->first()->tag_name }}</span></p>
+            class="inner-text">{{ $productTag?->tag_name ?? __('admin.not_found') }}</span></p>
     <p class="sku">{{ __('products.sku') }}: <span class="inner-text">{{ $product->sku }}</span></p>
 </div>
 <hr>

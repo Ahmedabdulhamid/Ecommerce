@@ -21,11 +21,14 @@
                                 </td>
                             </tr>
                             @foreach ($products as $product)
+                                @php
+                                    $primaryImage = optional($product->images->first())->file_name;
+                                @endphp
                                 <tr class="table-row ticket-row">
                                     <td class="table-wrapper wrapper-product">
                                         <div class="wrapper">
                                             <div class="wrapper-img">
-                                                <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                                <img src="{{ $primaryImage ? asset('storage/products/' . $primaryImage) : asset('front-assets/images/homepage-one/product-img-1.webp') }}"
                                                     alt="img" />
                                             </div>
                                             <div class="wrapper-content">

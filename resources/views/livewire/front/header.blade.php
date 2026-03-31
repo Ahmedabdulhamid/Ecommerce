@@ -127,10 +127,13 @@
                             <div class="cart-wrapper-item">
                                 @if (isset($cart->products) && count($cart->products))
                                     @foreach ($cart->products as $product)
+                                        @php
+                                            $primaryImage = optional($product->images->first())->file_name;
+                                        @endphp
                                         <div class="wrapper">
                                             <div class="wrapper-item">
                                                 <div class="wrapper-img">
-                                                    <img src="{{ asset('storage/products/' . $product->images->first()->file_name) }}"
+                                                    <img src="{{ $primaryImage ? asset('storage/products/' . $primaryImage) : asset('front-assets/images/homepage-one/product-img-1.webp') }}"
                                                         alt="{{ $product->getTranslation('name', app()->getLocale()) }}">
                                                 </div>
                                                 <div class="wrapper-content">

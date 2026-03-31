@@ -81,7 +81,7 @@
 
                         </div>
                     </li>
-                    @if (($admin && $admin->can('order-manager')) || $admin->can('super-admin') || $admin->can('contact-creator'))
+                    @if ($admin && ($admin->can('order-manager') || $admin->can('super-admin') || $admin->can('contact-creator')))
                         <li class="dropdown dropdown-notification nav-item">
                             <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i
                                     class="ficon ft-bell"></i>

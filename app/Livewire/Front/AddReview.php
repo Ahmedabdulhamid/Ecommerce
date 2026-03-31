@@ -4,7 +4,6 @@ namespace App\Livewire\Front;
 
 use App\Models\Cart;
 use App\Models\CartProduct;
-use App\Models\ProductVariant;
 use App\Models\Review;
 use App\Models\WatchList;
 use Livewire\Component;
@@ -12,7 +11,7 @@ use Livewire\Component;
 class AddReview extends Component
 {
     public $reviews = [], $comment = '', $step = 1,$cartCount;
-    public $product, $count_review, $attributeValues, $selected, $variant, $cartAtrributeArray = [];
+    public $product, $count_review, $selected, $variant, $cartAtrributeArray = [];
     public $variantArray = [];
     public bool $isInWatchlist = false;
     public $quantity = 1;
@@ -20,13 +19,11 @@ class AddReview extends Component
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    public function mount($reviews, $product, $attributeValues)
+    public function mount($reviews, $product)
     {
-
         $this->product = $product;
-        $this->getReviews();
+        $this->reviews = $reviews;
         $this->count_review = count($this->reviews);
-        $this->$attributeValues = $attributeValues;
         $this->selected = false;
     }
     public function getReviews()
@@ -38,20 +35,16 @@ class AddReview extends Component
     public function chooseVariant($variant)
     {
         if ($variant) {
-            $this->variant = $variant;
-            if (count($this->variantArray) == 0) {
-                $this->variant = ProductVariant::where('id', $variant['id'])->with('product_attributes.attr_value.attribute')->first();
-                foreach ($this->variant->product_attributes as $variant2) {
+            $loadedVariant = $this->product->product_variants->firstWhere('id', data_get($variant, 'id'));
 
+            if ($loadedVariant) {
+                $this->variant = $loadedVariant;
+                $this->variantArray = [];
+
+                foreach ($loadedVariant->product_attributes as $variant2) {
                     $this->variantArray[$variant2->attr_value->attribute->getTranslation('name', 'en')] = $variant2->attr_value->value;
                 }
-                $this->selected = true;
-            } else {
-                $this->variant = ProductVariant::where('id', $variant['id'])->with('product_attributes.attr_value.attribute')->first();
-                foreach ($this->variant->product_attributes as $variant2) {
 
-                    $this->variantArray[$variant2->attr_value->attribute->getTranslation('name', 'en')] = $variant2->attr_value->value;
-                }
                 $this->selected = true;
             }
         }
@@ -108,7 +101,7 @@ class AddReview extends Component
                     $cartItem->increment('quantity', $this->quantity);
                     $this->dispatch('updated', ['You Have' . ' ' . $cartItem->quantity . ' ' . 'from this product']);
                 } else {
-                    $variant = ProductVariant::where('id', $this->variant['id'])->with('product_attributes.attr_value.attribute')->first();
+                    $variant = $this->product->product_variants->firstWhere('id', $this->variant['id']);
                         foreach ($variant->product_attributes as $variant2) {
 
                             $this->cartAtrributeArray[$variant2->attr_value->attribute->getTranslation('name', 'en')] = $variant2->attr_value->value;

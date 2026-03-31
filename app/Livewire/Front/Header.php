@@ -25,41 +25,43 @@ class Header extends Component
         } else {
             $this->productsCount = 0;
         }
-        $this->getCartCount();
-        $this->cart = Cart::where('session_id', session()->getId())->with('products')->first();
+
+        $this->loadCart();
     }
+
     public function updateCountWishlist()
     {
-        $this->wishlist = WatchList::where('user_id', auth()->user()->id)->with('products')->first();
+        $this->wishlist = WatchList::query()
+            ->where('user_id', auth()->id())
+            ->withCount('products')
+            ->first();
 
-        if (isset($this->wishlist)) {
-            $this->productsCount = count($this->wishlist->products);
-
-        }
-        else{
-             $this->productsCount = 0;
-        }
-
-
+        $this->productsCount = $this->wishlist?->products_count ?? 0;
     }
+
     public function updateCountWishlistComponent()
     {
-
-        $this->productsCount = count($this->wishlist->products);
+        $this->productsCount = $this->wishlist?->products_count ?? $this->productsCount;
     }
+
     public function getNewWishlistProductCount()
     {
-        $this->productsCount = count($this->wishlist->products);
+        $this->updateCountWishlist();
     }
+
     public function getCartCount()
     {
+        $this->loadCart();
+    }
 
-        $this->cart = Cart::where('session_id', session()->getId())->with('products')->first();
-        if (isset($this->cart)) {
-            $this->cartCount = count($this->cart->products);
-        } else {
-            $this->cartCount = 0;
-        }
+    protected function loadCart(): void
+    {
+        $this->cart = Cart::query()
+            ->where('session_id', session()->getId())
+            ->with(['products.images'])
+            ->first();
+
+        $this->cartCount = $this->cart?->products->count() ?? 0;
     }
 
     public function render()
