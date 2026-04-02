@@ -1,4 +1,4 @@
-<form class="number-tab-steps wizard-circle" enctype="multipart/form-data" wire:submit='submit'>
+<form enctype="multipart/form-data" wire:submit='submit'>
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session()->get('success') }}
@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name_ar">{{__('admin.name_in_ar')}}:</label>
-                    <input type="text" class="form-control" wire:model='name_ar' id="name_ar">
+                    <input type="text" class="form-control" wire:model.defer='name_ar' id="name_ar">
                 </div>
                 @error('name_ar')
                     <span class="text-danger">{{ $message }}</span>
@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name_en">{{__('admin.name_in_en')}}</label>
-                    <input type="text" class="form-control" id="name_en" wire:model='name_en'>
+                    <input type="text" class="form-control" id="name_en" wire:model.defer='name_en'>
                 </div>
                 @error('name_en')
                     <span class="text-danger">{{ $message }}</span>
@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="small_desc_ar">{{__('admin.sm_desc_ar')}}:</label>
-                    <textarea type="text" class="form-control" id="desc_ar" wire:model='small_desc_ar' rows="6"></textarea>
+                    <textarea type="text" class="form-control" id="desc_ar" wire:model.defer='small_desc_ar' rows="6"></textarea>
                 </div>
                 @error('small_desc_ar')
                     <span class="text-danger">{{ $message }}</span>
@@ -40,7 +40,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="small_desc_ar">{{__('admin.sm_desc_en')}}:</label>
-                    <textarea type="text" class="form-control" id="desc_ar" wire:model='small_desc_en' rows="6"></textarea>
+                    <textarea type="text" class="form-control" id="desc_ar" wire:model.defer='small_desc_en' rows="6"></textarea>
                 </div>
                 @error('small_desc_en')
                     <span class="text-danger">{{ $message }}</span>
@@ -53,7 +53,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="desc_ar">{{__('admin.desc_ar')}} :</label>
-                    <textarea type="text" class="form-control" id="desc_ar" wire:model='desc_ar' rows="8"></textarea>
+                    <textarea type="text" class="form-control" id="desc_ar" wire:model.defer='desc_ar' rows="8"></textarea>
                 </div>
                 @error('desc_ar')
                     <span class="text-danger">{{ $message }}</span>
@@ -62,7 +62,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="desc_en">{{__('admin.desc_en')}} :</label>
-                    <textarea type="text" class="form-control" id="desc_ar" wire:model='desc_en' rows="8"></textarea>
+                    <textarea type="text" class="form-control" id="desc_ar" wire:model.defer='desc_en' rows="8"></textarea>
                 </div>
                 @error('desc_en')
                     <span class="text-danger">{{ $message }}</span>
@@ -73,7 +73,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="location1">{{__('admin.select_cat')}}:</label>
-                    <select class="custom-select form-control" wire:model='category_id'>
+                    <select class="custom-select form-control" wire:model.defer='category_id'>
                         <option value="" selected>{{__('admin.select')}}</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">
@@ -88,7 +88,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="location1">{{__('admin.select_br')}} :</label>
-                    <select class="custom-select form-control" wire:model='brand_id'>
+                    <select class="custom-select form-control" wire:model.defer='brand_id'>
                         <option value="" selected>{{__('admin.select')}}</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}">
@@ -101,7 +101,7 @@
                 @enderror
             </div>
         </div>
-        <button class="btn btn-primary" type="button" wire:click='secondStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-primary" type="button" wire:click.prevent='secondStep'>{{__('admin.next')}}</button>
 
     </fieldset>
     {{-- End First Step --}}
@@ -126,7 +126,7 @@
                 @enderror
                 <div class="form-group">
                     <label for="tages">{{__('admin.tags')}} :</label>
-                    <input type="text" class="form-control" id="tages" wire:model='tags'>
+                    <input type="text" class="form-control" id="tages" wire:model.defer='tags'>
                 </div>
                 @error('tags')
                     <span class="text-danger">{{ $message }}</span>
@@ -137,7 +137,7 @@
                 @if ($hasVar == 0)
                     <div class="form-group">
                         <label for="price">{{__('admin.price')}} :</label>
-                        <input type="number" class="form-control" id="price" wire:model='price'>
+                        <input type="number" class="form-control" id="price" wire:model.defer='price'>
 
                     </div>
                     @error('price')
@@ -159,7 +159,7 @@
                 @if ($manage_stock == 1 && !$hasVar)
                     <div class="form-group">
                         <label for="quantity1">{{__('admin.quantity')}} :</label>
-                        <input id="quantity1" type="number" min="1" wire:model='quantity'
+                        <input id="quantity1" type="number" min="1" wire:model.defer='quantity'
                             class="form-control">
                     </div>
                     @error('quantity')
@@ -168,7 +168,7 @@
                 @endif
                 <div class="form-group">
                     <label for="sku">{{__('admin.sku')}} :</label>
-                    <input type="string" class="form-control" id="sku" wire:model='sku'>
+                    <input type="string" class="form-control" id="sku" wire:model.defer='sku'>
 
                 </div>
                 @error('sku')
@@ -191,7 +191,7 @@
                             <div class="col-3">
                                 <label for="prices">{{__('admin.product_price')}} :</label>
                                 <input type="string" class="form-control" id="prices"
-                                    wire:model='prices.{{ $i }}'>
+                                    wire:model.defer='prices.{{ $i }}'>
                                 @error('prices')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -203,7 +203,7 @@
                             <div class="col-3">
                                 <label for="quantities">{{__('admin.product_quantity')}} :</label>
                                 <input type="string" class="form-control" id="quantities"
-                                    wire:model='quantities.{{ $i }}'>
+                                    wire:model.defer='quantities.{{ $i }}'>
                                 @error('quantities')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -216,7 +216,7 @@
                                 <div class="col-3">
                                     <label for="hasVar">{{ $attr->name }} :</label>
                                     <select class="custom-select form-control"
-                                        wire:model='attributeValues.{{ $i }}.{{ $attr->id }}'>
+                                        wire:model.defer='attributeValues.{{ $i }}.{{ $attr->id }}'>
 
                                         <option value="">{{__('admin.select')}}</option>
                                         @foreach ($attr->attr_values as $item)
@@ -257,7 +257,7 @@
 
 
         </div>
-        <button class="btn btn-primary" type="button" wire:click='thirdStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-primary" type="button" wire:click.prevent='thirdStep'>{{__('admin.next')}}</button>
         <button class="btn btn-light" type="button" wire:click='back(1)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Secon Step --}}
@@ -283,7 +283,7 @@
                 @if ($has_discount == 1)
                     <div class="form-group">
                         <label for="discount">{{__('admin.discount')}} :</label>
-                        <input type="number" id="discount" class="form-control datetime" wire:model='discount'>
+                        <input type="number" id="discount" class="form-control datetime" wire:model.defer='discount'>
 
                     </div>
                     @error('discount')
@@ -294,7 +294,7 @@
                     <div class="form-group">
                         <label for="start_discount">{{__('admin.start_date')}} :</label>
                         <input type="date" id="start_discount" class="form-control datetime"
-                            wire:model='start_discount'>
+                            wire:model.defer='start_discount'>
 
                     </div>
                     @error('start_discount')
@@ -307,7 +307,7 @@
                     <div class="form-group">
                         <label for="end_discount">{{__('admin.end_date')}} :</label>
                         <input type="date" id="end_discount" class="form-control datetime"
-                            wire:model='end_discount'>
+                            wire:model.defer='end_discount'>
 
                     </div>
                     @error('end_discount')
@@ -323,7 +323,7 @@
                 <div class="form-group">
                     <label for="available_for">{{__('admin.availabe_for')}} :</label>
                     <input type="date" id="available_for" class="form-control datetime"
-                        wire:model='available_for'>
+                        wire:model.defer='available_for'>
 
                 </div>
                 @error('available_for')
@@ -331,7 +331,7 @@
                 @enderror
             </div>
         </div>
-        <button class="btn btn-primary" type="button" wire:click='fourthStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-primary" type="button" wire:click.prevent='fourthStep'>{{__('admin.next')}}</button>
         <button class="btn btn-light" type="button" wire:click='back(2)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Third Step --}}
@@ -397,7 +397,7 @@
             @endif
 
         </div>
-        <button class="btn btn-primary" type="button" wire:click='fivthStep'>{{__('admin.next')}}</button>
+        <button class="btn btn-primary" type="button" wire:click.prevent='fivthStep'>{{__('admin.next')}}</button>
         <button class="btn btn-light" type='button' wire:click='back(3)'>{{__('admin.previous')}}</button>
     </fieldset>
     {{-- End Fourth Step --}}

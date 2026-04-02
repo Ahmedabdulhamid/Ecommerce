@@ -2,38 +2,37 @@
 
 namespace App\Livewire\Front;
 
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class ChangePassword extends Component
 {
+    public $current_password;
+    public $new_password;
+    public $new_password_confirmation;
 
+    public function submit(UserService $userService)
+    {
+        $this->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'confirmed', 'min:8'],
+        ]);
 
-public $current_password, $new_password, $new_password_confirmation;
+        $user = Auth::user();
 
-public function submit()
-{
-    $this->validate([
-        'current_password' => ['required'],
-        'new_password' => ['required', 'confirmed', 'min:8'],
-    ]);
+        if (!Hash::check($this->current_password, $user->password)) {
+            $this->addError('current_password', 'كلمة المرور الحالية غير صحيحة.');
 
-    $user = Auth::user();
+            return;
+        }
 
-    if (!Hash::check($this->current_password, $user->password)) {
-        // إضافة خطأ بشكل صحيح في Livewire
-        $this->addError('current_password', 'كلمة المرور الحالية غير صحيحة.');
-        return;
+        $userService->updatePassword($user->id, $this->new_password);
+
+        $this->dispatch('passwordChanged');
+        $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
     }
-
-    $user->password = Hash::make($this->new_password);
-    $user->save();
-
-    // ممكن ترجع رسالة نجاح أو تعمل reset للحقول
-    $this->dispatch('passwordChanged');
-    $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
-}
 
     public function render()
     {

@@ -2,35 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Http\Requests\AdminOrderStatusUpdateRequest;
+use App\Services\OrderService;
 use Flasher\Laravel\Facade\Flasher;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminOrderController extends Controller
 {
-    protected $allowedTransitions = [
-        'pending'    => ['canceled'],               // فقط يمكن إلغاء الطلب
-        'paid'       => ['processing', 'canceled', 'delivered'], // من المدفوع ممكن ينتقل لمعالجة أو إلغاء
-        'processing' => ['shipped', 'canceled'],    // أثناء المعالجة ممكن يشحن أو يُلغى
-        'shipped'    => ['delivered'],               // بعد الشحن فقط يمكن التوصيل
-        'delivered'  => [],                           // توصيل لا يمكن تغييره
-        'canceled'   => [],                           // ملغي لا يمكن تغييره
-        'refunded'   => [],                           // مُردود لا يمكن تغييره
-        'failed'     => ['pending'],                  // ممكن نعيده لـ pending لو الدفع فشل
-    ];
+    public function __construct(private readonly OrderService $orderService)
+    {
+    }
+
     public function index()
     {
         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
             abort(403);
         }
+
         return view('dashboard.orders.index');
     }
+
     public function getData()
     {
-        $orders = Order::latest();
+        $orders = $this->orderService->latestQuery();
 
         return DataTables::of($orders)
             ->addIndexColumn()
@@ -49,74 +44,61 @@ class AdminOrderController extends Controller
                             ->orWhere('street', 'like', "%$search%");
                     });
                 }
-                // لا تنسى إرجاع الـ query دائمًا
+
                 return $query;
             })
-            ->addColumn('user_name', fn($order) => $order->f_name . ' ' . $order->l_name)
-            ->addColumn('country', fn($order) => $order->country)
-            ->addColumn('governorate', fn($order) => $order->governorate)
-            ->addColumn('city', fn($order) => $order->city)
-            ->addColumn('email', fn($order) => $order->email)
-            ->addColumn('phone', fn($order) => $order->phone)
-            ->addColumn('status', fn($order) => $order->status)
-            ->addColumn('street', fn($order) => $order->street)
-            ->addColumn('total_price', fn($order) => $order->total_price)
-            ->addColumn('shipping_price', fn($order) => $order->shipping_price)
-            ->addColumn('actions', fn($order) => view('dashboard.orders.actions', ['order' => $order])->render())
+            ->addColumn('user_name', fn ($order) => $order->f_name . ' ' . $order->l_name)
+            ->addColumn('country', fn ($order) => $order->country)
+            ->addColumn('governorate', fn ($order) => $order->governorate)
+            ->addColumn('city', fn ($order) => $order->city)
+            ->addColumn('email', fn ($order) => $order->email)
+            ->addColumn('phone', fn ($order) => $order->phone)
+            ->addColumn('status', fn ($order) => $order->status)
+            ->addColumn('street', fn ($order) => $order->street)
+            ->addColumn('total_price', fn ($order) => $order->total_price)
+            ->addColumn('shipping_price', fn ($order) => $order->shipping_price)
+            ->addColumn('actions', fn ($order) => view('dashboard.orders.actions', ['order' => $order])->render())
             ->rawColumns(['actions'])
             ->make(true);
     }
+
     public function destroy()
     {
         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
             abort(403);
         }
-        $order = Order::find(request('id'));
 
-        if (in_array($order->status, ['pending', 'failed'])) {
-            $order->delete();
+        $count = $this->orderService->deletePendingOrFailed(request('id'));
+
+        if ($count !== null) {
             return response()->json([
                 'msg' => 'Order deleted successfully',
                 'status' => 200,
-                'countOrders' => Order::count()
+                'countOrders' => $count,
             ]);
         }
 
-
         return response()->json(['msgErr' => 'You can\'t delete this order']);
     }
-    private function hideEmail($email)
-    {
-        list($user, $domain) = explode('@', $email);
-        $start = substr($user, 0, 2);
-        return $start . '****@' . $domain;
-    }
-    public function show(String $id)
+
+    public function show(string $id)
     {
         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
             abort(403);
         }
-        $order = Order::where('id', $id)->with('items.product')->first();
-        if ($order) {
-            // أضف خاصية جديدة للايميل المخفي
-            $order->email_hidden = $this->hideEmail($order->email);
-        }
 
-        return view('dashboard.orders.show', ['order' => $order]);
+        return view('dashboard.orders.show', [
+            'order' => $this->orderService->getAdminOrder($id),
+        ]);
     }
+
     public function update(string $id)
     {
         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
             abort(403);
         }
-        $order = Order::find($id);
-        if (in_array($order->status, ['processing', 'shipped', 'paid'])) {
 
-            $order->update([
-                'status' => 'delivered'
-            ]);
-
-
+        if ($this->orderService->markDelivered($id)) {
             Flasher::addSuccess('Status Updated Successfully!');
         } else {
             Flasher::addError('You can\'t update status of this order!');
@@ -124,34 +106,22 @@ class AdminOrderController extends Controller
 
         return redirect()->back();
     }
-    public function updateStatus(Request $request, string $id)
+
+    public function updateStatus(AdminOrderStatusUpdateRequest $request, string $id)
     {
         if (!Gate::forUser(auth()->guard('admin')->user())->any(['super-admin', 'order-manger'])) {
             abort(403);
         }
-        $order = Order::findOrFail($id);
 
-        $request->validate([
-            'status' => ['required', Rule::in(array_keys($this->allowedTransitions))],
-        ]);
+        $result = $this->orderService->updateStatus($id, $request->validated('status'));
 
-        $oldStatus = $order->status;
-        $newStatus = $request->status;
-
-        if ($oldStatus === $newStatus) {
-            Flasher::addInfo('Order is already in this status.');
-            return redirect()->back();
-        }
-
-        if (!in_array($newStatus, $this->allowedTransitions[$oldStatus])) {
-            Flasher::addError("Transition from '$oldStatus' to '$newStatus' is not allowed.");
+        if ($result['type'] === 'success') {
+            Flasher::addSuccess($result['message']);
+        } elseif ($result['type'] === 'info') {
+            Flasher::addInfo($result['message']);
         } else {
-            Flasher::addSuccess("Order status updated to '$newStatus' successfully.");
+            Flasher::addError($result['message']);
         }
-
-        $order->status = $newStatus;
-        $order->save();
-
 
         return redirect()->back();
     }

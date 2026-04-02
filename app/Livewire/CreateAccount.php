@@ -2,31 +2,36 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Countary;
-use App\Models\Governorate;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Services\LocationService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class CreateAccount extends Component
 {
-    public $countryId = '', $governorateId = '', $name, $phone, $email, $password, $countries = [], $governorates = [], $recaptcha;
+    public $countryId = '';
+    public $governorateId = '';
+    public $name;
+    public $phone;
+    public $email;
+    public $password;
+    public $countries = [];
+    public $governorates = [];
+    public $recaptcha;
 
-#[On('recaptcha')]
-public function setRecaptcha($value)
-{
-   Log::info('reCAPTCHA token received: ' . $value);
-    $this->recaptcha = $value;
-}
-
-    public function submit()
+    #[On('recaptcha')]
+    public function setRecaptcha($value)
     {
-        $this->validate([
+        Log::info('reCAPTCHA token received: ' . $value);
+        $this->recaptcha = $value;
+    }
+
+    public function submit(UserService $userService)
+    {
+        $data = $this->validate([
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email'],
             'countryId' => ['required', 'integer', 'exists:countaries,id'],
@@ -36,26 +41,26 @@ public function setRecaptcha($value)
             'recaptcha' => ['required'],
         ]);
 
-        if (!$this->verifyRecaptcha($this->recaptcha)) {
+        if (!$this->verifyRecaptcha($data['recaptcha'])) {
             $this->addError('recaptcha', 'فشل التحقق من reCAPTCHA.');
+
             return;
         }
 
-        $user = User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'country_id' => $this->countryId,
-            'governorate_id' => $this->governorateId,
-            'password' => Hash::make($this->password),
-            'token' => Str::random(40),
+        $user = $userService->register([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => $data['password'],
+            'country_id' => $data['countryId'],
+            'governorate_id' => $data['governorateId'],
         ]);
-
 
         if ($user) {
             $this->reset();
             $user->sendEmailVerificationNotification();
             $this->dispatch('refreshData')->to('side-bar');
+
             return to_route('login', ['message' => 'Registered Successfully']);
         }
     }
@@ -68,15 +73,14 @@ public function setRecaptcha($value)
         ]);
 
         $result = $response->json();
+
         return $result['success'] ?? false;
     }
 
-    public function render()
+    public function render(LocationService $locationService)
     {
-        $this->countries = Countary::all();
-        $this->governorates = $this->countryId
-            ? Governorate::where('countary_id', $this->countryId)->get()
-            : [];
+        $this->countries = $locationService->getAllCountries();
+        $this->governorates = $locationService->getGovernoratesByCountryId($this->countryId ?: null)->all();
 
         return view('livewire.create-account', [
             'countries' => $this->countries,

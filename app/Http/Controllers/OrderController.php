@@ -2,30 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use Flasher\Laravel\Facade\Flasher;
+use App\Http\Requests\TrackOrderRequest;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+
 class OrderController extends Controller
 {
+    public function __construct(private readonly OrderService $orderService)
+    {
+    }
+
     public function showForm()
     {
-
         return view('front.orders.form');
     }
+
     public function getOrder(Request $request, $order_number)
     {
         if (session('order_number') !== $order_number) {
             abort(403, 'Unauthorized access');
         }
 
-        $order = Order::where('order_number', $order_number)
-            ->with('items.product.images')
-            ->first();
-        if ($order) {
-            // أضف خاصية جديدة للايميل المخفي
-            $order->email_hidden = $this->hideEmail($order->email);
-        }
+        $order = $this->orderService->getFrontOrder($order_number);
 
         if (!$order) {
             abort(404);
@@ -33,28 +31,20 @@ class OrderController extends Controller
 
         return view('front.orders.index', ['order' => $order]);
     }
-    private function hideEmail($email)
+
+    public function trackOrder(TrackOrderRequest $request)
     {
-        list($user, $domain) = explode('@', $email);
-        $start = substr($user, 0, 2);
-        return $start . '****@' . $domain;
-    }
-    public function trackOrder(Request $request)
-    {
-        $data = $request->validate([
-            'order_number' => 'required|string',
-            'email' => 'required|email',
-        ]);
-        $order = Order::where('order_number', $request->order_number)
-            ->where('email', $request->email)
-            ->first();
+        $order = $this->orderService->findForTracking(
+            $request->validated('order_number'),
+            $request->validated('email')
+        );
 
         if (!$order) {
             session()->flash('error', 'Order Not Found');
+
             return redirect()->back();
         }
 
-        // حفظ رقم الطلب في الجلسة
         session(['order_number' => $order->order_number]);
 
         return to_route('front.order', $order->order_number);

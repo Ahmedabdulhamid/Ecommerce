@@ -8,6 +8,4 @@
  <!-- END PAGE VENDOR JS-->
 
  <!-- END MODERN JS-->
- <!-- BEGIN PAGE LEVEL JS-->
- <script src="{{asset('assets')}}/js/scripts/forms/wizard-steps.js" type="text/javascript"></script>
- <!-- END PAGE LEVEL JS-->
+ <!-- Product wizard is managed by Livewire; disable jQuery steps on this page. -->

@@ -2,29 +2,22 @@
 
 namespace App\Livewire\Front;
 
-use App\Models\Order;
+use App\Services\OrderService;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 class UserOrders extends Component
 {
-    use WithPagination,WithoutUrlPagination;
+    use WithPagination;
+    use WithoutUrlPagination;
 
     protected $paginationTheme = 'bootstrap';
 
-    public function render()
+    public function render(OrderService $orderService)
     {
-        $userId = auth()->id(); // هذا سيعيد null إذا لم يكن مسجل دخول
-        if (!$userId) {
-            $orders = collect(); // Collection فارغة
-        } else {
-            $orders = Order::where('user_id', $userId)
-                ->with('items.product.images')
-                ->latest()
-                ->paginate(3);
-        }
-
+        $userId = auth()->id();
+        $orders = $userId ? $orderService->paginateUserOrders($userId, 3) : collect();
 
         return view('livewire.front.user-orders', [
             'orders' => $orders,

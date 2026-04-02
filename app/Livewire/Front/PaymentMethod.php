@@ -2,50 +2,46 @@
 
 namespace App\Livewire\Front;
 
-use App\Models\SavedCard;
+use App\Services\SavedCardService;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use Livewire\Component;
 
 class PaymentMethod extends Component
 {
-    use WithPagination,WithoutUrlPagination;
+    use WithPagination;
+    use WithoutUrlPagination;
 
     protected $paginationTheme = 'bootstrap';
     public $default = false;
     protected $listeners = ['refresh' => '$refresh'];
 
-    public function makeDefault($cardId)
+    public function makeDefault($cardId, SavedCardService $savedCardService)
     {
-        $card = SavedCard::findOrFail($cardId);
+        $card = $savedCardService->findById($cardId);
         $this->authorize('manage', $card);
 
-        Auth::user()->savedCards()->update(['is_default' => false]);
-        $card->update(['is_default' => true]);
-
+        $savedCardService->makeDefault(Auth::id(), $cardId);
         $this->dispatch('success');
     }
 
-    public function delete($cardId)
+    public function delete($cardId, SavedCardService $savedCardService)
     {
-        $card = SavedCard::findOrFail($cardId);
+        $card = $savedCardService->findById($cardId);
         $this->authorize('manage', $card);
 
-        $card->delete();
-
+        $savedCardService->delete($cardId);
         $this->dispatch('success_delete');
     }
 
-    public function render()
+    public function render(SavedCardService $savedCardService)
     {
-        $cards = collect(); // افتراضيًا فارغ
+        $cards = collect();
         $default = false;
 
         if (auth()->check()) {
-            $cards = SavedCard::where('user_id', auth()->id())
-                ->latest()
-                ->paginate(5);
+            $cards = $savedCardService->paginateUserCards(auth()->id(), 5);
         }
 
         return view('livewire.front.payment-method', [

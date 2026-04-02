@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Front;
 
-use App\Models\Review;
+use App\Services\ReviewService;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
+
 class Reviews extends Component
 {
     public $selectedReviewId;
@@ -13,46 +14,44 @@ class Reviews extends Component
     public $reviewText;
     public $reviews = [];
 
-    public function mount()
+    public function mount(ReviewService $reviewService)
     {
-        $this->getReviews();
+        $this->getReviews($reviewService);
     }
-    public function getReviews()
-    {
-        $user_id = Auth::guard('web')->user()->id;
-        $this->reviews = Review::where('user_id', $user_id)->with('product.images')->get();
-    }
-    public function editReview($id)
-    {
 
-        $this->selectedReviewId = $id;
-        $review = Review::findOrFail($id);
-        $this->reviewText = $review->comment; // أو أي عمود فيه النص
-    }
-    public function submit()
+    public function getReviews(ReviewService $reviewService)
     {
-        $review = Review::findOrFail($this->selectedReviewId);
-        $review->update([
-            'comment' => $this->reviewText
-        ]);
-        $this->getReviews();
+        $this->reviews = $reviewService->getUserReviews(Auth::guard('web')->user()->id);
+    }
+
+    public function editReview($id, ReviewService $reviewService)
+    {
+        $this->selectedReviewId = $id;
+        $review = $reviewService->getById($id);
+        $this->reviewText = $review->comment;
+    }
+
+    public function submit(ReviewService $reviewService)
+    {
+        $reviewService->updateComment($this->selectedReviewId, $this->reviewText);
+        $this->getReviews($reviewService);
         $this->dispatch('updateReview');
     }
+
     public function confirmDelete($id)
     {
-
         $this->selectedReviewId = $id;
-
-        // Dispatch event to JS
         $this->dispatch('show-delete-confirmation');
     }
+
     #[On('deleteItem')]
-public function deleteItem()
-{
-    Review::findOrFail($this->selectedReviewId)->delete();
-    $this->getReviews();
-    $this->dispatch('itemDeleted'); // بنستخدمه لعرض SweetAlert بعد الحذف
-}
+    public function deleteItem(ReviewService $reviewService)
+    {
+        $reviewService->delete($this->selectedReviewId);
+        $this->getReviews($reviewService);
+        $this->dispatch('itemDeleted');
+    }
+
     public function render()
     {
         return view('livewire.front.reviews');

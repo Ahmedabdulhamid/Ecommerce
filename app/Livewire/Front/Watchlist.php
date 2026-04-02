@@ -2,53 +2,44 @@
 
 namespace App\Livewire\Front;
 
-use App\Models\Product;
-use Illuminate\Support\Facades\Process;
+use App\Services\WatchlistService;
 use Livewire\Component;
-use App\Models\WatchList as WatchListModal;
 
 class Watchlist extends Component
 {
     public $products = [];
     public $watchlist;
-   public $productCount;
+    public $productCount;
+
     protected $listeners = ['getProducts' => 'getProducts'];
 
-    public function mount()
+    public function mount(WatchlistService $watchlistService)
     {
-        $this->getProducts();
+        $this->getProducts($watchlistService);
     }
 
-    public function getProducts()
+    public function getProducts(WatchlistService $watchlistService)
     {
-        $this->watchlist = WatchListModal::with('products')->where('user_id', auth()->id())->first();
-        $this->products = $this->watchlist?->products ?? [];
+        [$watchlist, $products] = $watchlistService->getUserWatchlistProducts(auth()->id());
+        $this->watchlist = $watchlist;
+        $this->products = $products;
     }
 
-    public function deleteProduct($productId)
+    public function deleteProduct($productId, WatchlistService $watchlistService)
     {
-        $watchlist = WatchListModal::where('user_id', auth()->id())->with('products')->first();
-
-        if ($watchlist) {
-            $product = Product::find($productId);
-            $watchlist->products()->detach($product);
-            $this->productCount=count($watchlist->products);
-            $this->dispatch('updateCountWishlistComponent')->to('front.header');
-        }
-        // تحديث المنتجات بعد الحذف
-        $this->getProducts();
+        $this->productCount = $watchlistService->removeProduct(auth()->id(), $productId);
+        $this->dispatch('updateCountWishlistComponent')->to('front.header');
+        $this->getProducts($watchlistService);
     }
-    public function deleteWishlist()
+
+    public function deleteWishlist(WatchlistService $watchlistService)
     {
         if (auth()->guard('web')->user()->id) {
-           $watchlist=WatchListModal::where('user_id',auth()->user()->id)->with('products')->first();
-           $products=$watchlist->products;
-           $watchlist->products()->detach($products);
-           $this->productCount=count($watchlist->products);
+            $this->productCount = $watchlistService->clear(auth()->id());
             $this->dispatch('updateCountWishlistComponent')->to('front.header');
-
         }
-        $this->getProducts();
+
+        $this->getProducts($watchlistService);
     }
 
     public function render()

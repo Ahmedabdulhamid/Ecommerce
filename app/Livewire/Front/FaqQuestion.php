@@ -2,16 +2,20 @@
 
 namespace App\Livewire\Front;
 
-
-use App\Models\WebFaqQuestion;
+use App\Services\WebFaqQuestionService;
 use Livewire\Component;
 
 class FaqQuestion extends Component
 {
-    public $email, $name, $subject, $message;
+    public $email;
+    public $name;
+    public $subject;
+    public $message;
+
     public function mount()
     {
         $user = auth()->user();
+
         if ($user) {
             $this->email = $user->email;
             $this->name = $user->name;
@@ -21,24 +25,24 @@ class FaqQuestion extends Component
         }
     }
 
-    public function submit()
+    public function submit(WebFaqQuestionService $questionService)
     {
-
         $data = $this->validate([
             'email' => ['required', 'email'],
             'name' => ['required', 'string'],
             'subject' => ['required'],
-            'message' => ['required']
-
+            'message' => ['required'],
         ]);
+
         if (auth()->user()) {
-            $faq_question = WebFaqQuestion::create($data);
-            $this->reset(['subject','message']);
-            $this->dispatch('success_Msg',__('front.success_faq_msg'));
+            $questionService->create($data);
+            $this->reset(['subject', 'message']);
+            $this->dispatch('success_Msg', __('front.success_faq_msg'));
         } else {
             $this->dispatch('Error_Msg');
         }
     }
+
     public function render()
     {
         return view('livewire.front.faq-question');
